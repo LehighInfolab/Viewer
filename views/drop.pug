@@ -1,0 +1,61 @@
+extends layout
+
+block content
+  #main
+    form(action="/drop" method="POST" enctype="multipart/form-data" id="dropContainer" onsubmit="return checkErr()")
+      p.inputErr#error Input must be a .SURF or .pdb file
+      br
+      input(type="file" name="viewerFile" id="dropBox" multiple="true")
+      br 
+      button(type="submit" id="uploadBtn") Submit
+
+    #directory
+      h2 Uploaded Files
+
+
+  #menu
+    p Color
+    p Representation
+    span#viewerBox
+   
+  
+
+  script.
+    //need a function to make sure what goes in drag and drop is a SURF or pdf
+    function checkErr() {
+
+      let clear = true;
+      let file = document.getElementById("dropBox");
+      let error = document.getElementById("error");
+
+      if(file.value.split(".").pop() != 'SURF' && file.value.split(".").pop() != 'pdb'){
+        if(file.files[0] == ''){
+          error.innerHTML = "Please upload your files";
+          error.style.display = "inline-block";
+          clear = false;
+        }
+        else{
+          error.innerHTML = "Input must be a .SURF or .pdb file";
+          error.style.display = "inline-block";
+          clear = false;
+        }  
+      }
+      return clear;
+    }
+
+
+    var directory = document.getElementById("directory");
+    var file = document.getElementById("dropBox").files[0];
+    function addToDirectory(){
+    
+      let upload = document.createElement('p');
+    //-   upload.href = '../uploads/' + file;
+      upload.innerHTML = file;
+      directory.appendChild("public/upload");
+    }
+
+
+
+      
+
+  

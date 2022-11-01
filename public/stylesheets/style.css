@@ -1,0 +1,236 @@
+body {
+  color: white;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  background-color: #07080a;
+  overflow: hidden;
+}
+
+#header {
+  /* background-size: 100% 100%; */
+  padding: 0px;
+  text-align: center;
+  font-size: 16pt;
+  color: whitesmoke;
+  /* text-shadow: 4px 3px black; */
+}
+
+/*
+Navigation bar styling
+*/
+#navbar {
+  font-size: 12pt;
+  float: left;
+  background-color: #07080a;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 10px 0.2em 10px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Fade in */
+#navbar a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  width: 90%;
+  height: 0.1em;
+  background-color: #56c7ff;
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+}
+
+#navbar a:hover::after {
+  opacity: 1;
+  transform: translate3d(0, 0.2em, 0);
+}
+
+#navbar a:focus::after,
+#navbar a:hover {
+  color: #56c7ff;
+}
+
+#viewport {
+  /* z-index: -1; */
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  top: 5em;
+  left: 20em;
+  /* margin-left: 10%; */
+  /* margin-left: -(40/2) em; */
+  /* margin-top: -(50/2) em; */
+}
+
+#file-tree {
+  /* z-index: 1000; */
+  position: absolute;
+  top: 5em;
+  height: 100%;
+  width: 20em;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: #0b0c10;
+  border-radius: 5px;
+
+  color: white;
+  cursor: pointer;
+
+  margin-left: 10px;
+  margin-bottom: 7px;
+  padding: 7px;
+
+  box-shadow: 0.5px 0.5px 0.5px 0.5px #56c7ff;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #56c7ff;
+  color: white;
+}
+
+.uploads,
+button {
+  background-color: #56c7ff;
+  border-radius: 7px;
+  padding: 5px;
+
+  color: #0b0c10;
+
+  cursor: pointer;
+  margin-left: 10px;
+  margin-top: 7px;
+  box-shadow: 0.2px 0.2px 0.2px 0.2px rgb(183, 247, 255);
+}
+.uploads::after {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.2)
+  );
+}
+
+input[type="submit"]:hover {
+  background-color: #56c7ff;
+  color: white;
+}
+
+.form-control {
+  margin-left: 10px;
+  background-color: #c5c6c7;
+  margin-bottom: 0.5rem;
+  padding: 5px;
+  border-radius: 4px;
+  border-width: 3px;
+}
+
+.inputErr,
+.errorMessage {
+  background: #56c7ff;
+  padding: 7px;
+  border-radius: 5px;
+  position: relative;
+  display: none;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px rgb(183, 247, 255);
+  margin-bottom: 10px;
+
+  color: white;
+  left: 10px;
+
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.errorMessage::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 15px solid #56c7ff;
+  border-bottom: 10px solid transparent;
+  position: absolute;
+  left: -10px;
+}
+
+/*
+For shaking animation when there is an error
+*/
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+/*
+Drop container styling - just for drag and drop ability
+*/
+#dropContainer {
+  margin: auto;
+  width: 50%;
+}
+
+#dropContainer input[type="file"] {
+  border: 2px solid #56c7ff;
+  background: #07080a;
+  outline: 2px dashed #56c7ff;
+  outline-offset: -10px;
+  padding: 80px 0px 80px 140px;
+  text-align: center !important;
+  width: 500px;
+}
+
+#dropContainer input:hover {
+  background: #2f3441;
+}
+
+#dropContainer:before {
+  position: absolute;
+  bottom: 100px;
+  left: 490px;
+
+  color: #ffffff;
+  font-weight: 400;
+  font-size: medium;
+
+  content: "Drag and drop files here ";
+}
+
+#menu {
+  height: 90%;
+  width: 200px;
+  background-color: #56c7ff;
+}
+
+#directory {
+  border: 2px solid #ffffff;
+  width: 150px;
+  height: 200px;
+  display: none;
+}

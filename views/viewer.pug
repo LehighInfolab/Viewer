@@ -1,0 +1,8 @@
+extends layout 
+
+block content
+	div(id="viewport" class="viewport-container")
+
+	smart-tree(id="file-tree" selection-mode="checkBox" selection-target="leaf" show-lines toggle-mode="click" expand-mode="multiple")
+		smart-tree-items-group(id="PDB" expanded) PDB
+		smart-tree-items-group(id="SURF" expanded) SURF

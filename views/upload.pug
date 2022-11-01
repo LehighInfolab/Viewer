@@ -1,0 +1,121 @@
+extends layout
+
+block content
+  //- FILES
+  form(action='/files' enctype='multipart/form-data' method='POST' onsubmit="return checkErr()")
+    p.inputErr#err1 Input must be a .SURF or .pdb file
+    br
+    input(type='file' name='myFile1' id="file1")
+    br
+    input(type='file' name='myFile2' id='file2')
+    br
+    input(type='submit' value='Upload files' id="upload1" class='uploads')
+    br
+    br
+
+  form(action='/vasp' enctype='multipart/form-data' method='POST' onsubmit="return checkErr2()")
+    p.inputErr#err2 Input must be a .SURF or .pdb file
+    br
+    input(type='file' name='vaspFile1' id="vasp1")
+    br
+    input(type='file' name='vaspFile2' id="vasp2")
+    br
+    input.form-control(type='text', name='output', id='output', placeholder='name of output file', autofocus, autocomplete='output.SURF')
+    br
+    input.form-control(type='operation', name='operation', id='operation', placeholder='operation (I, U, or D)', autofocus, autocomplete='I')
+    p#opErr.errorMessage Operation must be I, U, or D
+    br
+    input.form-control(type='resolution', name='resolution', id='resolution', placeholder='resolution (ex: 0.5)', autofocus, autocomplete='0.5')
+    p#resErr.errorMessage Resolution must be between 0.25 and 2
+    br
+    input(type='submit' id="upload2" value='Run Vasp with Files' class='uploads')
+    br
+    br  
+
+  form(action='/send' enctype='')
+
+  script.
+
+    var file1 = document.getElementById("file1");
+    var file2 = document.getElementById("file2");
+
+    function checkErr() {
+
+      let clear = true;
+    
+      if(file1.value.split(".").pop() != 'SURF' && file1.value.split(".").pop() != 'pdb'){
+        if(file1.value == ''){
+          document.getElementById("err1").innerHTML = "Please upload your files";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }
+        else{
+          document.getElementById("err1").innerHTML = "Input must be a .SURF or .pdb file";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }  
+      }
+      else if(file2.value.split(".").pop() != 'SURF' && file2.value.split(".").pop() != 'pdb'){
+        if(file2.value == ''){
+          document.getElementById("err1").innerHTML = "Please upload your files";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }
+        else{
+          document.getElementById("err1").innerHTML = "Input must be a .SURF or .pdb file";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }
+      }
+      return clear;
+    }
+
+    var vasp1 = document.getElementById("vasp1");
+    var vasp2 = document.getElementById("vasp2");
+    var operation = document.getElementById("operation");
+    var resolution = document.getElementById("resolution");
+
+    function checkErr2(){
+
+      let clear = true;
+
+      document.getElementById("err2").style.display = "none";
+      document.getElementById("opErr").style.display = "none";
+      document.getElementById("resErr").style.display = "none";
+
+      if(vasp1.value == '' || vasp2.value == ''){
+        document.getElementById("err2").innerHTML = "Please upload your files";
+        document.getElementById("err2").style.display = "inline-block";
+        clear = false;
+      }
+
+      else if(vasp1.value.split(".").pop() != 'SURF' && vasp1.value.split(".").pop() != 'pdb'){
+        document.getElementById("err2").innerHTML = "Input must be a .SURF or .pdb file";
+        document.getElementById("err2").style.display = "inline-block";
+        clear = false;
+      }
+
+      else if(vasp2.value.split(".").pop() != 'SURF' && vasp2.value.split(".").pop() != 'pdb'){
+        document.getElementById("err2").innerHTML = "Input must be a .SURF or .pdb file";
+        document.getElementById("err2").style.display = "inline-block";
+        clear = false;
+      }
+
+      if(operation.value != "I" && operation.value != "U" && operation.value != "D"){
+        document.getElementById("opErr").style.display = "inline-block";
+        clear = false;
+      }
+      if(isNaN(resolution.value)){
+        document.getElementById("resErr").innerHTML = "Resolution must be a number";
+        document.getElementById("resErr").style.display = "inline-block";
+        clear = false;
+      }
+      else if(resolution.value < 0.25 || resolution.value > 2){
+        document.getElementById("resErr").innerHTML = "Resolution must be between 0.25 and 2";
+        document.getElementById("resErr").style.display = "inline-block";
+        clear = false;
+      }
+      return clear;
+    }
+
+    

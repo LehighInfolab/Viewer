@@ -1,0 +1,41 @@
+//- #######################################################
+//- Main html file for overall website layout
+//- #######################################################
+
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='shortcut icon', href='#')
+    link(rel="stylesheet" type="text/css" href="/tree-styles/smart.default.css")
+      
+    script(src="/javascripts/3Dmol-min.js")
+    script(src="/javascripts/webgl-utils.js")
+    script(src="/javascripts/ngl.js")
+    script(src="/javascripts/getFiles.js")
+    script(src="/javascripts/surf-utils.js")
+    script(src="/javascripts/tree-utils.js")
+    script(src='/javascripts/main.js')
+   
+    script(src="/tree-scripts/smart.menu.js")
+    script(src="/tree-scripts/smart.tree.js")
+
+    
+
+  body
+    #header
+      p Visualization Testing
+    #navbar
+      a(href='/') Visualization
+      a(href='/documentation') Documentation
+      a(href='/upload') Upload
+      a(href='/drop') Drop
+      a(href='/test') Test
+    
+    div(data-files=data id = "fileData" )
+    block content
+
+      
+    
