@@ -58,6 +58,9 @@ Navigation bar styling
   color: #56c7ff;
 }
 
+/*
+Viewport styling for viewer
+*/
 #viewport {
   /* z-index: -1; */
   width: 80%;
@@ -70,6 +73,19 @@ Navigation bar styling
   /* margin-top: -(50/2) em; */
 }
 
+/*
+File tree styling - 
+This styles tree itself
+*/
+smart-tree {
+  --smart-background: #07080a;
+  --smart-background-color: white;
+  /* --smart-font-size: 20px; */
+}
+
+/*
+File tree styling for position
+*/
 #file-tree {
   /* z-index: 1000; */
   position: absolute;
@@ -78,6 +94,9 @@ Navigation bar styling
   width: 20em;
 }
 
+/*
+Input buttons styling for upload tab
+*/
 input[type="file"]::file-selector-button {
   background-color: #0b0c10;
   border-radius: 5px;
@@ -222,7 +241,7 @@ Drop container styling - just for drag and drop ability
   content: "Drag and drop files here ";
 }
 
-#menu {
+/* #menu {
   height: 90%;
   width: 200px;
   background-color: #56c7ff;
@@ -233,4 +252,4 @@ Drop container styling - just for drag and drop ability
   width: 150px;
   height: 200px;
   display: none;
-}
+} */

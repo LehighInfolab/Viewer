@@ -4,22 +4,6 @@ Utils for tree setup
 #######################################################
  */
 
-
-function treeSelectionEventHandler(tree) {
-	tree.addEventListener('change', function (event) {
-		const detail = event.detail,
-			item = detail.item,
-			oldSelectedIndexes = detail.oldSelectedIndexes,
-			selectedIndexes = detail.selectedIndexes;
-
-		// event handling code goes here.
-		console.log("handling event")
-		console.log(item)
-		console.log(selectedIndexes)
-	})
-}
-
-
 // TODO: NEED TO ADD DATA CHANGES AFTER EXPANSION
 // function allows webserver to load for a second to retrieve data associated to a PDB (eg. maybe split into chains, cartoon view, stick view, etc.)
 function expandPDB(tree) {
@@ -27,6 +11,7 @@ function expandPDB(tree) {
 		if (event.detail.children.length > 0) {
 			return;
 		}
+		tree.select(event.detail.item)
 
 		tree.displayLoadingIndicator = true;
 
@@ -57,4 +42,35 @@ function makeTree(tree, pdb_files, SURF_files) {
 		newItem.label = SURF_files[i];
 		tree.addTo(newItem, 'SURF');
 	}
+}
+
+
+function parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files) {
+	let selected_diff = selectedIndexes.filter(x => !oldSelectedIndexes.includes(x));
+	let unselected_diff = oldSelectedIndexes.filter(x => !selectedIndexes.includes(x));
+
+	index = []
+	isSelected = true
+	if (selected_diff != "") {
+		index = selected_diff[0].split(".")
+		isSelected = true
+	} else {
+		index = unselected_diff[0].split(".")
+		isSelected = false
+	}
+
+	target_file = ""
+	isPDB = true;
+	if (index[0] === "0") {
+		target_file = pdb_files[index[1]]
+		isPDB = true;
+	}
+	if (index[0] === "1") {
+		target_file = SURF_files[index[1]]
+		isPDB = false;
+	}
+	console.log("Item: " + target_file)
+	console.log("Selected? " + isSelected)
+
+	return [target_file, isSelected, isPDB];
 }

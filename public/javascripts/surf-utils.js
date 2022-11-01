@@ -103,3 +103,55 @@ function viewData(vertex, face, normal) {
 	shapeComp.addRepresentation("buffer");
 	shapeComp.autoView();
 }
+
+
+/*
+  *	Formatting XML to be used in xmlhttp requests. 
+  * - For now, nothing to format. Leaving it here so that it is available in the future.
+  */
+function formatXML(file, xmlDoc) {
+	// var x = xmlDoc.getElementsByTagName("TAGNAME");
+	console.log(file);
+}
+
+
+async function getSURFXML(file) {
+	cnt = 0
+	console.log("Fetching surf data from " + file + "...");
+	xmlhttp.open(method, "../uploads/" + file, true);
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+			formatXML(file, xmlhttp.responseText);
+			console.log("Loading data into viewer...");
+			loadData(cnt)
+		}
+	};
+	xmlhttp.send();
+
+}
+
+/*
+  *	Asynchronous load using XMLHttpRequest.
+  * 
+  * - Setup xmlhttp with functions and requests to be called upon send().
+  * 	First get list of files[] containing all files to be viewed, and open all.
+  *		When a file is "ready", format XML and then load data. TODO: No need to format for now but left here just in case.
+  *		Recursive getXML() call to loop through all files. TODO: Recursion isn't great but it works here, so I'll leave it.
+  *		Finally, send() requests to server.
+  */
+async function getXML(files) {
+	xmlhttp.open(method, "../uploads/" + files[cnt], true);	// open all files in files[cnt]
+
+	// onreadystatechange - when file loaded, check if file is ready and no errors thrown. If so, call function to formatXML, loadData and getXML() on next file
+	console.log("Fetching surf data from " + files[cnt]) + "...";
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+			formatXML(files[cnt], xmlhttp.responseText);
+			console.log("Loading data into viewer...");
+			loadData(cnt)
+			cnt++;
+			if (cnt < files.length) getXML(); // call again
+		}
+	};
+	xmlhttp.send();
+}
