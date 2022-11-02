@@ -64,9 +64,6 @@ window.onload = function () {
 	const tree = document.querySelector('smart-tree');
 	makeTree(tree, pdb_files, SURF_files);
 
-	// const result = tree.getSelectedValues();
-	// console.log(result)
-
 
 	/*
 	VIEWER ONLOAD FUNCS

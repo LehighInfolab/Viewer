@@ -118,6 +118,11 @@ function formatXML(file, xmlDoc) {
 }
 
 
+/*
+  *	Asynchronous load using XMLHttpRequest.
+  * - This function only loads one surf file at a time
+  * 
+  */
 async function getSURFXML(file) {
 	console.log("Fetching surf data from " + file + "...");
 	xmlhttp.open(method, "../uploads/" + file, true);
