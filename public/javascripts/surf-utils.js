@@ -12,7 +12,7 @@ Utils for file loading
   *		This code essentially takes care of all the viewer loading
   *		and rendering that need to be done.
   */
-function loadData(cnt) {
+function loadData(file) {
 	var data = xmlhttp.responseText; // the downloaded data
 	var lines = data.split("\n"); // the downloaded data split into lines
 
@@ -68,7 +68,7 @@ function loadData(cnt) {
 			}
 		}
 	}
-	viewData(vertex, face, normal)
+	viewData(file, vertex, face, normal)
 }
 
 
@@ -78,7 +78,7 @@ function loadData(cnt) {
   * - Set colors and add objects to stage here.
   * 	This function is called at the end of loadData()	
   */
-function viewData(vertex, face, normal) {
+function viewData(file, vertex, face, normal) {
 	var mesh_vertex = [];
 	var mesh_color = [];
 	var mesh_normal = [];
@@ -96,12 +96,15 @@ function viewData(vertex, face, normal) {
 	}
 	color_val = (color_val + (256 * 2 / 7)) % 256
 
-	console.log("Surf object displayed.");
-	var shape = new NGL.Shape("SURF file");
+	// console.log("Surf object displayed.");
+
+	console.log("Updating viewer with " + file)
+	var shape = new NGL.Shape(file);
 	shape.addMesh(mesh_vertex, mesh_color, undefined, undefined, cnt)
 	var shapeComp = stage.addComponentFromObject(shape);
 	shapeComp.addRepresentation("buffer");
-	shapeComp.autoView();
+	shapeComp.setVisibility(false)
+	// shapeComp.autoView();
 }
 
 
@@ -116,14 +119,13 @@ function formatXML(file, xmlDoc) {
 
 
 async function getSURFXML(file) {
-	cnt = 0
 	console.log("Fetching surf data from " + file + "...");
 	xmlhttp.open(method, "../uploads/" + file, true);
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
 			formatXML(file, xmlhttp.responseText);
-			console.log("Loading data into viewer...");
-			loadData(cnt)
+			console.log("Loading " + file + " into viewer...");
+			loadData(file)
 		}
 	};
 	xmlhttp.send();
@@ -139,6 +141,7 @@ async function getSURFXML(file) {
   *		Recursive getXML() call to loop through all files. TODO: Recursion isn't great but it works here, so I'll leave it.
   *		Finally, send() requests to server.
   */
+var cnt = 0
 async function getXML(files) {
 	xmlhttp.open(method, "../uploads/" + files[cnt], true);	// open all files in files[cnt]
 
@@ -147,10 +150,10 @@ async function getXML(files) {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
 			formatXML(files[cnt], xmlhttp.responseText);
-			console.log("Loading data into viewer...");
-			loadData(cnt)
+			console.log("Loading " + files[cnt] + " into viewer...");
+			loadData(files[cnt])
 			cnt++;
-			if (cnt < files.length) getXML(); // call again
+			if (cnt < files.length) getXML(files); // call again
 		}
 	};
 	xmlhttp.send();

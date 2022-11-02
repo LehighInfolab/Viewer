@@ -16,8 +16,11 @@ var viewer = null;
 var stage = null;
 
 // Global variables for setting up XML asynchronous file loading
-var files = [], cnt = 0, xmlhttp = new XMLHttpRequest(), method = "GET";
+var files = [], xmlhttp = new XMLHttpRequest(), method = "GET";
+
+// Store all file variables. All_components to keep track of components created in viewer.
 var SURF_files = []; var pdb_files = [];
+var visible_components = [];
 
 // Global variable to hold color value for objects in RGB. This is global so that each objects colors can be adjusted based on previous object color.
 var color_val = 256 / 7; var color = [];
@@ -26,6 +29,7 @@ var structure_instances = []
 var pdb_temp;
 
 var global_index = 0;
+
 
 
 /* 
@@ -70,6 +74,12 @@ window.onload = function () {
 	// create a "stage" object attached to viewport
 	stage = new NGL.Stage("viewport");
 
+	// load in all files currently in uploads folder. All visibility are set to invisible
+	pdb_files.forEach(element => {
+		loadPDB(element)
+	});
+	getXML(SURF_files);
+
 
 
 	/*
@@ -81,14 +91,6 @@ window.onload = function () {
 	// take a second to load data associated with a PDB file if someone expands that selection - 
 	// this is because there will be a lag when trying to get certain features from PDB, so loading animation already implemented
 	expandPDB(tree);
-
-	// for (let i = 0; i < pdb_files.length; i++) {
-	// 	loadPDB("../uploads/" + pdb_files[i]);
-	// }
-
-	// loadPDB("rcsb://1BRS")
-	// files = ["../uploads/F_chain_only+h+1.SURF"];
-	// getXML(SURF_files);
 };
 
 
@@ -103,12 +105,11 @@ function treeSelectionEventHandler(tree, pdb_files, SURF_files) {
 		let [target_file, isSelected, isPDB] = parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files)
 
 		if (isSelected) {
-			if (isPDB) {
-				loadPDB("../uploads/" + target_file, 10)
-			} else { // is SURF file
-				getSURFXML(target_file)
-			}
+			stage.getComponentsByName(target_file).setVisibility(true);
+			stage.getComponentsByName(target_file).autoView();
 		}
-
+		if (!isSelected) {
+			stage.getComponentsByName(target_file).setVisibility(false);
+		}
 	})
 }
