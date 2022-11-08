@@ -65,5 +65,8 @@ start_container/*
 .bash_history
 
 # ignore file uploads and downloads from local testing
-uploads/*
+public/uploads/*
 outputs/*
+
+# local packages needed from unpublished modules
+local_packages/
