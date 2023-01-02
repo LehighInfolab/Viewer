@@ -31,7 +31,7 @@ function expandPDB(tree) {
 }
 
 function makeTree(tree, pdb_files, SURF_files) {
-	let tree = document.querySelector('smart-tree');
+	// let tree = document.querySelector('smart-tree');
 	for (let i = 0; i < pdb_files.length; i++) {
 		newItem = document.createElement('smart-tree-items-group');
 		newItem.label = pdb_files[i];
