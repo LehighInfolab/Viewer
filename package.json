@@ -26,7 +26,7 @@
     "pug": "^2.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "smart-webcomponents-community": "file:local_packages/smart-webcomponents-community@14.4.0/smart-webcomponents-community"
+    "smart-webcomponents-community": "file:local_packages/smart-webcomponents-community"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"

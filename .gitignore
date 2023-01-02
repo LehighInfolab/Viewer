@@ -69,4 +69,4 @@ public/uploads/*
 outputs/*
 
 # local packages needed from unpublished modules
-local_packages/
+# local_packages/
