@@ -44,7 +44,7 @@ function makeTree(tree, pdb_files, SURF_files, hbond_files) {
 	}
 	for (let i = 0; i < hbond_files.length; i++) {
 		newItem = document.createElement('smart-tree-items');
-		newItem.label = SURF_files[i];
+		newItem.label = hbond_files[i];
 		tree.addTo(newItem, 'HBOND');
 	}
 }

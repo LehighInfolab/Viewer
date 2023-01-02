@@ -55,6 +55,7 @@ window.onload = function () {
 	SURF_files, pdb_files, hbond_files = groupFileFormats(files);
 	console.log("SURF files: " + SURF_files);
 	console.log("PDB files: " + pdb_files);
+	console.log("HBOND files: "+ hbond_files);
 
 
 	/*
