@@ -30,7 +30,7 @@ function expandPDB(tree) {
 	});
 }
 
-function makeTree(tree, pdb_files, SURF_files, hbond_files) {
+function makeTree(tree, pdb_files, SURF_files) {
 	// let tree = document.querySelector('smart-tree');
 	for (let i = 0; i < pdb_files.length; i++) {
 		newItem = document.createElement('smart-tree-items-group');
@@ -42,15 +42,10 @@ function makeTree(tree, pdb_files, SURF_files, hbond_files) {
 		newItem.label = SURF_files[i];
 		tree.addTo(newItem, 'SURF');
 	}
-	for (let i = 0; i < hbond_files.length; i++) {
-		newItem = document.createElement('smart-tree-items');
-		newItem.label = hbond_files[i];
-		tree.addTo(newItem, 'HBOND');
-	}
 }
 
 
-function parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files, hbond_files) {
+function parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files) {
 	let selected_diff = selectedIndexes.filter(x => !oldSelectedIndexes.includes(x));
 	let unselected_diff = oldSelectedIndexes.filter(x => !selectedIndexes.includes(x));
 
@@ -72,10 +67,6 @@ function parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SUR
 	}
 	if (index[0] === "1") {
 		target_file = SURF_files[index[1]]
-		isPDB = false;
-	}
-	if (index[0] === "2") {
-		target_file = hbond_files[index[1]]
 		isPDB = false;
 	}
 	console.log("Item: " + target_file)
