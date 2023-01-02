@@ -16,7 +16,7 @@ WORKDIR /home/node/app
 # copy package.json and package-lock.json into container
 # running COPY prior to npm install let's us take advantage of Docker caching
 COPY package*.json ./
-COPY local_packages ./
+# COPY local_packages ./
 
 # switch user before running npm intall to make sure all application files owned by node instead of root
 # commented out next line bc was getting EACCESS errors
