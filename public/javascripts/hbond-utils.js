@@ -8,14 +8,11 @@ function loadHBond(file) {
 	var lines = data.split("\n"); // the downloaded data split into lines
 	console.log(lines);
 
-    var bonds = []; // array holds the coordinates for each bond
-	var bondIndex = 0; // index for keeping track of bonds
-	var totalBonds;
-	var bondPairs = []; // array holds which bonds pair with each other
-	var pairIndex = 0; // index for keeing track of bonds
-	var totalPairs;
-	var temp; // temporary variable
+    var bonds = []; var bondPairs = []; // array holds the coordinates for each bond and bond pairs
+	var bondIndex = 0; var pairIndex = 0; // index for keeing track of bonds and pairs
+	var totalPairs; var totalBonds;
     var readingBonds = false; var readingPair = false; // boolean to switch between reading bond vertices and bond pairs
+	var temp; // temporary variable
 
     for (var i = 0; i < lines.length; i++) {
         if (!readingBonds) {
@@ -83,14 +80,31 @@ function viewHBond(file, bonds, bondPairs) {
 	var testShapeComp = stage.addComponentFromObject( test );
 	testShapeComp.addRepresentation( "buffer" );
 
-    // load a HBond structure and consume the returned `Promise`
-	// stage.loadFile("../uploads/" + file, { name: hbond_name }).then(function (component) {
-	// 	// add a "cartoon" representation to the structure component
-	// 	component.addRepresentation("line");
-	// 	component.setVisibility(false)
-	// 	// provide a "good" view of the structure
-	// 	// component.autoView();
-	// });
-	// stage.getComponentsByName(pdb_name).addRepresentation("cartoon", { color: "blue" });
-	// visible_components.push(pdb_name)
 }
+
+// /*
+// *	Asynchronous load using XMLHttpRequest.
+// * 
+// * - Setup xmlhttp with functions and requests to be called upon send().
+// * 	First get list of files[] containing all files to be viewed, and open all.
+// *		When a file is "ready", format XML and then load data. TODO: No need to format for now but left here just in case.
+// *		Recursive getXML() call to loop through all files. TODO: Recursion isn't great but it works here, so I'll leave it.
+// *		Finally, send() requests to server.
+// */
+// var count = 0
+// async function getXML(files) {
+// 	xmlhttp.open(method, "../uploads/" + files[count], true);	// open all files in files[count]
+
+// 	// onreadystatechange - when file loaded, check if file is ready and no errors thrown. If so, call function to formatXML, loadData and getXML() on next file
+// 	console.log("Fetching HBond data from " + files[count]) + "...";
+// 	xmlhttp.onreadystatechange = function () {
+// 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+// 			formatXML(files[count], xmlhttp.responseText);
+// 			console.log("Loading " + files[count] + " into viewer...");
+// 			loadData(files[count])
+// 			count++;
+// 			if (count < files.length) getXML(files); // call again
+// 		}
+// 	};
+// 	xmlhttp.send();
+// }
