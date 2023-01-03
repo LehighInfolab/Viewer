@@ -65,7 +65,7 @@ function viewHBond(file, bonds, bondPairs) {
     var shape = new NGL.Shape(file);
 	shape.addMesh(bonds, (0, 0, 0, 0), undefined, undefined);
 	for (var i = 0; i < bondPairs.length; i++) {
-		shape.addCylinder(bondPairs[i][0], bondPairs[i][1], [100, 100, 100], 0.5);
+		shape.addCylinder(bondPairs[i][0], bondPairs[i][1], [256/2, 256/2, 256/2], 5);
 	}
 	var shapeComp = stage.addComponentFromObject(shape);
 	shapeComp.addRepresentation("buffer");
