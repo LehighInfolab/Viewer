@@ -21,8 +21,8 @@ function loadHBond(file) {
 
     for (var i = 0; i < lines.length; i++) {
         if (!readingBonds) {
-			if (lines[i].substr(0, "#NUMBER_OF_ATOMS".length) == "#NUMBER_OF_ATOMS") {
-				totalBonds = lines[i].split(" ")[1];
+			if (lines[i].split(" ")[0] == "#NUMBER_OF_ATOMS") {
+				totalBonds = parseInt(lines[i].split(" ")[1]);
 				readingBonds = true;
 				console.log("Reading bonds")
 			}
@@ -36,8 +36,8 @@ function loadHBond(file) {
 				bondIndex++;
 			} else {
 				if (!readingPair) {
-					if (lines[i].substr(0, "#NUMBER_OF_HBONDS".length) == "#NUMBER_OF_HBONDS") {
-						totalPairs = lines[i].split(" ")[1];
+					if (lines[i].split(" ")[0] == "#NUMBER_OF_HBONDS") {
+						totalPairs = parseInt(lines[i].split(" ")[1]);
 						readingPairs = true;
 						console.log("Reading pairs")
 					}
