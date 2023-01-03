@@ -4,7 +4,8 @@ Utils for hydrogen bond file loading
 #######################################################
 */
 function loadHBond(file) {
-	var data = xmlhttp.responseText; // the downloaded data
+	var data = parseHBond(file);
+	//var data = xmlhttp.responseText; // the downloaded data
 	var lines = data.split("\n"); // the downloaded data split into lines
 	console.log(lines);
 
@@ -84,8 +85,14 @@ function viewHBond(file, bonds, bondPairs) {
 
 function parseHBond(file) {
 	var jqXHR = $.ajax({
+		type: "POST",
 		url: "python/parser_hbonds_file.py",
-		data: {param: file},
+		async: false,
+		data: {"method": "call", 
+			   "param": {
+					"method": "main",
+					"args":file,
+			   }},
 	});
 	console.log(jqXHR.responseText)
 	return jqXHR.responseText;
