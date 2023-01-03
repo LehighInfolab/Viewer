@@ -9,6 +9,7 @@ function loadHBond(file) {
 
     var data = xmlhttp.responseText; // the downloaded data
 	var lines = data.split("\n"); // the downloaded data split into lines
+	console.log(lines);
 
     var bonds = []; // array holds the coordinates for each bond
     var bondIndex = 0; // index for keeping track of bonds
@@ -24,7 +25,7 @@ function loadHBond(file) {
 			if (lines[i].split(" ")[0] == "#NUMBER_OF_ATOMS") {
 				totalBonds = parseInt(lines[i].split(" ")[1]);
 				readingBonds = true;
-				console.log("Reading bonds")
+				console.log("Reading bonds: " + totalBonds)
 			}
 		} else {
 			if (bondIndex < totalBonds) {
@@ -39,7 +40,7 @@ function loadHBond(file) {
 					if (lines[i].split(" ")[0] == "#NUMBER_OF_HBONDS") {
 						totalPairs = parseInt(lines[i].split(" ")[1]);
 						readingPairs = true;
-						console.log("Reading pairs")
+						console.log("Reading pairs: " + totalPairs)
 					}
 				} else {
 					if (pairIndex < totalPairs) {
