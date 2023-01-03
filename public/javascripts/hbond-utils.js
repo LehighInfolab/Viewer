@@ -3,12 +3,14 @@
 Utils for hydrogen bond file loading
 #######################################################
 */
-// import * as fs from 'fs';
-
 function loadHBond(file) {
 	console.log("Loading hbond file: " + file);
-	const {fs} = require('fs');
-	var lines = fs.readFileSync(file).toString().split("\n"); // the downloaded data split into lines
+	var lines;
+	fetch('file.txt')
+  .then(response => response.text())
+  .then(text => lines = text.toString().split("\n"))
+  // outputs the content of the text file
+	//var lines = fs.readFileSync(file).toString().split("\n"); // the downloaded data split into lines
 	console.log(lines);
 
     var bonds = []; // array holds the coordinates for each bond
