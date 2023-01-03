@@ -5,10 +5,8 @@ Utils for hydrogen bond file loading
 */
 function loadHBond(file) {
 	console.log("Loading hbond file: " + file);
-	var lines = [];
-	fetch('file.txt')
-  .then(response => response.text())
-  .then(text => lines = text.toString().split("\n"))
+	var fr=new FileReader();
+	var lines = (fr.readAsText(file)).toString().split("\n");
   // outputs the content of the text file
 	//var lines = fs.readFileSync(file).toString().split("\n"); // the downloaded data split into lines
 	console.log(lines);
