@@ -2,7 +2,8 @@
 #######################################################
 Utils for hydrogen bond file loading
 #######################################################
- */
+*/
+import * as fs from 'fs';
 
 function loadHBond(file) {
 	console.log("Loading hbond file: " + file);
