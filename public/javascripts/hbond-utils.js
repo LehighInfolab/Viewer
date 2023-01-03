@@ -86,10 +86,7 @@ function parseHBond(file) {
 	var jqXHR = $.ajax({
 		url: "python/parser_hbonds_file.py",
 		data: {param: file},
-		// success: function(response) {
-		// 	console.log(response);
-		// },
 	});
-
+	console.log(jqXHR.responseText)
 	return jqXHR.responseText;
 }
