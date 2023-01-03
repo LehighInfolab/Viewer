@@ -4,6 +4,7 @@ Utils for hydrogen bond file loading
 #######################################################
 */
 function loadHBond(file) {
+	parseHBond(file);
 	var data = xmlhttp.responseText; // the downloaded data
 	var lines = data.split("\n"); // the downloaded data split into lines
 	console.log(lines);
@@ -82,29 +83,9 @@ function viewHBond(file, bonds, bondPairs) {
 
 }
 
-// /*
-// *	Asynchronous load using XMLHttpRequest.
-// * 
-// * - Setup xmlhttp with functions and requests to be called upon send().
-// * 	First get list of files[] containing all files to be viewed, and open all.
-// *		When a file is "ready", format XML and then load data. TODO: No need to format for now but left here just in case.
-// *		Recursive getXML() call to loop through all files. TODO: Recursion isn't great but it works here, so I'll leave it.
-// *		Finally, send() requests to server.
-// */
-// var count = 0
-// async function getXML(files) {
-// 	xmlhttp.open(method, "../uploads/" + files[count], true);	// open all files in files[count]
-
-// 	// onreadystatechange - when file loaded, check if file is ready and no errors thrown. If so, call function to formatXML, loadData and getXML() on next file
-// 	console.log("Fetching HBond data from " + files[count]) + "...";
-// 	xmlhttp.onreadystatechange = function () {
-// 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
-// 			formatXML(files[count], xmlhttp.responseText);
-// 			console.log("Loading " + files[count] + " into viewer...");
-// 			loadData(files[count])
-// 			count++;
-// 			if (count < files.length) getXML(files); // call again
-// 		}
-// 	};
-// 	xmlhttp.send();
-// }
+function parseHBond(file) {
+	$.ajax({
+		url: "../python/parse_hbonds.file.py",
+		data: {param: file},
+	})
+}
