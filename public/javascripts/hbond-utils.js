@@ -21,7 +21,7 @@ function loadHBond(file) {
 
     for (var i = 0; i < lines.length; i++) {
         if (!readingBonds) {
-			if (lines[i].substr(0, "#NUMBER_OF_ATOMS:".length) == "#NUMBER_OF_ATOMS:") {
+			if (lines[i].substr(0, "#NUMBER_OF_ATOMS".length) == "#NUMBER_OF_ATOMS") {
 				totalBonds = lines[i].split(" ")[1];
 				readingBonds = true;
 			}
@@ -35,7 +35,7 @@ function loadHBond(file) {
 				bondIndex++;
 			} else {
 				if (!readingPair) {
-					if (lines[i].substr(0, "#NUMBER_OF_HBONDS")) {
+					if (lines[i].substr(0, "#NUMBER_OF_HBONDS".length) == "#NUMBER_OF_HBONDS") {
 						totalPairs = lines[i].split(" ")[1];
 						readingPairs = true;
 					}
@@ -65,7 +65,7 @@ function viewHBond(file, bonds, bondPairs) {
     var shape = new NGL.Shape(file);
 	shape.addMesh(bonds, (0, 0, 0, 0), undefined, undefined);
 	for (var i = 0; i < bondPairs.length; i++) {
-		shape.addCylinder(bondPairs[i][0], bondPairs[i][1], [256/2, 256/2, 256/2], 5);
+		shape.addCylinder(bondPairs[i][0], bondPairs[i][1], [1, 0, 0], 5);
 	}
 	var shapeComp = stage.addComponentFromObject(shape);
 	shapeComp.addRepresentation("buffer");
@@ -75,7 +75,7 @@ function viewHBond(file, bonds, bondPairs) {
 	// add a single red sphere from a buffer to a shape instance
 	var test = new NGL.Shape( "shape" );
 	var sphereBuffer = new NGL.SphereBuffer( {
-		position: new Float32Array( [ 0, 0, 0 ] ),
+		position: new Float32Array( [ 10, 10, 0 ] ),
 		color: new Float32Array( [ 1, 0, 0 ] ),
 		radius: new Float32Array( [ 1 ] )
 	} );
