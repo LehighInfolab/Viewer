@@ -85,7 +85,7 @@ function viewHBond(file, bonds, bondPairs) {
 
 function parseHBond(file) {
 	$.ajax({
-		url: "Viewer-1/public/python/parse_hbonds.file.py",
+		url: "/Users/achua/Desktop/dev/cse/research/Viewer-1/public/python/parser_hbonds_file.py",
 		data: {param: file},
 	})
 }
