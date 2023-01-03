@@ -3,12 +3,11 @@
 Utils for hydrogen bond file loading
 #######################################################
 */
-import * as fs from 'fs';
+// import * as fs from 'fs';
 
 function loadHBond(file) {
 	console.log("Loading hbond file: " + file);
-
-    var fs = require('fs');
+	const {fs} = require('fs');
 	var lines = fs.readFileSync(file).toString().split("\n"); // the downloaded data split into lines
 	console.log(lines);
 
