@@ -19,7 +19,7 @@ var stage = null;
 var files = [], xmlhttp = new XMLHttpRequest(), method = "GET";
 
 // Store all file variables. All_components to keep track of components created in viewer.
-var SURF_files = []; var pdb_files = [];
+var SURF_files = []; var pdb_files = []; var hbond_files = [];
 var visible_components = [];
 
 // Global variable to hold color value for objects in RGB. This is global so that each objects colors can be adjusted based on previous object color.
@@ -52,10 +52,10 @@ window.onload = function () {
 	console.log("Default files in uploads folder:\n " + files);
 
 	// split all files in uploads folder into PDB or SURF files
-	SURF_files, pdb_files = groupFileFormats(files);
+	SURF_files, pdb_files, hbond_files = groupFileFormats(files);
 	console.log("SURF files: " + SURF_files)
 	console.log("PDB files: " + pdb_files)
-
+	console.log("HBOND files: " + hbond_files)
 
 	/*
 	FILE TREE ONLOAD FUNCS
@@ -70,6 +70,11 @@ window.onload = function () {
 	*/
 	// create a "stage" object attached to viewport
 	stage = new NGL.Stage("viewport");
+
+	// load files currently in upload folder for hbonds. Set visability to true
+	hbond_files.forEach(element => {
+		loadHBond(element)
+	});
 
 	// load in all files currently in uploads folder. All visibility are set to invisible
 	pdb_files.forEach(element => {
