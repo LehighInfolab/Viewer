@@ -51,6 +51,8 @@ function loadHBond(file) {
 			}
 		}
     }
+	console.log("bonds: " + bonds)
+	console.log("bond pairs: " + bondPairs)
     viewHBond(file, bonds, bondPairs);
 }
 
