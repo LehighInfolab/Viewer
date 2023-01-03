@@ -83,13 +83,13 @@ function viewHBond(file, bonds, bondPairs) {
 }
 
 function parseHBond(file) {
-	$.ajax({
+	var jqXHR = $.ajax({
 		url: "python/parser_hbonds_file.py",
 		data: {param: file},
-		success: function(response) {
-			console.log(response);
-		},
-	}).done(function (e) {
-		console.log(e)
+		// success: function(response) {
+		// 	console.log(response);
+		// },
 	});
+
+	return jqXHR.responseText;
 }
