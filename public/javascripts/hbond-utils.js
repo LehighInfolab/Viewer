@@ -7,8 +7,8 @@ Utils for hydrogen bond file loading
 function loadHBond(file) {
 	console.log("Loading hbond file: " + file);
 
-    var data = xmlhttp.responseText; // the downloaded data
-	var lines = data.split("\n"); // the downloaded data split into lines
+    var fs = require('fs');
+	var lines = fs.readFileSync(file).toString().split("\n"); // the downloaded data split into lines
 	console.log(lines);
 
     var bonds = []; // array holds the coordinates for each bond
