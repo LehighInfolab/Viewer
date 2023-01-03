@@ -71,6 +71,18 @@ function viewHBond(file, bonds, bondPairs) {
 	shapeComp.addRepresentation("buffer");
 	shapeComp.setVisibility(true);
 
+	// test to view object in viewport
+	// add a single red sphere from a buffer to a shape instance
+	var test = new NGL.Shape( "shape" );
+	var sphereBuffer = new NGL.SphereBuffer( {
+		position: new Float32Array( [ 0, 0, 0 ] ),
+		color: new Float32Array( [ 1, 0, 0 ] ),
+		radius: new Float32Array( [ 1 ] )
+	} );
+	test.addBuffer( sphereBuffer );
+	var testShapeComp = stage.addComponentFromObject( test );
+	testShapeComp.addRepresentation( "buffer" );
+
     // load a HBond structure and consume the returned `Promise`
 	// stage.loadFile("../uploads/" + file, { name: hbond_name }).then(function (component) {
 	// 	// add a "cartoon" representation to the structure component
