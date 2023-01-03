@@ -73,8 +73,8 @@ window.onload = function () {
 
 	// load files currently in upload folder for hbonds. Set visability to true
 	hbond_files.forEach(element => {
-		parseHBond(element)
-		//loadHBond(element);
+		//parseHBond(element)
+		loadHBond(element);
 	});
 
 	// load in all files currently in uploads folder. All visibility are set to invisible
