@@ -37,7 +37,7 @@ function groupFileFormats(files) {
 			case "txt":
 				// verify it's an hbond file
 				if (verifyHBondFile(files[i])) {
-					console.log(file+" is a valid hbond file");
+					console.log(files[i]+" is a valid hbond file");
 					hbond_files.push(files[i]);
 				} else {
 					console.log("Error: not an hbond file");
@@ -48,12 +48,13 @@ function groupFileFormats(files) {
 	return SURF_files, pdb_files, hbond_files;
 }
 
-function verifyHBondFile(file) {
+async function verifyHBondFile(file) {
 	console.log("Fetching "+file+" ...");
-	let data = fetch("../uploads/"+file).then(response => response.text());
-	console.log("Parsing "+file+" ...");
+	let data = await fetch("../uploads/"+file).then(response => response.text());
+	// console.log("Parsing "+file+" ...");
 	var lines = data.toString().split("\n");
-	if ((lines[0].split(" "))[0] == "#NUMBER_OF_ATOMS")
+	//console.log(lines[0].split(" ")[0]);
+	if ((lines[0].split(" ")[0] == "#NUMBER_OF_ATOMS"))
 		return true;
 	else
 		return false;
