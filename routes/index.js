@@ -41,6 +41,11 @@ const defaults = {
   env: process.env,
 };
 
+const executables = {
+  cwd: './executables',
+  env: process.env,
+}
+
 
 /* GET home page. */
 /* renders the home page */
@@ -88,7 +93,6 @@ router.post('/drop', visualUploads, function (req, res, next) {
 });
 
 
-
 /* POST files 
  * this is the route that uses multer to upload files to the /uploads folder
  * assumes index.pug has fiels myFile1 and myFile2 for file uploads
@@ -102,7 +106,7 @@ router.post('/files', fileUploads, function (req, res, next) {
 
 
 /**
- * route to test file downlaods
+ * route to test file downloads
  */
 router.get('/files', function (req, res, next) {
   console.log('attempting to download hardcoded file from /outputs folder...');
@@ -113,6 +117,7 @@ router.get('/files', function (req, res, next) {
   res.download(base + '/outputs/download.SURF', 'download.SURF')
 })
 
+
 /* GET TO RUN HARDCODED VASP */
 /* runs vasp on the server but uses hardcoded filenames and arguments
  * assumes we have vasp executable in /executables
@@ -121,35 +126,41 @@ router.get('/files', function (req, res, next) {
 router.get('/vasp', function (req, res, next) {
   /* print a message to the console so we know this route has been entered */
   console.log('\n--------RUNNING VASP WITH HARDCODED COMMANDS--------'); //message printed to the console
+  // const child = spawn('./vasp', ['-csg', '../public/uploads/test1.SURF', '../public/uploads/test2.SURF', 'I', '../public/uploads/output.SURF', '0.5'])
 
-  const child = spawn('../executables/vasp', ['-csg', 'test1.SURF', 'test2.SURF', 'I', '../outputs/output.SURF', '0.5'], defaults)
+  const child = spawn('python', ['./DiffBond_v2.py', '-i', '../public/uploads/1brs.pdb', '-m', 'i'], executables)
+
+  child.on('error', function (err) {
+    console.log(err)
+  });
+
   var out_msg = '', err_msg = '';
   child.stdout.on('data', (data) => {
     //copy stdout data to out_msg, will later be copied to out.log
     out_msg += data;
+    console.log(out_msg)
   });
-
   child.stderr.on('data', (data) => {
     //copy stderr data to err_msg, will later be copied to err.log
     err_msg += data;
+    console.log(err_msg)
   });
 
   child.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
     console.log('--------HARDCODED VASP RUN COMPLETE--------\n');
     //copy data to logs
-    fs.writeFile('console/out.log', out_msg, (err) => {
+    fs.writeFile('out.log', out_msg, (err) => {
       if (err) { throw err; }
     });
-    fs.writeFile('console/error.log', err_msg, (err) => {
+    fs.writeFile('error.log', err_msg, (err) => {
       if (err) { throw err; }
     });
     // render the TEST page, all output is on the backend
     // what should I do here once the program is done running?
-    res.redirect('/test');
+    res.redirect('/');
   });
 });
-
 
 
 /* POST vasp 
