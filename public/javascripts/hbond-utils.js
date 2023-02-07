@@ -82,6 +82,6 @@ function viewHBond(file, bonds, bondPairs) {
 	}
 	var shapeComp = stage.addComponentFromObject(shape);
 	shapeComp.addRepresentation("buffer");
-	shapeComp.setVisibility(true);
+	shapeComp.setVisibility(false);
 	shapeComp.autoView();
 }
