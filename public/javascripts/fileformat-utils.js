@@ -26,9 +26,26 @@ function groupFileFormats(files) {
 				pdb_files.push(files[i]);
 				break;
 			case "txt":
-				hbond_files.push(files[i]);
+				// verify it's an hbond file
+				if (verifyHBondFile(files[i])) {
+					console.log(file+" is a valid hbond file");
+					hbond_files.push(files[i]);
+				} else {
+					console.log("Error: not an hbond file");
+				}
 				break;
 		}
 	}
 	return SURF_files, pdb_files, hbond_files;
+}
+
+function verifyHBondFile(file) {
+	console.log("Fetching "+file+" ...");
+	let data = fetch("../uploads/"+file).then(response => response.text());
+	console.log("Parsing "+file+" ...");
+	var lines = data.toString().split("\n");
+	if ((lines[0].split(" "))[0] == "#NUMBER_OF_ATOMS")
+		return true;
+	else
+		return false;
 }
