@@ -5,8 +5,6 @@ import argparse
 import os
 import csv
 
-from click import open_file
-
 
 """
 Util file for parsing text files easily
@@ -121,7 +119,11 @@ def write_PDB(output_name, append, atoms_list):
         j[7] = str("%8.3f" % (float(j[7]))).rjust(8)  # y
         j[8] = str("%8.3f" % (float(j[8]))).rjust(8)  # z\
         j[9] = str("%6.2f" % (float(j[9]))).rjust(6)  # occ
-        j[10] = str("%6.2f" % (float(j[10]))).ljust(6)  # temp
+        try:
+            j[10] = str("%6.2f" % (float(j[10]))).ljust(6)  # temp
+        except Exception as error:
+            print(error, "-- Leaving as string.")
+            j[10] = j[10].ljust(6)  # not temp, atom single letter code
 
         line = "%s%s %s %s %s%s    %s%s%s%s%s\n" % (
             j[0],

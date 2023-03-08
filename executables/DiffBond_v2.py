@@ -6,10 +6,13 @@ import argparse
 import shutil
 import itertools
 
+import numpy as np
+
 import networkx as nx
 from networkx.algorithms import bipartite
 import matplotlib.pyplot as plt
 
+sys.path.insert(1, "./lib")
 import PDBGreedySearch
 import PDB_HB_parser
 import hbondfinder_utils
@@ -56,6 +59,7 @@ def parseArg():
 
     # parse list of args
     args = parser.parse_args()
+
     args = vars(args)
     i_list = args["i"]
     m_list = args["m"]
@@ -114,7 +118,19 @@ def compareDistIonic(points1, points2, dist):
                         if j not in p2:
                             p2.append(j)
 
-    output = compareDist(p1, p2, dist)
+    temp = compareDist(p1, p2, dist)
+    for edge in temp:
+        if edge[0][4] == edge[1][4]:
+            continue
+
+        charge1 = get_charge_from_res(edge[0][3], edge[0][2])
+        charge2 = get_charge_from_res(edge[1][3], edge[1][2])
+        if charge1 == charge2:
+            continue
+        output.append(edge)
+
+    ## this line created a bug where same charged residues within dist were considered as ionic bonds because charge checked first and then distance checked.
+    # output = compareDist(p1, p2, dist)
     return output
 
 
@@ -131,7 +147,7 @@ def get_charge_from_res(res, atom):
 
 
 # This function performs all of the pre-processing for the PDB files, and running hbondfinder on the processed structures.
-def HB_processing(i_list, edges):
+def HB_processing(i_list, edges, outputFileName):
     atoms1 = []
     atoms2 = []
     for edge in edges:
@@ -143,29 +159,24 @@ def HB_processing(i_list, edges):
     ### This function runs hbondfinder - function imported from hbondfinder_utils.
     ### If function returns false, that means file is empty.
     if hbondfinder_utils.run_hbondfinder("temp.pdb") == False:
+        print("ERROR: File is empty. hbondfinder returned false.")
         os.remove("temp.pdb")
         return
 
     try:
-        hb_file_name = (
-            i_list[0].split(".")[-2].split("\\")[-1]
-            + i_list[1].split(".")[-2].split("\\")[-1]
-            + ".txt"
-        )
+        hb_file_name = outputFileName + ".txt"
     except IndexError as error:
         print(
             "ERROR: Failed to process hydrogen bonds. Likely no hydrogens added to PDB."
         )
         return
-    print(
-        "RUNNING: Writing HBonds in hbondfinder_data folder to: ", hb_file_name, "..."
-    )
+    print("RUNNING: Writing HBonds to: ", hb_file_name, "...")
 
     # If hbondfinder folder already contains a file with the same name, shutil.move will be unable to move the file and will not save your most recent run. Delete files and run again.
     try:
         shutil.copyfile("HBondFinder_temp.txt", "HBondFinder" + hb_file_name)
         # os.rename("HBondFinder_temp.txt", "HBondFinder" + hb_file_name)
-        shutil.move("HBondFinder" + hb_file_name, "hbondfinder_data")
+        shutil.move("HBondFinder" + hb_file_name, "Results/" + outputFileName + "/")
     except OSError as error:
         print(
             "ERROR: Was not able to move HBondFinder file to hbond_data folder. Check to see that HBondFinder file does not already exist."
@@ -175,7 +186,7 @@ def HB_processing(i_list, edges):
     try:
         shutil.copyfile("hbonds_temp.txt", "hbonds" + hb_file_name)
         # os.rename("hbonds_temp.txt", "hbonds" + hb_file_name)
-        shutil.move("hbonds" + hb_file_name, "hbondfinder_data")
+        shutil.move("hbonds" + hb_file_name, "Results/" + outputFileName + "/")
     except OSError as error:
         print(
             "ERROR: Was not able to move hbond file to hbond_data folder. Check to see that hbond file does not already exist."
@@ -191,7 +202,7 @@ def HB_processing(i_list, edges):
     except OSError as error:
         print("ERROR: Unable to find files to clear")
 
-    return "HBondFinder" + hb_file_name
+    return "HBondFinder" + hb_file_name, "hbonds" + hb_file_name
 
 
 def interchain_HB_processing(file):
@@ -252,55 +263,196 @@ def make_results_dir(outputFileName):
         os.mkdir("Results/" + outputFileName)
         print("--- Successfully created folder ---")
     except OSError as error:
-        print("ERROR: Directory already exists. Adding files to existing directory")
+        print("NOTE: Directory already exists. Adding files to existing directory")
     results_dir = "Results/" + outputFileName
     return results_dir
+
+
+# Util function just for reformatting edge format outputted by ionic bond and salt bridge edges so that they contain only [chain letter + AA number of donors, chain letter + AA number of acceptors, distance]
+def reformat_contact_ionic_for_graph(edges, bond_type):
+    new_edges = []
+    for edge in edges:
+        a1 = [
+            edge[0][4].strip(),
+            edge[0][5].strip(),
+            edge[0][3].strip(),
+            [float(edge[0][6]), float(edge[0][7]), float(edge[0][8])],
+        ]
+        a2 = [
+            edge[1][4].strip(),
+            edge[1][5].strip(),
+            edge[1][3].strip(),
+            [float(edge[1][6]), float(edge[1][7]), float(edge[1][8])],
+        ]
+        e = [bond_type, round(edge[2], 2)]
+        reformat_edge = [a1, a2, e]
+        if reformat_edge not in new_edges:
+            new_edges.append(reformat_edge)
+    return new_edges
+
+
+# Util function just for reformatting edge format outputted by ionic bond and salt bridge edges so that they contain only [chain letter + AA number of donors, chain letter + AA number of acceptors, distance]
+def reformat_hbond_for_graph(HB_edges, hb_coords):
+    coords = []
+    for line in hb_coords:
+        if line[0] == "#NUMBER_OF_HBONDS":
+            break
+        else:
+            AA = [line[0].strip(), line[2].strip(), line[1].strip(), line[3].strip()]
+            coord = [
+                float(line[5].strip()),
+                float(line[6].strip()),
+                float(line[7].strip()),
+            ]
+            coords.append([AA, coord])
+
+    edges = []
+    for edge in HB_edges:
+        ## get coord data from hb_coords assigned to the correct amino acids
+        for coord in coords:
+            if (
+                edge[0] == coord[0][0]
+                and edge[1] == coord[0][1]
+                and edge[2] == coord[0][2]
+                and edge[3] == coord[0][3]
+            ):
+                edge.append(coord[1])
+            if (
+                edge[4] == coord[0][0]
+                and edge[5] == coord[0][1]
+                and edge[6] == coord[0][2]
+                and edge[7] == coord[0][3]
+            ):
+                edge.append(coord[1])
+        a1 = [edge[0].strip(), edge[1].strip(), edge[2].strip(), edge[-2], "donor"]
+        a2 = [edge[4].strip(), edge[5].strip(), edge[6].strip(), edge[-1], "acceptor"]
+        e = ["hbond", round(float(edge[8]), 2)]
+        reformat_edge = [a1, a2, e]
+        if reformat_edge not in edges:
+            edges.append(reformat_edge)
+
+    return edges
+
+
+# Util function for making a networkx graph object from a list of edges. Automatically puts into bipartite format.
+def make_graph_hbond(edges):
+
+    G = nx.Graph()
+    pos = nx.get_node_attributes(G, "pos")
+    color = nx.get_node_attributes(G, "color")
+
+    # if edges is empty, return
+    if not edges:
+        return G, pos
+
+    for edge in edges:
+        ## added edge labels here
+        G.add_edge(edge[0][1], edge[1][1], bond_type=edge[2][0], weight=edge[2][1])
+
+        ## adding node labels
+        G.nodes[edge[0][1]]["AA"] = edge[0][2]
+        G.nodes[edge[1][1]]["AA"] = edge[1][2]
+
+        G.nodes[edge[0][1]]["coord"] = edge[0][3]
+        G.nodes[edge[1][1]]["coord"] = edge[1][3]
+
+        G.nodes[edge[0][1]]["chain"] = edge[0][0]
+        G.nodes[edge[1][1]]["chain"] = edge[1][0]
+
+        ## if graph is for hbonds, add a donor acceptor node label
+        edge1_val = G.nodes[edge[0][1]].get("hbond")
+        edge2_val = G.nodes[edge[1][1]].get("hbond")
+        if edge1_val == None:
+            G.nodes[edge[0][1]]["hbond"] = edge[0][4]
+        if edge2_val == None:
+            G.nodes[edge[1][1]]["hbond"] = edge[0][4]
+        if edge1_val != None:
+            if edge1_val != edge[0][4]:
+                G.nodes[edge[0][1]]["hbond"] = ["donor", "acceptor"]
+        if edge2_val != None:
+            if edge2_val != edge[1][4]:
+                G.nodes[edge[1][1]]["hbond"] = ["donor", "acceptor"]
+
+        ## use atom positions for position in figures
+        pos[edge[0][1]] = np.array([edge[0][3][0], edge[0][3][1]])
+        pos[edge[1][1]] = np.array([edge[1][3][0], edge[1][3][1]])
+
+        ## use edge to indicate
+        color[edge[0][1]] = (0, 1, 1)
+        color[edge[1][1]] = (1, 0.3, 0.3)
+
+    num_nodes = G.number_of_nodes()
+    num_edges = G.number_of_edges()
+    ## draw position of nodes on one side of interface separate from other side
+    # pos = nx.drawing.layout.bipartite_layout(G, left_nodes)
+
+    return G, pos, color
 
 
 # Util function for making a networkx graph object from a list of edges. Automatically puts into bipartite format.
 def make_graph(edges):
     G = nx.Graph()
-    pos = []
-    ## make sure all nodes on left side are from the same chain
+    pos = nx.get_node_attributes(G, "pos")
+    color = nx.get_node_attributes(G, "color")
+
+    # if edges is empty, return
     if not edges:
         return G, pos
+
+    ## make sure all nodes on left side are from the same chain
     left_chain = edges[0][0][0]
     left_nodes = []
-    # right = []
 
     for edge in edges:
-        ## if the first node, edge[0], is not on the same chain as left_chain, then add the other node.
-        if edge[0][0] == left_chain:
-            left_nodes.append(edge[0])
-        else:
-            left_nodes.append(edge[1])
+        ## if the first node, edge[0], is not on the same chain as left_chain, then switch positions of the nodes. Use flipped boolean to keep track if edges have been switched
 
-        G.add_edge(edge[0], edge[1], weight=edge[2])
+        if edge[0][0] != left_chain:
+            temp = edge[0]
+            edge[0] = edge[1]
+            edge[1] = temp
+
+        ## added edge labels here
+        G.add_edge(edge[0][1], edge[1][1], bond_type=edge[2][0], weight=edge[2][1])
+
+        ## adding node labels
+        G.nodes[edge[0][1]]["AA"] = edge[0][2]
+        G.nodes[edge[1][1]]["AA"] = edge[1][2]
+
+        G.nodes[edge[0][1]]["coord"] = edge[0][3]
+        G.nodes[edge[1][1]]["coord"] = edge[1][3]
+
+        G.nodes[edge[0][1]]["chain"] = edge[0][0]
+        G.nodes[edge[1][1]]["chain"] = edge[1][0]
+
+        ## use atom positions for position in figures
+        pos[edge[0][1]] = np.array([edge[0][3][0], edge[0][3][1]])
+        pos[edge[1][1]] = np.array([edge[1][3][0], edge[1][3][1]])
+
+        ## use edge to indicate color
+        color[edge[0][1]] = (0, 1, 1)
+        color[edge[1][1]] = (1, 0.3, 0.3)
+
     num_nodes = G.number_of_nodes()
     num_edges = G.number_of_edges()
 
     ## draw position of nodes on one side of interface separate from other side
-    pos = nx.drawing.layout.bipartite_layout(G, left_nodes)
+    # pos = nx.drawing.layout.bipartite_layout(G, left_nodes)
 
-    return G, pos
+    return G, pos, color
 
 
 # Util function for visualizing graph
-def visualize_graph(graph, pos):
+def visualize_graph(G, pos, color, save_dir_name):
+    print(G)
     ## set up drawing of graphs
     plt.subplot(121)
-    nx.draw(graph, with_labels=True, pos=pos)
+    nx.draw(G, with_labels=True, node_color=list(color.values()), pos=pos)
+
+    edge_labels = nx.get_edge_attributes(G, "bond_type")
+    nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels)
+
+    plt.savefig(save_dir_name, bbox_inches="tight")
     plt.show()
-
-
-# Util function just for reformatting edge format outputted by ionic bond and salt bridge edges so that they contain only [chain letter + AA number of donors, chain letter + AA number of acceptors, distance]
-def reformat_contact_ionic_for_graph(edges):
-    new_edges = []
-    for edge in edges:
-        reformat_edge = [edge[0][4] + edge[0][5], edge[1][4] + edge[1][5], edge[2]]
-        if reformat_edge not in new_edges:
-            new_edges.append(reformat_edge)
-    return new_edges
 
 
 def main():
@@ -317,11 +469,13 @@ def main():
 
     # Set output file name if no name was given in args
     if outputFileName == None:
+        special_characters = ["\\", "/"]
         outputFileName = "Result"
         for i in i_list:
-            temp = str(i.split("\\")[-1])
+            temp = i
+            for s in special_characters:
+                temp = str(temp.split(s)[-1])
             outputFileName = outputFileName + "_" + str(temp.split(".")[-2])
-        outputFileName = outputFileName + "_" + str(dist) + "A"
 
     use_visual = True
 
@@ -380,13 +534,16 @@ def main():
                 elif m == "h":
                     print("##### Searching h-bonds... #####")
                     edges_temp = compareDist(PDB_data[0], PDB_data[1], 3.5)
-                    hb_file = HB_processing(i_list, edges_temp)
+                    print("##### Processing h-bonds... #####")
+                    hb_file = HB_processing(i_list, edges_temp, outputFileName)
                     if hb_file == None:
                         print("ERROR: No bonds in contact distance to run hbondfinder.")
                         break
+                    print("##### Parsing hb finder file... #####")
                     hb_lines = PDB_HB_parser.parse_file(
                         "hbondfinder_data/" + hb_file, True, 1
                     )
+                    print("##### continuing to parse hb finder file ... #####")
                     hbond_edges = hbondfinder_utils.parse_hbond_lines(hb_lines, True)
                     print(
                         "--------------------------------------------------------------------------------------"
@@ -459,7 +616,7 @@ def main():
 
                         ## searching within distance for hbonds
                         edges_temp = compareDist(PDB_data[0], PDB_data[1], 3.5)
-                        hb_file = HB_processing(i_list, edges_temp)
+                        hb_file = HB_processing(i_list, edges_temp, outputFileName)
                         if hb_file == None:
                             print(
                                 "ERROR: No bonds in contact distance to run hbondfinder."
@@ -480,13 +637,7 @@ def main():
                         ## writing graph to file
                         nx.write_multiline_adjlist(
                             hbond_graph,
-                            results_dir
-                            + "/hbonds"
-                            + "_"
-                            + c[0]
-                            + "_"
-                            + c[1]
-                            + ".adjlist",
+                            results_dir + "/hbonds_" + c[0] + "_" + c[1] + ".adjlist",
                         )
     elif len(i_list) == 2:
         PDB_data = []
@@ -519,7 +670,24 @@ def main():
                 print(
                     "--------------------------------------------------------------------------------------"
                 )
-                print(contact_edges)
+                reformatted_edges = reformat_contact_ionic_for_graph(
+                    contact_edges, "contact"
+                )
+                print(reformatted_edges)
+
+                ## making and visualizing graph
+                contact_graph, pos, color = make_graph(reformatted_edges)
+                if use_visual:
+                    visualize_graph(
+                        contact_graph, pos, color, results_dir + "/contact_graph.png"
+                    )
+
+                ## writing graph to file
+                nx.write_multiline_adjlist(
+                    contact_graph, results_dir + "/contact_bonds.adjlist"
+                )
+                nx.write_gml(contact_graph, results_dir + "/contact_bonds.gml")
+
             elif m == "i":
                 print("##### Searching ionic bonds... #####")
                 ionic_edges = compareDistIonic(PDB_data[0], PDB_data[1], dist)
@@ -530,18 +698,51 @@ def main():
                 print(
                     "--------------------------------------------------------------------------------------"
                 )
-                print(ionic_edges)
+                # print(ionic_edges)
+                reformatted_edges = reformat_contact_ionic_for_graph(
+                    ionic_edges, "ionic"
+                )
+                print(reformatted_edges)
+
+                ## making and visualizing graph
+                ionic_graph, pos, color = make_graph(reformatted_edges)
+                if use_visual:
+                    visualize_graph(
+                        ionic_graph, pos, color, results_dir + "/ionic_graph.png"
+                    )
+
+                ## writing graph to file
+                nx.write_multiline_adjlist(
+                    ionic_graph, results_dir + "/ionic_bonds.adjlist"
+                )
+                nx.write_gml(ionic_graph, results_dir + "/ionic_bonds.gml")
+
             elif m == "h":
                 print("##### Searching h-bonds... #####")
                 edges_temp = compareDist(PDB_data[0], PDB_data[1], 3.5)
-                hb_file = HB_processing(i_list, edges_temp)
+
+                print("##### Processing h-bonds... #####")
+                HB_file, hb_file = HB_processing(i_list, edges_temp, outputFileName)
+                if HB_file == None:
+                    print("ERROR: No bonds in contact distance to run hbondfinder.")
+                    break
                 if hb_file == None:
                     print("ERROR: No bonds in contact distance to run hbondfinder.")
                     break
-                hb_lines = PDB_HB_parser.parse_file(
-                    "hbondfinder_data/" + hb_file, True, 1
+
+                print("##### Parsing hb finder file... #####")
+                HB_lines = PDB_HB_parser.parse_file(
+                    "Results/" + outputFileName + "/" + HB_file, True, 1
                 )
-                hbond_edges = hbondfinder_utils.parse_hbond_lines(hb_lines, True)
+                hb_lines = PDB_HB_parser.parse_file(
+                    "Results/" + outputFileName + "/" + hb_file, True, 1
+                )
+                reformatted_edges = reformat_hbond_for_graph(HB_lines, hb_lines)
+                # print("Reformatted edges", reformatted_edges)
+
+                # print("##### continuing to parse hb finder file ... #####")
+                # hbond_edges = hbondfinder_utils.parse_hbond_lines(hb_lines, True)
+
                 print(
                     "--------------------------------------------------------------------------------------"
                 )
@@ -549,68 +750,159 @@ def main():
                 print(
                     "--------------------------------------------------------------------------------------"
                 )
-                print(hbond_edges)
+                print(reformatted_edges)
+
+                ## making and visualizing graph
+                hbond_graph, pos, color = make_graph_hbond(reformatted_edges)
+
+                if use_visual:
+                    visualize_graph(
+                        hbond_graph, pos, color, results_dir + "/hbond_graph.png"
+                    )
+
+                ## writing graph to file
+                nx.write_multiline_adjlist(hbond_graph, results_dir + "/hbond.adjlist")
+                nx.write_gml(hbond_graph, results_dir + "/hbond.gml")
 
         # For modes requiring multiple bonds calculated previously (eg. salt bridges, graphs), this switch statement calculates those
         for m in mode:
             if m == "g":
                 if contact_edges == []:
                     print("##### Searching contacts within " + str(dist) + "... #####")
-
-                    ## searching within distance for contacts
                     contact_edges = compareDist(PDB_data[0], PDB_data[1], dist)
-                    reformatted_edges = reformat_contact_ionic_for_graph(contact_edges)
-
-                    ## making and visualizing graph
-                    contact_graph, pos = make_graph(reformatted_edges)
-                    if use_visual:
-                        visualize_graph(contact_graph, pos)
-
-                    ## writing graph to file
-                    nx.write_multiline_adjlist(
-                        contact_graph, results_dir + "/contacts.adjlist"
+                    print(
+                        "--------------------------------------------------------------------------------------"
                     )
-                if ionic_edges == []:
-                    print("##### Searching ionic bonds... #####")
-
-                    ## searching within distance for ionic bonds
-                    ionic_edges = compareDistIonic(PDB_data[0], PDB_data[1], dist)
-                    reformatted_edges = reformat_contact_ionic_for_graph(ionic_edges)
+                    print("---CONTACT DISTANCE WITHIN " + str(dist) + " DISTANCE---")
+                    print(
+                        "--------------------------------------------------------------------------------------"
+                    )
+                    reformatted_edges = reformat_contact_ionic_for_graph(
+                        contact_edges, "contact"
+                    )
                     print(reformatted_edges)
 
                     ## making and visualizing graph
-                    ionic_graph, pos = make_graph(reformatted_edges)
+                    contact_graph, pos, color = make_graph(reformatted_edges)
                     if use_visual:
-                        visualize_graph(ionic_graph, pos)
+                        visualize_graph(
+                            contact_graph,
+                            pos,
+                            color,
+                            results_dir + "/contact_graph.png",
+                        )
+
+                    ## writing graph to file
+                    nx.write_multiline_adjlist(
+                        contact_graph, results_dir + "/contact_bonds.adjlist"
+                    )
+                    nx.write_gml(contact_graph, results_dir + "/contact_bonds.gml")
+
+                if ionic_edges == []:
+                    print("##### Searching ionic bonds... #####")
+                    ionic_edges = compareDistIonic(PDB_data[0], PDB_data[1], dist)
+                    print(
+                        "--------------------------------------------------------------------------------------"
+                    )
+                    print(
+                        "---IONIC BOND PREDICTIONS WITHIN " + str(dist) + " DISTANCE---"
+                    )
+                    print(
+                        "--------------------------------------------------------------------------------------"
+                    )
+                    # print(ionic_edges)
+                    reformatted_edges = reformat_contact_ionic_for_graph(
+                        ionic_edges, "ionic"
+                    )
+                    print(reformatted_edges)
+
+                    ## making and visualizing graph
+                    ionic_graph, pos, color = make_graph(reformatted_edges)
+                    if use_visual:
+                        visualize_graph(
+                            ionic_graph, pos, color, results_dir + "/ionic_graph.png"
+                        )
 
                     ## writing graph to file
                     nx.write_multiline_adjlist(
                         ionic_graph, results_dir + "/ionic_bonds.adjlist"
                     )
+                    nx.write_gml(ionic_graph, results_dir + "/ionic_bonds.gml")
 
                 if hbond_edges == []:
                     print("##### Searching h-bonds... #####")
-
-                    ## searching within distance for hbonds
                     edges_temp = compareDist(PDB_data[0], PDB_data[1], 3.5)
-                    hb_file = HB_processing(i_list, edges_temp)
-                    if hb_file == None:
-                        print("---No bonds in contact distance to run hbondfinder.---")
+
+                    print("##### Processing h-bonds... #####")
+                    HB_file, hb_file = HB_processing(i_list, edges_temp, outputFileName)
+                    if HB_file == None:
+                        print("ERROR: No bonds in contact distance to run hbondfinder.")
                         break
-                    hb_lines = PDB_HB_parser.parse_file(
-                        "hbondfinder_data/" + hb_file, True, 1
+                    if hb_file == None:
+                        print("ERROR: No bonds in contact distance to run hbondfinder.")
+                        break
+
+                    print("##### Parsing hb finder file... #####")
+                    HB_lines = PDB_HB_parser.parse_file(
+                        "Results/" + outputFileName + "/" + HB_file, True, 1
                     )
-                    hbond_edges = hbondfinder_utils.parse_hbond_lines(hb_lines, True)
+                    hb_lines = PDB_HB_parser.parse_file(
+                        "Results/" + outputFileName + "/" + hb_file, True, 1
+                    )
+                    reformatted_edges = reformat_hbond_for_graph(HB_lines, hb_lines)
+                    # print("Reformatted edges", reformatted_edges)
+
+                    # print("##### continuing to parse hb finder file ... #####")
+                    # hbond_edges = hbondfinder_utils.parse_hbond_lines(hb_lines, True)
+
+                    print(
+                        "--------------------------------------------------------------------------------------"
+                    )
+                    print("---H-BOND PREDICTIONS THAT MEET HBONDFINDER CRITERIA---")
+                    print(
+                        "--------------------------------------------------------------------------------------"
+                    )
+                    print(reformatted_edges)
 
                     ## making and visualizing graph
-                    hbond_graph, pos = make_graph(hbond_edges)
+                    hbond_graph, pos, color = make_graph_hbond(reformatted_edges)
+
                     if use_visual:
-                        visualize_graph(hbond_graph, pos)
+                        visualize_graph(
+                            hbond_graph, pos, color, results_dir + "/hbond_graph.png"
+                        )
 
                     ## writing graph to file
                     nx.write_multiline_adjlist(
-                        hbond_graph, results_dir + "/hbonds.adjlist"
+                        hbond_graph, results_dir + "/hbond.adjlist"
                     )
+                    nx.write_gml(hbond_graph, results_dir + "/hbond.gml")
+
+                ## making combined ionic and hbond graphs
+                # TODO: FIX THIS
+                # new_edges = reformat_contact_ionic_for_graph(ionic_edges)
+                # for i in hbond_edges:
+                #     new_edges.append(i)
+                # print(
+                #     "--------------------------------------------------------------------------------------"
+                # )
+                # print("---IONIC + HBONDS---")
+                # print(
+                #     "--------------------------------------------------------------------------------------"
+                # )
+                # print(new_edges)
+                # ionic_hbond_graph, pos = make_graph(new_edges)
+
+                # if use_visual:
+                #     visualize_graph(
+                #         ionic_hbond_graph, pos, results_dir + "/ionic+hbonds_graph.png"
+                #     )
+
+                # ## write graphs
+                # nx.write_multiline_adjlist(
+                #     ionic_hbond_graph, results_dir + "/ionic+hbonds.adjlist"
+                # )
+                # nx.write_gml(ionic_hbond_graph, results_dir + "/ionic+hbonds.gml")
 
 
 if __name__ == "__main__":

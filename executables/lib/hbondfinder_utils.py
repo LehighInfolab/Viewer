@@ -22,24 +22,30 @@ def read_and_parse_folder(dir):
 
 # Main function to run hbond finder on an input file. Unfortunately, no option to specify an output.
 def run_hbondfinder(file):
-    make_hbondfinder_dir()
+    # make_hbondfinder_dir()
     PDBcode = file.split(".")[0]
 
     if os.path.getsize(file) == 0:
         return False
 
-    if os.path.exists("/hbondfinder/HBondFinder_" + PDBcode):
-        print("---File already ran through HBondFinder. ---")
-    else:
-        print("Running hbondfinder.py ...")
-        os.system(
-            "python hbondfinder.py -i "
-            + file
-            + " -j JSON_Files/acceptors_donors_dict.json"
-        )
+    print("Running hbondfinder.py ...")
+    os.system(
+        "python hbondfinder.py -i " + file + " -j JSON_Files/acceptors_donors_dict.json"
+    )
+
+    # if os.path.exists("/hbondfinder/HBondFinder_" + PDBcode):
+    #     print("---File already ran through HBondFinder. ---")
+    # else:
+    #     print("Running hbondfinder.py ...")
+    #     os.system(
+    #         "python hbondfinder.py -i "
+    #         + file
+    #         + " -j JSON_Files/acceptors_donors_dict.json"
+    #     )
 
 
 # Util function to make a folder for collecting hbondfinder data
+## NOTE: THIS FUNCTION NOT BEING USED. WRITING ALL RESULTS TO RESULTS FOLDER INSTEAD.
 def make_hbondfinder_dir():
     print("Creating hbondfinder folder for collecting results...")
     try:
