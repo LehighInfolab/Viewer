@@ -232,4 +232,23 @@ router.post('/vasp', secondUploads, function (req, res, next) {
 
 }); //end of POST vasp route
 
+/**
+ * GET route to run hbond-finder executable
+ */
+router.get('/hbfinder', function(req, res, next){
+  console.log('\n--------RUNNING HBOND FINDER WITH HARDCODED COMMANDS--------');
+  // spawn parameters: <command to run python code>, [<python script path>, (optional) <any parameters required for python program>]
+  const child = spawn('python3', ['../executables/hbondfinder.py','-j', 'acceptors_donors_dict.json',
+          '-b', 'public/uploads/'], executables);
+  // if child has an error
+  child.on('error', (err) => {
+    console.log("\n\tERROR: [" + err + "]"); // print error message to console
+  });
+  // if child closes
+  child.on('close', (data) => {
+    console.log("\n\t HBFinder child closed: "+ data); // print data to console
+  });
+  res.redirect('/public/uploads');
+}); // end of GET hbond-finder route
+
 module.exports = router; 

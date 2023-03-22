@@ -13,10 +13,10 @@ import random
 import time
 import warnings
 import json
-import xlwt
+# import xlwt
 import math
 import getopt
-from glob import glob
+import glob
 from Bio.PDB import Selection
 from Bio.PDB.vectors import calc_angle
 from Bio import BiopythonWarning
@@ -1465,9 +1465,11 @@ def testingDifferentBoxSizes(PDB_File, count):
 
 def testingVariousPDBFiles(batching_dir, BOX_DIMENSION):
     count = 0
-    pdb_files = glob(batching_dir + "*")
+    # print(batching_dir)
+    # pdb_files = glob(batching_dir + "*.pdb")
 
-    for file_name in pdb_files:
+    for file_name in glob.glob(batching_dir + "*.pdb"):
+        # print(file_name)
         if file_name != batching_dir:
             testingSingleBoxSize(file_name, BOX_DIMENSION)
 
@@ -1522,6 +1524,7 @@ if dict_json_file == "":
     
 #Executes the function on input file (either single file mode or batch mode)
 if batching_mode:
+    # print("batching mode activated")
     testingVariousPDBFiles(batching_dir, box_dimension)
 else:    
     testingSingleBoxSize(input_file, box_dimension)
