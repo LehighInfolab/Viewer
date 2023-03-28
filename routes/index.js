@@ -239,7 +239,7 @@ router.get('/hbfinder', function(req, res, next){
   console.log('\n--------RUNNING HBOND FINDER WITH HARDCODED COMMANDS--------');
   // spawn parameters: <command to run python code>, [<python script path>, (optional) <any parameters required for python program>]
   const child = spawn('python3', ['../executables/hbondfinder.py','-j', 'acceptors_donors_dict.json',
-          '-b', 'public/uploads/'], executables);
+          '-b', 'public/uploads/'], defaults);
   // if child has an error
   child.on('error', (err) => {
     console.log("\n\tERROR: [" + err + "]"); // print error message to console
