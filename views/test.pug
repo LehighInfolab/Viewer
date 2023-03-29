@@ -1,6 +1,7 @@
 extends layout
 
 block content
+
   #main
     form(action="/drop" method="POST" enctype="multipart/form-data" id="dropContainer" onsubmit="return checkErr()")
       p.inputErr#error Input must be a .SURF or .pdb file
@@ -17,8 +18,6 @@ block content
     p Color
     p Representation
     span#viewerBox
-   
-  
 
   script.
 

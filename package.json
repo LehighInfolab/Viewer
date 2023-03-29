@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "aws-stack": "0.0.1-a",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "^1.4.6",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "http-errors": "^1.6.3",
     "molstar": "^3.1.0",
+    "mongodb": "^4.4.0",
     "mongoose": "^5.6.0",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
@@ -29,6 +29,7 @@
     "smart-webcomponents-community": "file:local_packages/smart-webcomponents-community"
   },
   "devDependencies": {
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "dotenv": "^8.6.0"
   }
 }
