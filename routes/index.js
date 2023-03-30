@@ -8,6 +8,7 @@ Setup for routes
 var express = require('express');
 var app = express()
 var router = express.Router();
+const fs = require('fs');
 
 const uploadsPath = {
   cwd: './public/uploads', // we'll perform our operations from within the uploads folder 
