@@ -10,6 +10,10 @@ const router = express.Router();
 const { exec } = require("child_process");
 const { spawn } = require('child_process');
 const fs = require('fs');
+const executables_path = {
+  cwd: './executables',
+  env: process.env,
+}
 
 
 /* setup for multer */
@@ -238,8 +242,8 @@ router.post('/vasp', secondUploads, function (req, res, next) {
 router.get('/hbfinder', function(req, res, next){
   console.log('\n--------RUNNING HBOND FINDER WITH HARDCODED COMMANDS--------');
   // spawn parameters: <command to run python code>, [<python script path>, (optional) <any parameters required for python program>]
-  const child = spawn('python3', ['../executables/hbondfinder.py','-j', 'acceptors_donors_dict.json',
-          '-b', 'public/uploads/'], defaults);
+  const child = spawn('python3', ['./hbondfinder.py','-j', 'acceptors_donors_dict.json',
+          '-b', '../public/uploads/'], executables_path);
   // if child has an error
   child.on('error', (err) => {
     console.log("\n\tERROR: [" + err + "]"); // print error message to console
@@ -248,7 +252,7 @@ router.get('/hbfinder', function(req, res, next){
   child.on('close', (data) => {
     console.log("\n\t HBFinder child closed: "+ data); // print data to console
   });
-  res.redirect('/public/uploads');
+  res.redirect('/');
 }); // end of GET hbond-finder route
 
 module.exports = router; 
