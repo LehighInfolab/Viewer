@@ -251,8 +251,21 @@ router.get('/hbfinder', function(req, res, next){
   // if child closes
   child.on('close', (data) => {
     console.log("\n\t HBFinder child closed: "+ data); // print data to console
+    const fs = require("fs");
+    var files = fs.readdirSync(executables_path.cwd);
+
+    // move all .txt files
+    for (var i = files.length - 1; i >= 0; i--) {
+      var file = files[i];
+      if (file.split('.')[1] === 'txt') {
+        fs.rename('executables/' + file, 'public/uploads/' + file, function(err) {
+          if (err) throw err;
+          console.log('Move complete.');
+        });
+      }
+    }
+    res.redirect('/');
   });
-  res.redirect('/');
 }); // end of GET hbond-finder route
 
 module.exports = router; 
