@@ -64,6 +64,13 @@ router.get('/', function (req, res, next) {
   res.render('viewer', { title: 'Front Page', data: JSON.stringify(files) });
 });
 
+router.post('/files_in_dir', function (req, res, next) {
+  console.log(req.body.id)
+  var files = fs.readdirSync('public/uploads/' + req.body.id);
+  console.log(files)
+  res.send(files)
+})
+
 /* GET test page */
 /* renders test page, just to check if routes work */
 router.get('/test', function (req, res, next) {
