@@ -13,6 +13,7 @@ Utils for file loading
   *		and rendering that need to be done.
   */
 function loadData(file) {
+	// console.log(file)
 	var data = xmlhttp.responseText; // the downloaded data
 	var lines = data.split("\n"); // the downloaded data split into lines
 
@@ -98,44 +99,43 @@ function viewData(file, vertex, face, normal) {
 
 	// console.log("Surf object displayed.");
 
-	console.log("Updating viewer with " + file)
+	console.log("Updating viewer with " + file + "...")
 	var shape = new NGL.Shape(file);
-	shape.addMesh(mesh_vertex, mesh_color, undefined, undefined, cnt)
+	shape.addMesh(mesh_vertex, mesh_color, undefined, undefined, file)
 	var shapeComp = stage.addComponentFromObject(shape);
 	shapeComp.addRepresentation("buffer");
 	shapeComp.setVisibility(false)
-	// shapeComp.autoView();
+	shapeComp.autoView();
 }
 
 
-/*
-  *	Formatting XML to be used in xmlhttp requests. 
-  * - For now, nothing to format. Leaving it here so that it is available in the future.
-  */
-function formatXML(file, xmlDoc) {
-	// var x = xmlDoc.getElementsByTagName("TAGNAME");
-	console.log(file);
-}
+// /*
+//   *	Formatting XML to be used in xmlhttp requests. 
+//   * - For now, nothing to format. Leaving it here so that it is available in the future.
+//   */
+// function formatXML(file, xmlDoc) {
+// 	// var x = xmlDoc.getElementsByTagName("TAGNAME");
+// 	console.log(file);
+// }
 
 
-/*
-  *	Asynchronous load using XMLHttpRequest.
-  * - This function only loads one surf file at a time
-  * 
-  */
-async function getSURFXML(file) {
-	console.log("Fetching surf data from " + file + "...");
-	xmlhttp.open(method, "../uploads/" + file, true);
-	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
-			formatXML(file, xmlhttp.responseText);
-			console.log("Loading " + file + " into viewer...");
-			loadData(file)
-		}
-	};
-	xmlhttp.send();
-
-}
+// /*
+//   *	Asynchronous load using XMLHttpRequest.
+//   * - This function only loads one surf file at a time
+//   * 
+//   */
+// async function getSURFXML(file) {
+// 	console.log("Fetching surf data from " + file + "...");
+// 	xmlhttp.open(method, "../uploads/" + file, true);
+// 	xmlhttp.onreadystatechange = function () {
+// 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+// 			formatXML(file, xmlhttp.responseText);
+// 			console.log("Loading " + file + " into viewer...");
+// 			loadData(file)
+// 		}
+// 	};
+// 	xmlhttp.send();
+// }
 
 /*
   *	Asynchronous load using XMLHttpRequest.
@@ -146,20 +146,29 @@ async function getSURFXML(file) {
   *		Recursive getXML() call to loop through all files. TODO: Recursion isn't great but it works here, so I'll leave it.
   *		Finally, send() requests to server.
   */
-var cnt = 0
-async function getXML(files) {
-	xmlhttp.open(method, "../uploads/" + files[cnt], true);	// open all files in files[cnt]
+// Global variables for setting up XML asynchronous file loading
+var xmlhttp = new XMLHttpRequest(), method = "GET";
+
+async function getXML(id, files, cnt) {
+	console.log(files)
+	console.log(files.length)
+	if (files.length <= 0) {
+		return;
+	}
+
+	let opened = await xmlhttp.open(method, "../uploads/" + id + "/" + files[cnt], true);	// open all files in files[cnt]
+	console.log("From dir :", id, "--- Loading SURF file: ", files[cnt]);
 
 	// onreadystatechange - when file loaded, check if file is ready and no errors thrown. If so, call function to formatXML, loadData and getXML() on next file
-	console.log("Fetching surf data from " + files[cnt]) + "...";
-	xmlhttp.onreadystatechange = function () {
+	xmlhttp.onreadystatechange = async function () {
 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
-			formatXML(files[cnt], xmlhttp.responseText);
+			// formatXML(files[cnt], xmlhttp.responseText);
 			console.log("Loading " + files[cnt] + " into viewer...");
 			loadData(files[cnt])
 			cnt++;
-			if (cnt < files.length) getXML(files); // call again
+			if (cnt < files.length) getXML(id, files, cnt); // call again
 		}
 	};
-	xmlhttp.send();
+	let sent = await xmlhttp.send();
+	return;
 }

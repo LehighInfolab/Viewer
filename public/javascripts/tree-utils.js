@@ -4,6 +4,33 @@ Utils for tree setup
 #######################################################
  */
 
+// function starts the tree by adding a group item first
+function startTree(tree, id) {
+	newGroup = document.createElement('smart-tree-items-group');
+	newGroup.id = id;
+	newGroup.label = id;
+	newGroup.expanded = true;
+	newGroup.separator = false;
+	// newGroup.level = -1;
+	tree.addTo(newGroup)
+	return;
+}
+
+
+function makeTree(tree, id, SURF_files, pdb_files) {
+	for (let i = 0; i < pdb_files.length; i++) {
+		newItem = document.createElement('smart-tree-items');
+		newItem.label = pdb_files[i];
+		tree.addTo(newItem, id);
+	}
+	for (let i = 0; i < SURF_files.length; i++) {
+		newItem = document.createElement('smart-tree-items');
+		newItem.label = SURF_files[i];
+		tree.addTo(newItem, id);
+	}
+}
+
+
 // TODO: NEED TO ADD DATA CHANGES AFTER EXPANSION
 // function allows webserver to load for a second to retrieve data associated to a PDB (eg. maybe split into chains, cartoon view, stick view, etc.)
 function expandPDB(tree) {
@@ -30,47 +57,35 @@ function expandPDB(tree) {
 	});
 }
 
-function makeTree(tree, pdb_files, SURF_files) {
-	// let tree = document.querySelector('smart-tree');
-	for (let i = 0; i < pdb_files.length; i++) {
-		newItem = document.createElement('smart-tree-items-group');
-		newItem.label = pdb_files[i];
-		tree.addTo(newItem, 'PDB');
-	}
-	for (let i = 0; i < SURF_files.length; i++) {
-		newItem = document.createElement('smart-tree-items');
-		newItem.label = SURF_files[i];
-		tree.addTo(newItem, 'SURF');
-	}
-}
 
+// function parseSelectionIndex(selectedIndexes, oldSelectedIndexes) {
+// 	let selected_diff = selectedIndexes.filter(x => !oldSelectedIndexes.includes(x));
+// 	let unselected_diff = oldSelectedIndexes.filter(x => !selectedIndexes.includes(x));
 
-function parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files) {
-	let selected_diff = selectedIndexes.filter(x => !oldSelectedIndexes.includes(x));
-	let unselected_diff = oldSelectedIndexes.filter(x => !selectedIndexes.includes(x));
+// 	index = []
+// 	isSelected = true
+// 	if (selected_diff != "") {
+// 		index = selected_diff[0].split(".")
+// 		isSelected = true
+// 	} else {
+// 		index = unselected_diff[0].split(".")
+// 		isSelected = false
+// 	}
+// 	console.log(index)
 
-	index = []
-	isSelected = true
-	if (selected_diff != "") {
-		index = selected_diff[0].split(".")
-		isSelected = true
-	} else {
-		index = unselected_diff[0].split(".")
-		isSelected = false
-	}
+// 	// target_file = ""
+// 	// isPDB = true;
+// 	// if (index[0] === "0") {
+// 	// 	target_file = pdb_files[index[1]]
+// 	// 	isPDB = true;
+// 	// }
+// 	// if (index[0] === "1") {
+// 	// 	target_file = SURF_files[index[1]]
+// 	// 	isPDB = false;
+// 	// }
+// 	// console.log("Item: " + item)
+// 	// console.log("Selected? " + isSelected)
 
-	target_file = ""
-	isPDB = true;
-	if (index[0] === "0") {
-		target_file = pdb_files[index[1]]
-		isPDB = true;
-	}
-	if (index[0] === "1") {
-		target_file = SURF_files[index[1]]
-		isPDB = false;
-	}
-	console.log("Item: " + target_file)
-	console.log("Selected? " + isSelected)
-
-	return [target_file, isSelected, isPDB];
-}
+// 	// return [item, isSelected];
+// 	return index, isSelected;
+// }

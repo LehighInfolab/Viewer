@@ -15,11 +15,10 @@ GLOBAL VARIABLES
 var viewer = null;
 var stage = null;
 
-// Global variables for setting up XML asynchronous file loading
-var files = [], xmlhttp = new XMLHttpRequest(), method = "GET";
+
 
 // Store all file variables. All_components to keep track of components created in viewer.
-var SURF_files = []; var pdb_files = []; var hbond_files = [];
+// var SURF_files = []; var pdb_files = []; var hbond_files = [];
 var visible_components = [];
 
 // Global variable to hold color value for objects in RGB. This is global so that each objects colors can be adjusted based on previous object color.
@@ -42,7 +41,14 @@ Onload Function - When browser starts
  *	
  *	- Function initializes viewer viewport and starts loading objects to viewer from getXML()
  */
-window.onload = function () {
+window.onload = async function () {
+	// create a "stage" object attached to viewport
+	stage = new NGL.Stage("viewport");
+
+	// get file tree
+	const tree = document.querySelector('smart-tree');
+
+
 	/*
 	GET FILE ONLOAD FUNCS
 	*/
@@ -50,16 +56,24 @@ window.onload = function () {
 	// TODO: ADD EVENT THAT CHECKS IF A NEW FILE GETS UPLOADED TO UPLOADS FOLDER AND UPDATE
 	uploads = getFiles();
 	console.log("Default dir in uploads folder:\n " + uploads);
-	const dir = new file_tree_dir(uploads[0])
-	console.log("Dir", dir)
+	// const dir = new file_tree_dir(uploads[0])
+	// console.log("Dir", dir)
 
-	set_up_tree(dir)
-
-	// /*
-	// VIEWER ONLOAD FUNCS
-	// */
-	// // create a "stage" object attached to viewport
-	// stage = new NGL.Stage("viewport");
+	var dir_list = [];
+	for (let i = 0; i < uploads.length - 0; i++) {
+		var dir = new file_tree_dir(uploads[i]);
+		console.log("Current working dir:", dir);
+		const d1 = await set_up_tree(dir);
+		// const d2 = await load_files(dir);
+		// load in all files currently in uploads folder. All visibility are set to invisible
+		for (let i = 0; i < dir.pdb_files.length; i++) {
+			await loadPDB(dir.id, dir.pdb_files[i])
+		}
+		let cnt = 0;
+		await getXML(dir.id, dir.SURF_files, cnt);
+		// console.log(d1)
+		dir_list.push(dir)
+	}
 
 	// // load files currently in upload folder for hbonds. Set visability to true
 	// hbond_files.forEach(element => {
@@ -67,70 +81,81 @@ window.onload = function () {
 	// 	loadHBond(element);
 	// });
 
-	// // load in all files currently in uploads folder. All visibility are set to invisible
-	// pdb_files.forEach(element => {
-	// 	loadPDB(element)
-	// });
-	// getXML(SURF_files);
 
 
-
-	// /*
-	// FUNCS TO DETECT EVENT CHANGES
-	// */
-	// // handles changes in selected values in tree
-	// treeSelectionEventHandler(tree, pdb_files, SURF_files);
+	/*
+	FUNCS TO DETECT EVENT CHANGES
+	*/
+	// handles changes in selected values in tree
+	treeSelectionEventHandler(tree, dir_list);
 
 	// // take a second to load data associated with a PDB file if someone expands that selection - 
 	// // this is because there will be a lag when trying to get certain features from PDB, so loading animation already implemented
 	// expandPDB(tree);
 };
 
-// function set_up_dir(dir) {
-// 	var files = dir.files_in_dir()
-// 	console.log("Files in current folder", files)
-// 	return files
-// }
-
-// function group_files(files) {
-// 	// split all files in uploads folder into PDB or SURF files
-// 	console.log(files)
-// 	SURF_files, pdb_files = groupFileFormats(files);
-// 	console.log("SURF files: " + SURF_files)
-// 	console.log("PDB files: " + pdb_files)
-// 	// console.log("HBOND files: " + hbond_files)
-// 	return SURF_files, pdb_files;
-// }
-
 async function set_up_tree(dir) {
-	var files = await dir.files
+	let files = await dir.files
 	// var files = await set_up_dir(dir)
-	SURF_files, pdb_files = groupFileFormats(files)
-	console.log(SURF_files, pdb_files)
-	// 		FILE TREE ONLOAD FUNCS
-	// 		* /
-	// make file tree using PDB and SURF file split
+	dir.groupFileFormats(files)
+	var SURF_files = dir.SURF_files
+	var pdb_files = dir.pdb_files
+	// console.log(SURF_files, pdb_files)
+
+	// get file tree
 	const tree = document.querySelector('smart-tree');
-	makeTree(tree, pdb_files, SURF_files);
-	// })
+
+	//Creates a group in the tree for the current item
+	console.log("Setting up current tree group with ID:", dir.id)
+	startTree(tree, dir.id)
+	makeTree(tree, dir.id, SURF_files, pdb_files);
+	return;
 }
 
-function treeSelectionEventHandler(tree, pdb_files, SURF_files) {
+
+// async function load_files(dir) {
+
+// 	// load in all files currently in uploads folder. All visibility are set to invisible
+// 	for (let i = 0; i < dir.pdb_files.length; i++) {
+// 		await loadPDB(dir.id, dir.pdb_files[i])
+// 	}
+// 	let cnt = 0;
+// 	await getXML(dir.id, dir.SURF_files, cnt);
+// }
+
+
+function treeSelectionEventHandler(tree, dir_list) {
 	tree.addEventListener('change', function (event) {
-		const detail = event.detail,
+		var detail = event.detail,
 			item = detail.item,
 			oldSelectedIndexes = detail.oldSelectedIndexes,
 			selectedIndexes = detail.selectedIndexes;
 
-		// event handling code goes here.
-		let [target_file, isSelected, isPDB] = parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files)
+		let selected_diff = selectedIndexes.filter(x => !oldSelectedIndexes.includes(x));
+		let unselected_diff = oldSelectedIndexes.filter(x => !selectedIndexes.includes(x));
+
+		index = []
+		isSelected = true;
+		if (selected_diff != "") {
+			index = selected_diff[0].split(".")
+			isSelected = true
+		} else {
+			index = unselected_diff[0].split(".")
+			isSelected = false
+		}
+		if (index.length == 1) {
+			return;
+		}
 
 		if (isSelected) {
-			stage.getComponentsByName(target_file).setVisibility(true);
-			stage.getComponentsByName(target_file).autoView();
+			stage.getComponentsByName(item.label).setVisibility(true);
+			stage.getComponentsByName(item.label).autoView();
+			console.log("Showing", item.label)
 		}
 		if (!isSelected) {
-			stage.getComponentsByName(target_file).setVisibility(false);
+			stage.getComponentsByName(item.label).setVisibility(false);
+			console.log("Hiding", item.label)
 		}
 	})
+	return;
 }

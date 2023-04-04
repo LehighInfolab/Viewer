@@ -8,28 +8,3 @@ function getFiles() {
 	all_files = all_files.split(",");
 	return all_files;
 }
-
-
-/*
- *	groupFileFormats function
- *	- groups files by file format eg. pdb, SURF, etc.
- *	- and returns each group as a separate list
- */
-function groupFileFormats(files) {
-	for (let i = 0; i < files.length; i++) {
-		var file_format = files[i].split(".")[1];
-		switch (file_format) {
-			case "SURF":
-				SURF_files.push(files[i]);
-				continue;
-			case "pdb":
-				pdb_files.push(files[i]);
-				continue;
-			// case "txt":
-			// 	hbond_files.push(files[i]);
-			// 	break;
-		}
-	}
-	return SURF_files, pdb_files;
-	// return SURF_files, pdb_files, hbond_files;
-}

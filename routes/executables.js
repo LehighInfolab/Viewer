@@ -29,7 +29,11 @@ function set_executable_call(req) {
 		output = input1 + "_" + input2
 	}
 
-	output_path = '../../public/uploads/' + output + "/";
+	if (!fs.existsSync('./public/uploads/bonds')) {
+		fs.mkdirSync('./public/uploads/bonds');
+	}
+	// output_path = "./"
+	output_path = '../../public/uploads/bonds'
 
 
 	//! Change executable command line here using above inputs from request

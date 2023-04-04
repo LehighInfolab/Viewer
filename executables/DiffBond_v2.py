@@ -477,7 +477,7 @@ def main():
                 temp = str(temp.split(s)[-1])
             outputFileName = outputFileName + "_" + str(temp.split(".")[-2])
 
-    use_visual = True
+    use_visual = False
 
     # Different process for one input file given vs 2 input files given.
     if len(i_list) == 1:
