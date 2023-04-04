@@ -1,12 +1,12 @@
 class file_tree_dir {
 	constructor(id) {
 		this.id = id;
-		this.files = [];
+		this.files = this.files_in_dir();
 	}
 
 	async files_in_dir() {
-		var files;
-		console.log("Inside files_in_dir")
+		var file;
+		console.log("-----Fetching files in dir-----")
 		return await fetch('/files_in_dir', {
 			method: 'POST',
 			headers: {
@@ -17,9 +17,15 @@ class file_tree_dir {
 		})
 			.then(response => response.json())
 			.then(response => {
-				files = JSON.stringify(response);
-				this.files = files;
-				return files;
+				file = JSON.stringify(response);
+				this.files = this.JSON_response_parser(file);
+				return this.files;
 			})
+	}
+
+	JSON_response_parser(string) {
+		var str = string.replace(/["*+?^${}()|[\]\\]/g, "");
+		var str = str.split(",");
+		return str;
 	}
 }

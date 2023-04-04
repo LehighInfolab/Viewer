@@ -17,14 +17,14 @@ function getFiles() {
  */
 function groupFileFormats(files) {
 	for (let i = 0; i < files.length; i++) {
-		file_format = files[i].split(".")[1];
+		var file_format = files[i].split(".")[1];
 		switch (file_format) {
 			case "SURF":
 				SURF_files.push(files[i]);
-				break;
+				continue;
 			case "pdb":
 				pdb_files.push(files[i]);
-				break;
+				continue;
 			// case "txt":
 			// 	hbond_files.push(files[i]);
 			// 	break;
