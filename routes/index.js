@@ -254,7 +254,7 @@ router.get('/hbfinder', function(req, res, next){
     const fs = require("fs");
     var files = fs.readdirSync(executables_path.cwd);
 
-    // move all .txt files
+    // move all .txt files to uploads
     for (var i = files.length - 1; i >= 0; i--) {
       var file = files[i];
       if (file.split('.')[1] === 'txt') {
