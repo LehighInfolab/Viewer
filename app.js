@@ -26,8 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/tree-scripts', express.static(path.join(__dirname, '/node_modules/smart-webcomponents-community/source/modules/')))
-app.use('/tree-styles', express.static(path.join(__dirname, '/node_modules/smart-webcomponents-community/source/styles/')))
+app.use('/tree-scripts', express.static(path.join(__dirname, '/local_packages/smart-webcomponents-community/source/modules/')))
+app.use('/tree-styles', express.static(path.join(__dirname, '/local_packages/smart-webcomponents-community/source/styles/')))
 
 
 /* send the app to the correct router based on the URL */
@@ -37,8 +37,8 @@ app.use('/', indexRouter); //all routes are in the index router, found in index.
 const uploadsRouter = require('./routes/uploads')
 app.use('/uploads', uploadsRouter)
 
-const executablesRouter = require('./routes/executables')
-app.use('/executables', executablesRouter)
+// const executablesRouter = require('./executables')
+// app.use('/executables', executablesRouter)
 
 
 /* catch 404 and forward to error handler */
