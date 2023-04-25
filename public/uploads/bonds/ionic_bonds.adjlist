@@ -1,0 +1,17 @@
+#./DiffBond_v2.py -i ../public/uploads/1brs/1brs.pdb ../public/uploads/1brs/1brs.pdb -m i -o ../../public/uploads/bonds
+# GMT Wed Apr  5 19:39:51 2023
+# 
+27 1
+39 {'bond_type': 'ionic', 'weight': 4.18}
+39 3
+83 {'bond_type': 'ionic', 'weight': 4.27}
+87 {'bond_type': 'ionic', 'weight': 3.18}
+102 {'bond_type': 'ionic', 'weight': 2.66}
+59 2
+35 {'bond_type': 'ionic', 'weight': 4.41}
+76 {'bond_type': 'ionic', 'weight': 4.06}
+35 0
+76 0
+83 0
+87 0
+102 0
