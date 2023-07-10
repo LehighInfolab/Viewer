@@ -42,6 +42,128 @@
 
 
 
+    <section>
+        <article><h1>NIH Containerization Project - VASP Example</h1>
+<h2><a href="https://viewer-backend-dev-sqrlv2g2yq-uc.a.run.app/"><span style="color:blue">Back to Web Server </span></a></h2>
+<h2>Purpose:</h2>
+<p>Overall: Build a web server that is responsive to HTTP requests in order to run bioinformatics software. <br>
+VASP Example: Create an example web app that runs a bioinformatics command-line executable code and produces 3D visualizations of input and output files. In this example, the executable code is a program called VASP that takes .SURF files as inputs, performs an operation on these 3D models (intersection, union, or difference), and produces an output .SURF file. This project will then be made into a Docker container so other researchers can use it more easily, and it can be used as an example for containerization of bioinformatics software.</p>
+<h2>Goals:</h2>
+<ul>
+<li>Containerize bioinformatics software</li>
+<li>Create a release system to push well-scripted software to the cloud and make the software callable by web requests
+<ul>
+<li>This would make the system easily scalable</li>
+</ul>
+</li>
+<li>Use (AWS) credentials to log into web app in order to pay for/allocate CPU time
+<ul>
+<li>Takes this responsibility away from the authoring lab</li>
+</ul>
+</li>
+</ul>
+<h2>Install and Run (Locally)</h2>
+<p>You must have node.js running on your machine. Once you have cloned this project you can run <code>npm install</code> to install all the packages for this project. Then running <code>npm run dev</code> will run the dev version of this code, which will run this project with nodemon. Nodemon auto-restarts the node server every time you make a change to a file. Very helpful when you are writing and testing code.</p>
+<p>After running the dev version of the code, go to &quot;localhost:8000&quot; in your browser to see the frontend of the project.</p>
+<h2>Testing and Running (social sandbox server)</h2>
+<p>The formal iteration of this project is deployed at socialsandbox.xyz. To access this server, ssh into socialsandbox.xyz by typing &quot;ssh abc123@socialsandbox.xyz&quot; into your command line (where abc123 is your username for the server). Then sign in with your password. This project is cloned in the /srv folder, which you can access after logging in by running &quot;cd ../../srv/containerization&quot;.</p>
+<p>You should avoid modifying code from the server. You should only perform &quot;git pull&quot; from the server to update the server version of the project from code that has already been tested on your local machine. Note that in order to perform a git pull on the server, you will need to use sudo.</p>
+<p>On the server, the Node app is up and running using pm2. See the &quot;Useful Resources&quot; section for more inforamtion about using pm2.</p>
+<h2>Current Routes</h2>
+<h3>GET ‘/’</h3>
+<p>This route retrieves the home page. Currently, the home page just has buttons for:</p>
+<ul>
+<li>Running an example hardcoded vasp run using assumed inputs (GET ‘/run’)
+./vasp -csg test1.SURF test2.SURF I output.SURF 0.5</li>
+<li>Redirecting to a test page (GET ‘/test’)</li>
+<li>Uploading two files (POST ‘/files’)</li>
+<li>Uploading two files and running vasp with those files (POST ‘/vasp’)</li>
+</ul>
+<h3>-- GET ‘/test’</h3>
+<p>This route retrieves the test page, which is just a page with a button to return to the home page.</p>
+<ul>
+<li>Adyn created this simple route to test if routes were working on the server instead of using console.log to test if a route has been entered (because console.log statements aren’t showing up)</li>
+<li>As of 6/7, the routes AREN’T working, and I don’t know why. They are working on my local, which makes me think something is going wrong with the server.</li>
+</ul>
+<h3>GET ‘/vasp’</h3>
+<p>This route performs a hardcoded vasp command on the server.</p>
+<ul>
+<li>Command that is run: ./vasp -csg test1.SURF test2.SURF I output.SURF 0.5</li>
+<li>Assumes test1.SURF, and test2.SURF are all already uploaded in the /uploads folder</li>
+<li>Assumes vasp executable is contained in the parent folder of the present working directory</li>
+<li>The other arguments are I for intersection, output.SURF for the name of the output file, and 0.5 for the resolution</li>
+</ul>
+<h3>-- POST ‘/files’</h3>
+<p>This route takes two input files from the index page and uploads them into the /uploads folder using multer.</p>
+<h3>POST ‘/vasp’</h3>
+<p>This route takes two input files from the index page, uploads them into the /uploads folder using multer, and then runs vasp using these files.
+Requires .SURF files. If a file type other than .SURF is uploaded, it will give whatever error occurs when vasp is run using incorrect input files.</p>
+<ul>
+<li>All variables for vasp are taken is as arguments in req.body (output file name, operation, and resolution).</li>
+<li>All error checking is done on the frontend in index.pug
+<ul>
+<li>input files must be of type .SURF</li>
+<li>operation must be 'I', 'U', or 'D'</li>
+<li>resolution must be a number between 0.25 and 2</li>
+</ul>
+</li>
+</ul>
+<h2>Useful Resources</h2>
+<p>Overview of pm2 and useful commands:</p>
+<ul>
+<li>https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/</li>
+</ul>
+<p>Explanation of exec/spawn to execute shell commands:</p>
+<ul>
+<li>https://stackabuse.com/executing-shell-commands-with-node-js</li>
+<li>https://nodejs.org/api/child_process.html</li>
+</ul>
+<p>Explanation of multer (middleware to upload files):</p>
+<ul>
+<li>https://www.npmjs.com/package/multer</li>
+<li>https://www.bacancytechnology.com/blog/file-upload-using-multer-with-nodejs-and-express</li>
+</ul>
+<p>Docker resources:
+Docker is a containerization software. To create a Docker container, all you have to do is create a Dockerfile in your root directory of your project. A Dockerfile is a simple text file with commands for how Docker will create an image for your container. A Docker image is essentially a blueprint for your container. The image becomes a container when it is activated.</p>
+<ul>
+<li>https://www.docker.com/</li>
+<li>make an account, download Docker Desktop (or do the tutorial on the cloud) and follow the getting-started tutorial, which I believe is prompted when you download Docker Desktop: https://docs.microsoft.com/en-us/visualstudio/docker/tutorials/docker-tutorial</li>
+</ul>
+<p>To Dockerize your project:
+overview: https://blog.iron.io/how-to-create-a-docker-container/#1</p>
+<ol>
+<li>Create a Dockerfile</li>
+</ol>
+<ul>
+<li>https://nodejs.org/en/docs/guides/nodejs-docker-webapp/</li>
+<li>https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resources/Documents/index</li>
+</ul>
+<ol start="2">
+<li>Use &quot;docker build&quot; to use your Dockerfile to create a Docker image</li>
+</ol>
+<ul>
+<li>https://www.techrepublic.com/article/how-to-create-your-own-docker-image/</li>
+<li>https://docs.docker.com/engine/reference/commandline/build/</li>
+</ul>
+<ol start="3">
+<li>If applicable, push your image to the Docker Hub so it can be shared with others.</li>
+</ol>
+<ul>
+<li>https://techtutorialsite.com/docker-push-images-to-dockerhub/</li>
+</ul>
+<ol start="5">
+<li>Activate your Docker image to create a running container</li>
+</ol>
+<ul>
+<li>https://blog.iron.io/how-to-create-a-docker-container/</li>
+</ul>
+<p>OTHER POSSIBLY USEFUL LINKS
+https://codeburst.io/dockerize-deploy-1cfc4f0e7c72 <br>
+https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md <br>
+https://medium.com/codebase/using-aws-s3-buckets-in-a-nodejs-app-74da2fc547a6 <br>
+https://docs.docker.com/engine/reference/builder/ \</p></article>
+    </section>
+
 
 
 
@@ -163,13 +285,13 @@ visible.</p></div>
 </div>
 
 <nav>
-    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="file_tree_dir.html">file_tree_dir</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-run-code-server-tutorial.html">How to Run Code on the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#set_up_tree">set_up_tree</a></li></ul>
+    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="file_tree_dir.html">file_tree_dir</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-docker-container-tutorial.html">Installing Docker and Cloning A Containerized Web Server</a></li><li><a href="tutorial-run-code-server-tutorial.html">Adding and Running an Executable to the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#set_up_tree">set_up_tree</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jul 09 2023 20:35:42 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Jul 10 2023 01:58:51 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

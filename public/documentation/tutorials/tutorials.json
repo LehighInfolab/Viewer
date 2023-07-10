@@ -1,5 +1,8 @@
 {
   "run-code-server-tutorial": {
-    "title": "How to Run Code on the Server"
+    "title": "Adding and Running an Executable to the Server"
+  },
+  "docker-container-tutorial": {
+    "title": "Installing Docker and Cloning A Containerized Web Server"
   }
 }

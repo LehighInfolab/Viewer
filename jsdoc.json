@@ -13,6 +13,7 @@
     "recurse": true,
     "destination": "./public/documentation/docs",
     "template": "./public/documentation/custom_template",
-    "tutorials": "./public/documentation/tutorials"
+    "tutorials": "./public/documentation/tutorials",
+    "readme": "./README.md"
   }
 }
