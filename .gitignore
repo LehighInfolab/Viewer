@@ -74,3 +74,5 @@ route.rest
 
 # local packages needed from unpublished modules
 # local_packages/
+
+public/uploads/uploaded/*
