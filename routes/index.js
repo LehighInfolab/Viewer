@@ -23,7 +23,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/uploads/')
+    cb(null, 'public/uploads/uploaded/')
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
@@ -117,7 +117,7 @@ router.get('/files', function (req, res, next) {
 var visualUploads = upload.array('viewerFile');
 router.post('/drop', visualUploads, function (req, res, next) {
   console.log('Successful file upload');
-  res.redirect('/drop')
+  res.redirect('/')
 });
 
 
