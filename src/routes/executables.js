@@ -5,6 +5,8 @@ const { exec } = require("child_process");
 const { spawn } = require('child_process');
 const fs = require('fs');
 
+console.log(__dirname)
+
 const executablesPath = {
 	cwd: './executables',
 	env: process.env,

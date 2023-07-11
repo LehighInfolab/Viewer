@@ -5,7 +5,7 @@ extends layout
 block content 
 
 	//-! Change this code in order to adjust the inputs to executable command in executables view page - you will also need to change set_executable_call() in executables.js
-	form(action='/executables' enctype='application/x-www-form-urlencoded' method='POST', onsubmit = "return checkErr2()" )
+	form(action='/executables' enctype='application/x-www-form-urlencoded' method='POST', onsubmit = "return checkErr()" )
 		input(type='text', name='executableFile1', id="executables1", placeholder='Name of first input file', required)
 		br
 		input(type='text', name='executableFile2', id="executables2", placeholder='Name of second input file', required)
@@ -27,7 +27,7 @@ block content
 		var mode = document.getElementById("mode");
 		var output = document.getElementById("output")
 
-		function checkErr2(){
+		function checkErr(){
 
 			let clear = true;
 

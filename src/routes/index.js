@@ -40,6 +40,10 @@ const upload = multer({
   }
 })
 
+console.log(app)
+const executablesRouter = require('./executables')
+// app.use('/executables', executablesRouter)
+
 
 /* GET home page. */
 /* renders the home page */
@@ -76,6 +80,11 @@ router.get('/upload', function (req, res, next) {
 router.get('/drop', function (req, res, next) {
   res.render('drop', { title: 'Drop Container' });
 });
+
+// /* GET upload page */
+// router.get('/executables', function (req, res, next) {
+//   res.render('executables', { title: 'Upload Page' });
+// });
 
 // router.post('/visual', (req, res) => {
 //   var files = fs.readdirSync('uploads/');
