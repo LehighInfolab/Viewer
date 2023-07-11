@@ -10,8 +10,8 @@ block content
 		br
 		input(type='text', name='executableFile2', id="executables2", placeholder='Name of second input file', required)
 		br
-		input.form-control(type='mode', name='mode', id='mode', placeholder='modes (i, h, or g)', autofocus, autocomplete='i', required)
-		p#modeErr.errorMessage Operation must be i, h or g
+		input.form-control(type='mode', name='mode', id='mode', placeholder='modes (i)', autofocus, autocomplete='i', required)
+		p#modeErr.errorMessage Operation must be c or i. Further operations can be added.
 		br
 		input.form-control(type='text', name='output', id='output', placeholder='Name of output directory to send all files (optional)', autofocus, value = "")
 		br
@@ -33,8 +33,9 @@ block content
 
 			document.getElementById("modeErr").style.display = "none";
 
-			if(mode.value != "i" && mode.value != "h" && mode.value != "g"){
-				document.getElementById("modeErr").innerHTML = "Input must be i, h, or g";
+			//- if(mode.value != "i" && mode.value != "h" && mode.value != "g"){
+			if(mode.value != "i" && mode.value != "c"){
+				document.getElementById("modeErr").innerHTML = "Input must be i";
 				document.getElementById("modeErr").style.display = "inline-block";
 				clear = false;
 			}

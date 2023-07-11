@@ -52,6 +52,7 @@ function set_executable_call(req) {
 
 
 	//! Change executable command line here using above inputs from request
+	console.log("Running executable...")
 	const executable = spawn('python', ['./DiffBond_v2.py', '-i', "../../public/uploads/" + input1, "../../public/uploads/" + input2, '-m', mode, '-o', output_path], executablesPath);
 	return executable;
 }
@@ -114,13 +115,14 @@ router.post('/', async function (req, res, next) {
 			// }
 			// console.log(files)
 			// res.zip(files)
+
 		});
 
 	} catch (error) {
 		console.log("Error: " + error);
-
 	}
 	res.redirect("/")
+
 }); //end of POST executables route
 
 module.exports = router
