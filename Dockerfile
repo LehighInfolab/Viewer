@@ -2,6 +2,7 @@
 # https://nodejs.org/en/
 FROM node:16
 
+USER root
 # Docker Node image includes non-root user node
 # we can run application container as "node" instead of "root"
 # it's recommended security practice to avoid running containers as root and restrict capabilites

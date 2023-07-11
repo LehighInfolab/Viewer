@@ -93,17 +93,17 @@ router.get('documentation', function (req, res, next) {
   res.render('documentation', { title: 'Documentation' });
 });
 
-/**
- * route to test file downloads
- */
-router.get('/files', function (req, res, next) {
-  console.log('attempting to download hardcoded file from /outputs folder...');
-  var base = process.env.PWD;
-  console.log('output of pwd test: ');
-  console.log(base);
-  // prompt user to download appropraite file
-  res.download(base + '/outputs/download.SURF', 'download.SURF')
-})
+// /**
+//  * route to test file downloads
+//  */
+// router.get('/files', function (req, res, next) {
+//   console.log('attempting to download hardcoded file from /outputs folder...');
+//   var base = process.env.PWD;
+//   console.log('output of pwd test: ');
+//   console.log(base);
+//   // prompt user to download appropraite file
+//   res.download(base + '/outputs/download.SURF', 'download.SURF')
+// })
 
 
 /* POST files
@@ -112,8 +112,13 @@ router.get('/files', function (req, res, next) {
 */
 var visualUploads = upload.array('viewerFile');
 router.post('/drop', visualUploads, function (req, res, next) {
-  console.log('Successful file upload');
-  res.redirect('/drop')
+  try {
+    console.log('Successful file upload');
+    res.redirect('/drop')
+  } catch (error) {
+    console.log("File failed to upload.")
+    res.redirect('/')
+  }
 });
 
 

@@ -106,18 +106,20 @@ router.post('/', async function (req, res, next) {
 				if (err) { throw err; }
 			});
 
-			// prompt user to download appropraite file
-			var file_names = fs.readdirSync(path.join(__dirname, "../../public/uploads/bonds"));
-			var files = []
-			for (i = 0; i < file_names.length; i++) {
-				files.push({ path: path.join(__dirname, "../../public/uploads/bonds"), name: file_names[i] })
-			}
-			console.log(files)
-			res.zip(files)
+			// // prompt user to download appropraite file
+			// var file_names = fs.readdirSync(path.join(__dirname, "../../public/uploads/bonds"));
+			// var files = []
+			// for (i = 0; i < file_names.length; i++) {
+			// 	files.push({ path: path.join(__dirname, "../../public/uploads/bonds"), name: file_names[i] })
+			// }
+			// console.log(files)
+			// res.zip(files)
+			res.redirect("/")
 		});
 
 	} catch (error) {
 		console.log("Error: " + error);
+		res.redirect("/")
 	}
 	// res.redirect('/');
 }); //end of POST executables route
