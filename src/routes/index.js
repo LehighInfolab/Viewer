@@ -6,13 +6,12 @@ Setup for routes
 
 /* setup for express and child_process module */
 var express = require('express');
-var app = require("../app.js")
+// var app = require("../app.js")
 var router = express.Router();
 const fs = require('fs');
 
 /* use multer for file uploads */
 const multer = require('multer');
-
 
 const uploadsPath = {
   cwd: 'public/uploads/uploaded', // we'll perform our operations from within the uploads folder 
@@ -40,9 +39,6 @@ const upload = multer({
   }
 })
 
-console.log(app)
-const executablesRouter = require('./executables')
-// app.use('/executables', executablesRouter)
 
 
 /* GET home page. */
@@ -64,6 +60,7 @@ router.post('/files_in_dir', function (req, res, next) {
   console.log(files)
   res.send(files)
 })
+
 
 /* GET test page */
 /* renders test page, just to check if routes work */

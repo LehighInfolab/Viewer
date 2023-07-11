@@ -17,18 +17,26 @@ function startTree(tree, id) {
 }
 
 
-function makeTree(tree, id, SURF_files, pdb_files) {
-	for (let i = 0; i < pdb_files.length; i++) {
+function makeTree(tree, id, files) {
+	for (let i = 0; i < files.length; i++) {
 		newItem = document.createElement('smart-tree-items');
-		newItem.label = pdb_files[i];
-		tree.addTo(newItem, id);
-	}
-	for (let i = 0; i < SURF_files.length; i++) {
-		newItem = document.createElement('smart-tree-items');
-		newItem.label = SURF_files[i];
+		newItem.label = files[i];
 		tree.addTo(newItem, id);
 	}
 }
+
+// function makeTree(tree, id, SURF_files, pdb_files) {
+// 	for (let i = 0; i < pdb_files.length; i++) {
+// 		newItem = document.createElement('smart-tree-items');
+// 		newItem.label = pdb_files[i];
+// 		tree.addTo(newItem, id);
+// 	}
+// 	for (let i = 0; i < SURF_files.length; i++) {
+// 		newItem = document.createElement('smart-tree-items');
+// 		newItem.label = SURF_files[i];
+// 		tree.addTo(newItem, id);
+// 	}
+// }
 
 
 // TODO: NEED TO ADD DATA CHANGES AFTER EXPANSION

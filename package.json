@@ -15,6 +15,7 @@
     "debug": "~2.6.9",
     "dot-env": "0.0.1",
     "express": "^4.18.2",
+    "express-zip": "^3.0.0",
     "http-errors": "^1.6.3",
     "jsdoc": "^4.0.2",
     "mongodb": "^4.4.0",

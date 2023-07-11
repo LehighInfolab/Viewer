@@ -32,13 +32,14 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/tree-scripts', express.static(path.join(__dirname, 'lib/smart-webcomponents-community/source/modules/')))
 app.use('/tree-styles', express.static(path.join(__dirname, 'lib/smart-webcomponents-community/source/styles/')))
 
+
 app.use('/', indexRouter); //all routes are in the index router, found in index.js
 
 // const uploadsRouter = require('./routes/uploads')
 // app.use('/uploads', uploadsRouter)
 
-// const executablesRouter = require('./routes/executables')
-// app.use('/executables', executablesRouter)
+const executablesRouter = require('./routes/executables')
+app.use('/executables', executablesRouter)
 
 
 /* catch 404 and forward to error handler */

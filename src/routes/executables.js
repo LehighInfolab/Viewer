@@ -1,16 +1,29 @@
 var express = require('express')
+var zip = require('express-zip')
 var router = express.Router()
+var path = require('path');
 
 const { exec } = require("child_process");
 const { spawn } = require('child_process');
 const fs = require('fs');
 
-console.log(__dirname)
+
+/* Get to render executables page
+*/
+router.get('/', function (req, res, next) {
+
+	res.render('executables', { title: 'Execute' })
+});
+
 
 const executablesPath = {
-	cwd: './executables',
+	cwd: 'src/executables',
 	env: process.env,
 }
+
+// output_path = "../../"
+const output_path = '../../../public/uploads/bonds'
+
 
 //! Change areas with ! marker in order to adjust executables input - you will also need to change executables.pug to accept the same inputs
 function set_executable_call(req) {
@@ -34,80 +47,79 @@ function set_executable_call(req) {
 	if (!fs.existsSync('./public/uploads/bonds')) {
 		fs.mkdirSync('./public/uploads/bonds');
 	}
-	// output_path = "./"
-	output_path = '../../public/uploads/bonds'
+
+
 
 
 	//! Change executable command line here using above inputs from request
-	const executable = spawn('python', ['./DiffBond_v2.py', '-i', "../public/uploads/" + input1, "../public/uploads/" + input2, '-m', mode, '-o', output_path], executablesPath);
+	const executable = spawn('python', ['./DiffBond_v2.py', '-i', "../../public/uploads/" + input1, "../../public/uploads/" + input2, '-m', mode, '-o', output_path], executablesPath);
 	return executable;
 }
-
-
-
-/* Get to render executables page
-*/
-router.get('/', function (req, res, next) {
-
-	res.render('executables', { title: 'Execute' })
-});
-
 
 /* POST executable 
  * route to run executable on the server using files that were just uploaded using multer
  * assumes index.pug has fields executableFile1 and executableFile2 for file uploads
 */
-router.post('/', function (req, res, next) {
+router.post('/', async function (req, res, next) {
 	console.log('\n--------ENTERING EXECUTABLE WITH FILE UPLOADS--------');
+	try {
+		const executable = await set_executable_call(req)
 
-	const executable = set_executable_call(req)
+		console.log('--------RUNNING FILE UPLOAD EXECUTABLE--------')
 
-	console.log('--------RUNNING FILE UPLOAD EXECUTABLE--------')
+		var out_msg = '', err_msg = '';
 
-	var out_msg = '', err_msg = '';
-
-	executable.on('error', function (err) {
-		console.log(err)
-	});
-
-	// const executable = spawn('../executables/DiffBond', ['-csg', file1, file2, op, output_path, resolution], defaults);
-	executable.stdout.on('data', (data) => {
-		//copy stdout data to out_msg, will later be copied to out.log
-		out_msg += data;
-	});
-
-	executable.stderr.on('data', (data) => {
-		//copy stderr data to err_msg, will later be copied to err.log
-		err_msg += data;
-	});
-
-	executable.on('close', (code) => {
-		console.log(out_msg)
-		console.log(`child process exited with code ${code}`);
-		console.log('--------EXECUTABLE RUN COMPLETE--------\n');
-		//copy console data to appropriate files
-
-		fs.writeFile('logs/out.log', out_msg, (err) => {
-			if (err) {
-				throw err;
-			}
-			if (out_msg.includes('...WARN!') || err_msg.includes('...WARN!')) {
-				console.log(out_msg);
-				console.log(err_msg);
-				router.get('/', function (req, res, next) {
-					res.render("index", { warning: true });
-				});
-			}
-		});
-		fs.writeFile('logs/error.log', err_msg, (err) => {
-			if (err) { throw err; }
+		executable.on('error', function (err) {
+			console.log(err)
 		});
 
-		// // prompt user to download appropraite file
-		// res.download(base + '/outputs/' + output, output);
+		// const executable = spawn('../executables/DiffBond', ['-csg', file1, file2, op, output_path, resolution], defaults);
+		executable.stdout.on('data', (data) => {
+			//copy stdout data to out_msg, will later be copied to out.log
+			out_msg += data;
+		});
 
-		res.redirect('/');
-	});
+		executable.stderr.on('data', (data) => {
+			//copy stderr data to err_msg, will later be copied to err.log
+			err_msg += data;
+		});
+
+		executable.on('close', (code) => {
+			console.log(out_msg)
+			console.log(`child process exited with code ${code}`);
+			console.log('--------EXECUTABLE RUN COMPLETE--------\n');
+			//copy console data to appropriate files
+
+			fs.writeFile('logs/out.log', out_msg, (err) => {
+				if (err) {
+					throw err;
+				}
+				if (out_msg.includes('...WARN!') || err_msg.includes('...WARN!')) {
+					console.log(out_msg);
+					console.log(err_msg);
+					router.get('/', function (req, res, next) {
+						res.render("index", { warning: true });
+					});
+				}
+			});
+			fs.writeFile('logs/error.log', err_msg, (err) => {
+				if (err) { throw err; }
+			});
+
+			// prompt user to download appropraite file
+			var file_names = fs.readdirSync(path.join(__dirname, "../../public/uploads/bonds"));
+			var files = []
+			for (i = 0; i < file_names.length; i++) {
+				files.push({ path: path.join(__dirname, "../../public/uploads/bonds"), name: file_names[i] })
+			}
+			console.log(files)
+			res.zip(files)
+		});
+
+	} catch (error) {
+		console.log("Error: " + error);
+	}
+	// res.redirect('/');
 }); //end of POST executables route
 
 module.exports = router

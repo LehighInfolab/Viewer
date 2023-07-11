@@ -106,17 +106,26 @@ async function set_up_tree(dir) {
 	let files = await dir.files
 	// var files = await set_up_dir(dir)
 	dir.groupFileFormats(files)
-	var SURF_files = dir.SURF_files
-	var pdb_files = dir.pdb_files
+	// var SURF_files = dir.SURF_files
+	// var pdb_files = dir.pdb_files
+
 	// console.log(SURF_files, pdb_files)
 
 	// get file tree
 	const tree = document.querySelector('smart-tree');
 
+	console.log(dir.SURF_files)
+	console.log(dir.pdb_files)
+	console.log(dir.hbond_files)
+	console.log(dir.other)
+
 	//Creates a group in the tree for the current item
 	console.log("Setting up current tree group with ID:", dir.id)
 	startTree(tree, dir.id)
-	makeTree(tree, dir.id, SURF_files, pdb_files);
+	makeTree(tree, dir.id, dir.SURF_files);
+	makeTree(tree, dir.id, dir.pdb_files);
+	makeTree(tree, dir.id, dir.hbond_files);
+	makeTree(tree, dir.id, dir.other);
 	return;
 }
 

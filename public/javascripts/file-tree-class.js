@@ -23,6 +23,15 @@ class file_tree_dir {
 		 * @property {array<pdb_files>} ID
 		 */
 		this.pdb_files = [];
+		/**
+		 * @property {array<hbond_files>} ID
+		 */
+		this.hbond_files = [];
+		/**
+		 * @property {array<other>} ID
+		 */
+		this.other = [];
+
 	}
 
 	/**
@@ -61,7 +70,7 @@ class file_tree_dir {
 	*/
 	groupFileFormats() {
 		let files = this.files;
-		var SURF_files = []; var pdb_files = []; var hbond_files = [];
+		var SURF_files = []; var pdb_files = []; var hbond_files = []; var other = [];
 		for (let i = 0; i < files.length; i++) {
 			var file_format = files[i].split(".")[1];
 			switch (file_format) {
@@ -74,11 +83,15 @@ class file_tree_dir {
 				case "txt":
 					hbond_files.push(files[i]);
 					break;
+				default:
+					other.push(files[i])
 			}
 		}
 		this.SURF_files = SURF_files;
 		this.pdb_files = pdb_files;
-		return this.SURF_files, this.pdb_files;
+		this.hbond_files = hbond_files
+		this.other = other
+		return this.SURF_files, this.pdb_files, this.hbond_files, this.other;
 		// return SURF_files, pdb_files, hbond_files;
 	}
 }
