@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  //- FILES
+  form(action='/files' enctype='multipart/form-data' method='POST' onsubmit="return checkErr()")
+    p.inputErr#err1 Input must be a .SURF or .pdb file
+    br
+    input(type='file' name='myFile1' id="file1")
+    br
+    input(type='file' name='myFile2' id='file2')
+    br
+    input(type='submit' value='Upload files' id="upload1" class='uploads')
+    br
+    br
+
+  form(action='/send' enctype='')
+
+  script.
+
+    var file1 = document.getElementById("file1");
+    var file2 = document.getElementById("file2");
+
+    function checkErr() {
+
+      let clear = true;
+    
+      if(file1.value.split(".").pop() != 'SURF' && file1.value.split(".").pop() != 'pdb'){
+        if(file1.value == ''){
+          document.getElementById("err1").innerHTML = "Please upload your files";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }
+        else{
+          document.getElementById("err1").innerHTML = "Input must be a .SURF or .pdb file";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }  
+      }
+      else if(file2.value.split(".").pop() != 'SURF' && file2.value.split(".").pop() != 'pdb'){
+        if(file2.value == ''){
+          document.getElementById("err1").innerHTML = "Please upload your files";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }
+        else{
+          document.getElementById("err1").innerHTML = "Input must be a .SURF or .pdb file";
+          document.getElementById("err1").style.display = "inline-block";
+          clear = false;
+        }
+      }
+      return clear;
+    }
+    

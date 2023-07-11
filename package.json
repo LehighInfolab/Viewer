@@ -4,8 +4,8 @@
   "description": "Codebase for VASP NIH containerization example",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
+    "start": "node ./src/www",
+    "dev": "nodemon ./src/www",
     "doc": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dot-env": "0.0.1",
     "express": "^4.18.2",
     "http-errors": "^1.6.3",
     "jsdoc": "^4.0.2",
