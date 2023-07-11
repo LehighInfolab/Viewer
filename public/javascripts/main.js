@@ -61,6 +61,7 @@ window.onload = async function () {
 	// const dir = new file_tree_dir(uploads[0])
 	// console.log("Dir", dir)
 
+	console.log(uploads)
 	var dir_list = [];
 	for (let i = 0; i < uploads.length - 0; i++) {
 		var dir = new file_tree_dir(uploads[i]);
