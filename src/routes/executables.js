@@ -114,14 +114,13 @@ router.post('/', async function (req, res, next) {
 			// }
 			// console.log(files)
 			// res.zip(files)
-			res.redirect("/")
 		});
 
 	} catch (error) {
 		console.log("Error: " + error);
-		res.redirect("/")
+
 	}
-	// res.redirect('/');
+	res.redirect("/")
 }); //end of POST executables route
 
 module.exports = router
