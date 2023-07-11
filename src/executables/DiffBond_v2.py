@@ -575,9 +575,9 @@ def main():
         '" in Results folder ---',
     )
     root_results_dir = make_results_dir(outputFileName)
-    pdb_dir = make_pdb_dir(outputFileName)
-    for i in i_list:
-        shutil.copy(i, pdb_dir)
+    # pdb_dir = make_pdb_dir(outputFileName)
+    # for i in i_list:
+    #     shutil.copy(i, pdb_dir)
 
     for i in range(len(PDB_data_list)):
         results_dir = None
