@@ -64,3 +64,5 @@ start_container/*
 # ignore file uploads and downloads from local testing
 # public/uploads/*
 outputs/*
+
+public/uploads/uploaded/*
