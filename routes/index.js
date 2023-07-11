@@ -117,7 +117,7 @@ router.get('/files', function (req, res, next) {
 var visualUploads = upload.array('viewerFile');
 router.post('/drop', visualUploads, function (req, res, next) {
   console.log('Successful file upload');
-  res.redirect('/')
+  res.redirect('/drop')
 });
 
 
