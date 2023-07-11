@@ -114,13 +114,12 @@ var visualUploads = upload.array('viewerFile');
 router.post('/drop', visualUploads, function (req, res, next) {
   try {
     console.log('Successful file upload');
-    res.redirect('/drop')
+    res.redirect('/')
   } catch (error) {
     console.log("File failed to upload.")
     res.redirect('/')
   }
 });
-
 
 /* POST files 
  * this is the route that uses multer to upload files to the /uploads folder
