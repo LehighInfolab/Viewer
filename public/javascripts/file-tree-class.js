@@ -4,7 +4,7 @@
 class file_tree_dir {
 	/**
 	 * 
-	 * @param {String} id Id of the file to be parsed
+	 * @param {string} id Id of the file to be parsed
 	 */
 	constructor(id) {
 		/**
@@ -12,23 +12,27 @@ class file_tree_dir {
 		 */
 		this.id = id;
 		/**
-		 * @property {String} files
+		 * @property {string} files
 		 */
 		this.files = this.files_in_dir();
 		/**
-		 * @property {array<SURF_files>} ID
+		 * array of surface files with .SURF extension in the uploads folder
+		 * @property {string[]} ID with .SURF
 		 */
 		this.SURF_files = [];
 		/**
-		 * @property {array<pdb_files>} ID
+		 * array of PDB files with .pdb extension in the uploads folder
+		 * @property {string[]} ID with .pdb
 		 */
 		this.pdb_files = [];
 		/**
-		 * @property {array<hbond_files>} ID
+		 * array of hbond files with .txt extension in the uploads folder
+		 * @property {string[]} ID with .txt
 		 */
 		this.hbond_files = [];
 		/**
-		 * @property {array<other>} ID
+		 * all other file types
+		 * @property {string[]} ID
 		 */
 		this.other = [];
 
@@ -67,10 +71,10 @@ class file_tree_dir {
 	/**
 	 * groupFileFormats function groups files by file format eg. pdb, SURF, etc. and returns each group as a separate list
 	 * 
-	 * @returns {String[]} SURF_files - array of surface files with .SURF extension in the uploads folder
-	 * @returns {String[]} pdb_files - array of PDB files with .pdb extension in the uploads folder
-	 * @returns {String[]} hbond_files - array of hbond files with .txt extension in the uploads folder
-	 * @returns {String[]} other - all other file types
+	 * @returns {string[]} SURF_files
+	 * @returns {string[]} pdb_files
+	 * @returns {string[]} hbond_files
+	 * @returns {string[]} other
 	 */
 	groupFileFormats() {
 		let files = this.files;

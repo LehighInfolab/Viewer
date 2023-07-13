@@ -1,6 +1,10 @@
+/**
+ * getFiles function -  gets document element "fileData" sent by server which contains files from "uploads" folder in public. Initial packet sent by server via json for file locations.
+ * @returns {string[]}
+ */
 /*
- *	getFiles function
- *	- get document element "fileData" sent by server which contains files from "Uploads" folder in public
+ *	
+ *	
  */
 function getFiles() {
 	var all_files = document.getElementById("fileData").getAttribute("data-files");

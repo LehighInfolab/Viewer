@@ -104,7 +104,146 @@
     
 
     
-    <h4 class="name" id="set_up_tree"><span class="type-signature">(async) </span>set_up_tree<span class="signature">(dir)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="loadHBond"><span class="type-signature">(async) </span>loadHBond<span class="signature">(File)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Async function to load hydrogen bond files.</p>
+<p>After loading, we make an array of vertices and pair together the vertices that form each hydrogen bond.
+We then create a custom object composed of cylinders using the vertex pairs.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>File</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>name in uploads folder.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hbond-utils.js.html">hbond-utils.js</a>, <a href="hbond-utils.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="set_up_tree"><span class="type-signature">(async) </span>set_up_tree<span class="signature">(dir)</span><span class="type-signature"></span></h4>
     
 
     
@@ -154,7 +293,7 @@
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
             
@@ -205,7 +344,167 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line105">line 105</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line106">line 106</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="treeSelectionEventHandler"><span class="type-signature"></span>treeSelectionEventHandler<span class="signature">(tree, dir_list)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>treeSelectionEventHandler() handles visibility of objects when the associated index of the file tree is checked or unchecked using an eventListener().</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tree</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">smart-tree</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dir_list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -235,19 +534,192 @@
         
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
+    
+
+
+
+
+
         
-<span class="param-type">*</span>
-
-
-    </dd>
-</dl>
+            
 
     
+
+    
+    <h4 class="name" id="viewHBond"><span class="type-signature"></span>viewHBond<span class="signature">(file, bonds, bondPairs)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Function to view hydrogen bonds after loading data</p>
+<p>Set colors and add objects to stage here.
+This function is called at the end of loadHBond()</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bonds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;array></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bondPairs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;array></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hbond-utils.js.html">hbond-utils.js</a>, <a href="hbond-utils.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -269,13 +741,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="file_tree_dir.html">file_tree_dir</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-docker-container-tutorial.html">Installing Docker and Cloning A Containerized Web Server</a></li><li><a href="tutorial-run-code-server-tutorial.html">Adding and Running an Executable to the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#set_up_tree">set_up_tree</a></li></ul>
+    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="file_tree_dir.html">file_tree_dir</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-docker-container-tutorial.html">Installing Docker and Cloning A Containerized Web Server</a></li><li><a href="tutorial-run-code-server-tutorial.html">Adding and Running an Executable to the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#loadHBond">loadHBond</a></li><li><a href="global.html#set_up_tree">set_up_tree</a></li><li><a href="global.html#treeSelectionEventHandler">treeSelectionEventHandler</a></li><li><a href="global.html#viewHBond">viewHBond</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jul 13 2023 12:34:39 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jul 13 2023 13:07:26 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

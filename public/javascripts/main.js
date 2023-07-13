@@ -1,16 +1,20 @@
-/* 
+/**
 #######################################################
 All frontend code for visualization software
 #######################################################
- */
+*/
 
 
 
-/* 
+/** 
 #######################################################
 GLOBAL VARIABLES
 #######################################################
- */
+* @global {viewer} NGL viewer object
+* @global {stage} Stage object for staging the NGL viewport
+* @global {visible_components[]} Components that are set to visible in viewer
+* @global {color_val} Color set to 256/7 currently
+*/
 // Global variables to initialize viewer
 var viewer = null;
 var stage = null;
@@ -31,16 +35,14 @@ var global_index = 0;
 
 
 
-/* 
+/**
 #######################################################
 Onload Function - When browser starts
 #######################################################
- */
-/*
- *	Onload function - runs when browser has loaded. This will run all functions that start when browser starts
- *	
- *	- Function initializes viewer viewport and starts loading objects to viewer from getXML()
- */
+*	Onload function - runs when browser has loaded. This will run all functions that start when browser starts
+*	
+*	Function initializes viewer viewport and starts loading objects to viewer from getXML()
+*/
 
 
 window.onload = async function () {
@@ -99,8 +101,7 @@ window.onload = async function () {
 
 /**
  * Sets up the file tree
- * @param {*} dir - Directory where files are located
- * @returns {*}
+ * @param {string} dir - Directory where files are located
  */
 async function set_up_tree(dir) {
 	let files = await dir.files
@@ -140,7 +141,13 @@ async function set_up_tree(dir) {
 // 	await getXML(dir.id, dir.SURF_files, cnt);
 // }
 
-
+/**
+ * treeSelectionEventHandler() handles visibility of objects when the associated index of the file tree is checked or unchecked using an eventListener().
+ * 
+ * @param {smart-tree} tree 
+ * @param {string[]} dir_list 
+ * @returns 
+ */
 function treeSelectionEventHandler(tree, dir_list) {
 	tree.addEventListener('change', function (event) {
 		var detail = event.detail,

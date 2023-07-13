@@ -1,8 +1,9 @@
-/* 
+/** 
 #######################################################
 Utils for PDB file loading
 #######################################################
- */
+*
+*/
 
 function loadPDB(id, pdb_file) {
 	console.log("From dir :", id, "--- Loading PDB file: ", pdb_file);
