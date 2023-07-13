@@ -30,7 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>file_tree_dir<span class="signature">(id)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>File Tree Directory</p></div>
+            <div class="class-description"><p>File Tree Directory class handles parsing of uploads folder and post request for file names.</p></div>
         
     
 </header>
@@ -412,6 +412,116 @@
 
         
             
+<h4 class="name" id="hbond_files"><span class="type-signature"></span>hbond_files<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array.&lt;hbond_files></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="file-tree-class.js.html">file-tree-class.js</a>, <a href="file-tree-class.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="id"><span class="type-signature"></span>id<span class="type-signature"></span></h4>
 
 
@@ -505,6 +615,116 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="file-tree-class.js.html">file-tree-class.js</a>, <a href="file-tree-class.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="other"><span class="type-signature"></span>other<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array.&lt;other></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="file-tree-class.js.html">file-tree-class.js</a>, <a href="file-tree-class.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -649,6 +869,10 @@
 
 
 
+<div class="description">
+    <p>Async fetch of files in uploads directory to be parsed</p>
+</div>
+
 
 
 
@@ -690,7 +914,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="file-tree-class.js.html">file-tree-class.js</a>, <a href="file-tree-class.js.html#line32">line 32</a>
+        <a href="file-tree-class.js.html">file-tree-class.js</a>, <a href="file-tree-class.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -743,6 +967,176 @@
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id="groupFileFormats"><span class="type-signature"></span>groupFileFormats<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;String>|Array.&lt;String>|Array.&lt;String>|Array.&lt;String>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>groupFileFormats function groups files by file format eg. pdb, SURF, etc. and returns each group as a separate list</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="file-tree-class.js.html">file-tree-class.js</a>, <a href="file-tree-class.js.html#line75">line 75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+<ul>
+        <li>
+<div class="param-desc">
+    <p>SURF_files - array of surface files with .SURF extension in the uploads folder</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    <p>pdb_files - array of PDB files with .pdb extension in the uploads folder</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    <p>hbond_files - array of hbond files with .txt extension in the uploads folder</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    <p>other - all other file types</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
+
+
+
+
+
+        
     
 
     
@@ -764,7 +1158,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Jul 10 2023 01:58:51 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jul 13 2023 12:34:39 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

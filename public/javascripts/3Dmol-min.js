@@ -1,3 +1,7 @@
+/**
+ * 3Dmol.js is an object-oriented, WebGL based JavaScript library for online molecular visualization
+ */
+
 !(function (e, t) {
   "use strict";
   "object" == typeof module && "object" == typeof module.exports

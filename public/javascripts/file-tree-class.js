@@ -1,5 +1,5 @@
 /**
- * File Tree Directory
+ * File Tree Directory class handles parsing of uploads folder and post request for file names.
  */
 class file_tree_dir {
 	/**
@@ -35,6 +35,7 @@ class file_tree_dir {
 	}
 
 	/**
+	 * Async fetch of files in uploads directory to be parsed
 	 * 
 	 * @returns {Object} files
 	 */
@@ -63,11 +64,14 @@ class file_tree_dir {
 		return str;
 	}
 
-	/*
-	*	groupFileFormats function
-	*	- groups files by file format eg. pdb, SURF, etc.
-	*	- and returns each group as a separate list
-	*/
+	/**
+	 * groupFileFormats function groups files by file format eg. pdb, SURF, etc. and returns each group as a separate list
+	 * 
+	 * @returns {String[]} SURF_files - array of surface files with .SURF extension in the uploads folder
+	 * @returns {String[]} pdb_files - array of PDB files with .pdb extension in the uploads folder
+	 * @returns {String[]} hbond_files - array of hbond files with .txt extension in the uploads folder
+	 * @returns {String[]} other - all other file types
+	 */
 	groupFileFormats() {
 		let files = this.files;
 		var SURF_files = []; var pdb_files = []; var hbond_files = []; var other = [];
