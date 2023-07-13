@@ -10,22 +10,22 @@ All frontend code for visualization software
 #######################################################
 GLOBAL VARIABLES
 #######################################################
-* @global {viewer} NGL viewer object
-* @global {stage} Stage object for staging the NGL viewport
-* @global {visible_components[]} Components that are set to visible in viewer
-* @global {color_val} Color set to 256/7 currently
 */
 // Global variables to initialize viewer
+/** @global */
 var viewer = null;
+/**@global */
 var stage = null;
 
 
 
 // Store all file variables. All_components to keep track of components created in viewer.
 // var SURF_files = []; var pdb_files = []; var hbond_files = [];
+/**@global */
 var visible_components = [];
 
 // Global variable to hold color value for objects in RGB. This is global so that each objects colors can be adjusted based on previous object color.
+/**@global */
 var color_val = 256 / 7; var color = [];
 
 var structure_instances = []
@@ -146,7 +146,7 @@ async function set_up_tree(dir) {
  * 
  * @param {smart-tree} tree 
  * @param {string[]} dir_list 
- * @returns 
+ * @returns {None}
  */
 function treeSelectionEventHandler(tree, dir_list) {
 	tree.addEventListener('change', function (event) {

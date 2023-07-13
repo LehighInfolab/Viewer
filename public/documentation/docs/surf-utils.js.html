@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: surf-utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: surf-utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
 #######################################################
 Utils for file loading
 #######################################################
@@ -29,14 +57,14 @@ function loadData(file) {
 
 	var temp_line;
 
-	for (var i = 0; i < lines.length; i++) {
+	for (var i = 0; i &lt; lines.length; i++) {
 		if (!readingVert) {
 			if (lines[i].substr(0, "GEOMETRY:".length) == "GEOMETRY:") {
 				num_vertices = lines[i].split(" ")[1];
 				readingVert = true;
 			}
 		} else {
-			if (vert_index < num_vertices) {
+			if (vert_index &lt; num_vertices) {
 				temp_line = lines[i].split(" ");
 				v1 = Number(temp_line[0]);
 				v2 = Number(temp_line[1]);
@@ -57,7 +85,7 @@ function loadData(file) {
 						readingFace = true;
 					}
 				} else {
-					if (face_index < num_faces) {
+					if (face_index &lt; num_faces) {
 						temp_line = lines[i].split(" ");
 						f1 = Number(temp_line[0]);
 						f2 = Number(temp_line[1]);
@@ -93,7 +121,7 @@ function viewData(file, vertex, face, normal) {
 	color[0] = color_val / 256
 	color[1] = (color_val + 256 * 3 / 7) / 256
 	color[2] = (color_val + 256 * 6 / 7) / 256
-	for (var i = 0; i < face.length; i++) {
+	for (var i = 0; i &lt; face.length; i++) {
 		mesh_vertex.push(vertex[face[i]][0]);
 		mesh_vertex.push(vertex[face[i]][1]);
 		mesh_vertex.push(vertex[face[i]][2]);
@@ -135,7 +163,7 @@ function viewData(file, vertex, face, normal) {
 // 	console.log("Fetching surf data from " + file + "...");
 // 	xmlhttp.open(method, "../uploads/" + file, true);
 // 	xmlhttp.onreadystatechange = function () {
-// 		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+// 		if (xmlhttp.readyState === XMLHttpRequest.DONE &amp;&amp; xmlhttp.status === 200) {
 // 			formatXML(file, xmlhttp.responseText);
 // 			console.log("Loading " + file + " into viewer...");
 // 			loadData(file)
@@ -165,7 +193,7 @@ var xmlhttp = new XMLHttpRequest(), method = "GET";
 async function getXML(id, files, cnt) {
 	console.log(files)
 	console.log(files.length)
-	if (files.length <= 0) {
+	if (files.length &lt;= 0) {
 		return;
 	}
 
@@ -174,14 +202,36 @@ async function getXML(id, files, cnt) {
 
 	// onreadystatechange - when file loaded, check if file is ready and no errors thrown. If so, call function to formatXML, loadData and getXML() on next file
 	xmlhttp.onreadystatechange = async function () {
-		if (xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200) {
+		if (xmlhttp.readyState === XMLHttpRequest.DONE &amp;&amp; xmlhttp.status === 200) {
 			// formatXML(files[cnt], xmlhttp.responseText);
 			console.log("Loading " + files[cnt] + " into viewer...");
 			loadData(files[cnt])
 			cnt++;
-			if (cnt < files.length) getXML(id, files, cnt); // call again
+			if (cnt &lt; files.length) getXML(id, files, cnt); // call again
 		}
 	};
 	let sent = await xmlhttp.send();
 	return;
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="file_tree_dir.html">file_tree_dir</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-docker-container-tutorial.html">Installing Docker and Cloning A Containerized Web Server</a></li><li><a href="tutorial-run-code-server-tutorial.html">Adding and Running an Executable to the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#color_val">color_val</a></li><li><a href="global.html#expandPDB">expandPDB</a></li><li><a href="global.html#getXML">getXML</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadHBond">loadHBond</a></li><li><a href="global.html#loadPDB">loadPDB</a></li><li><a href="global.html#makeTree">makeTree</a></li><li><a href="global.html#set_up_tree">set_up_tree</a></li><li><a href="global.html#stage">stage</a></li><li><a href="global.html#treeSelectionEventHandler">treeSelectionEventHandler</a></li><li><a href="global.html#viewData">viewData</a></li><li><a href="global.html#viewHBond">viewHBond</a></li><li><a href="global.html#viewer">viewer</a></li><li><a href="global.html#visible_components">visible_components</a></li><li><a href="global.html#xmlhttp">xmlhttp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jul 13 2023 13:24:30 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

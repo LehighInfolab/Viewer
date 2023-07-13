@@ -2,7 +2,8 @@
 #######################################################
 Utils for PDB file loading
 #######################################################
-*
+* @param {string} id - name to set object in NGL
+* @param {string} pdb_file - file name in uploads folder
 */
 
 function loadPDB(id, pdb_file) {
