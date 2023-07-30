@@ -79,7 +79,8 @@ window.onload = function () {
 
 	// load in all files currently in uploads folder. All visibility are set to invisible
 	pdb_files.forEach(element => {
-		loadPDB(element)
+		loadPDB(element);
+		// loadPDB_stick(element);
 	});
 	getXML(SURF_files);
 
@@ -108,11 +109,46 @@ function treeSelectionEventHandler(tree, pdb_files, SURF_file, hbond_files) {
 		let [target_file, isSelected, isPDB] = parseSelectionIndex(selectedIndexes, oldSelectedIndexes, pdb_files, SURF_files, hbond_files)
 
 		if (isSelected) {
+			console.log(target_file+" is checked");
+			console.log("Label: "+ item.label);
+			// handle representation tree (sticks and cartoon) for PDB files
+			if (isPDB) {
+				stage.loadFile("../uploads/" + target_file, {name: target_file}).then(function(component) {
+					// add representation if sticks is selected
+					if(item.label == "Sticks")
+						component.addRepresentation("ball+stick");
+					// add representation if cartoon is selected
+					if(item.label == "Cartoon")
+						component.addRepresentation("cartoon");
+					component.setVisibility(true);
+				});
+				stage.getComponentsByName(target_file).autoView();
+			}
 			stage.getComponentsByName(target_file).setVisibility(true);
 			stage.getComponentsByName(target_file).autoView();
 		}
 		if (!isSelected) {
 			stage.getComponentsByName(target_file).setVisibility(false);
+			if(isPDB) {
+				stage.loadFile("../uploads/" + target_file, {name: target_file}).then(function(component) {
+					if(item.label != "Sticks" && item.label != "Cartoon"){
+						component.setVisibility(false);
+						return;
+					}
+					// If sticks is selected and cartoon is not
+					if(item.label == "Sticks" && item.label != "Cartoon")
+						component.addRepresentation("ball+stick");
+					// if Cartoon is selected and sticks is not
+					if(item.label != "Sticks" && item.label == "Cartoon")
+						component.addRepresentation("cartoon");
+					// If neither sticks nor cartoon is selected
+					if(item.label != "Sticks" && item.label != "Cartoon") {
+						component.setVisibility(false);
+						return;
+					}
+					component.setVisibility(true);
+				});
+			}
 		}
 	})
 }

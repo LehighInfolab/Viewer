@@ -30,6 +30,7 @@ function expandPDB(tree) {
 	});
 }
 
+// function makes tree that organizes and displays PDB, SURF, and HBOND files
 function makeTree(tree, pdb_files, SURF_files, hbond_files) {
 	// let tree = document.querySelector('smart-tree');
 	for (let i = 0; i < pdb_files.length; i++) {

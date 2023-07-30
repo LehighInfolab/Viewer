@@ -37,7 +37,7 @@ app.use('/', indexRouter); //all routes are in the index router, found in index.
 const uploadsRouter = require('./routes/uploads')
 app.use('/uploads', uploadsRouter)
 
-const executablesRouter = require('./executables')
+const executablesRouter = require('./routes/executables')
 app.use('/executables', executablesRouter)
 
 

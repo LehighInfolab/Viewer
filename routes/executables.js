@@ -15,8 +15,8 @@ function set_executable_call(req) {
 
 	//! Reading inputs from frontend request - change these inputs according to your executable command line inputs
 	var input1 = (req.body.executableFile1.endsWith('.pdb')) ? req.body.executableFile1 : req.body.executableFile1 + '.PDB';
-	var input2 = (req.body.executableFile2.endsWith('.pdb')) ? req.body.executableFile2 : req.body.executableFile2 + '.PDB';
-	var mode = req.body.mode;
+	// var input2 = (req.body.executableFile2.endsWith('.pdb')) ? req.body.executableFile2 : req.body.executableFile2 + '.PDB';
+	// var mode = req.body.mode;
 
 	// print file names and variables to console for checking
 	console.log('input files: ', input1, input2);
@@ -24,19 +24,20 @@ function set_executable_call(req) {
 
 
 	//! Move output to outputs folder - this will always set uploads folder to be output_path. You may add additional output file name here or in executable command
-	var output = req.body.output;
-	if (output == "") {
-		output = input1 + "_" + input2
-	}
+	// var output = req.body.output;
+	// if (output == "") {
+	// 	output = input1 + "_" + input2
+	// }
 
-	if (!fs.existsSync('./public/uploads/bonds')) {
-		fs.mkdirSync('./public/uploads/bonds');
-	}
-	// output_path = "./"
-	output_path = '../../public/uploads/bonds'
+	// if (!fs.existsSync('./public/uploads/bonds')) {
+	// 	fs.mkdirSync('./public/uploads/bonds');
+	// }
+	// // output_path = "./"
+	// output_path = '../../public/uploads/bonds'
 
 
 	//! Change executable command line here using above inputs from request
+	// TODO: Change to hbond-finder command
 	const executable = spawn('python', ['./DiffBond_v2.py', '-i', "../public/uploads/" + input1, "../public/uploads/" + input2, '-m', mode, '-o', output_path], executablesPath);
 	return executable;
 }
