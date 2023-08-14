@@ -128,26 +128,18 @@ function treeSelectionEventHandler(tree, pdb_files, SURF_file, hbond_files) {
 			stage.getComponentsByName(target_file).autoView();
 		}
 		if (!isSelected) {
-			stage.getComponentsByName(target_file).setVisibility(false);
 			if(isPDB) {
-				stage.loadFile("../uploads/" + target_file, {name: target_file}).then(function(component) {
-					if(item.label != "Sticks" && item.label != "Cartoon"){
-						component.setVisibility(false);
-						return;
-					}
-					// If sticks is selected and cartoon is not
-					if(item.label == "Sticks" && item.label != "Cartoon")
-						component.addRepresentation("ball+stick");
-					// if Cartoon is selected and sticks is not
-					if(item.label != "Sticks" && item.label == "Cartoon")
-						component.addRepresentation("cartoon");
-					// If neither sticks nor cartoon is selected
-					if(item.label != "Sticks" && item.label != "Cartoon") {
-						component.setVisibility(false);
-						return;
-					}
+				// stage.getComponentsByName(target_file).setVisibility(true);
+				stage.loadFile("../uploads/" + target_file, {name: target_file}).then(component => {
+					if(item.label == "Sticks")
+						stage.getRepresentationsByName("ball+stick").setVisibility(false);
+					if(item.label == "Cartoon")
+						stage.getRepresentationsByName("cartoon").setVisibility(false);
 					component.setVisibility(true);
 				});
+				stage.getComponentsByName(target_file).autoView();
+			} else {
+				stage.getComponentsByName(target_file).setVisibility(false);
 			}
 		}
 	})
