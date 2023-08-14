@@ -111,7 +111,7 @@ function treeSelectionEventHandler(tree, pdb_files, SURF_file, hbond_files) {
 		if (isSelected) {
 			console.log(target_file+" is checked");
 			console.log("Label: "+ item.label);
-			// handle representation tree (sticks and cartoon) for PDB files
+			// handle representations (sticks and cartoon) for PDB files
 			if (isPDB) {
 				stage.loadFile("../uploads/" + target_file, {name: target_file}).then(function(component) {
 					// add representation if sticks is selected
@@ -125,20 +125,23 @@ function treeSelectionEventHandler(tree, pdb_files, SURF_file, hbond_files) {
 				stage.getComponentsByName(target_file).autoView();
 			}
 			stage.getComponentsByName(target_file).setVisibility(true);
-			stage.getComponentsByName(target_file).autoView();
 		}
 		if (!isSelected) {
 			if(isPDB) {
-				// stage.getComponentsByName(target_file).setVisibility(true);
 				stage.loadFile("../uploads/" + target_file, {name: target_file}).then(component => {
+					// hide sticks representation if deselected
 					if(item.label == "Sticks")
 						stage.getRepresentationsByName("ball+stick").setVisibility(false);
+					// hide cartoon representation if deselected
 					if(item.label == "Cartoon")
 						stage.getRepresentationsByName("cartoon").setVisibility(false);
 					component.setVisibility(true);
 				});
-				stage.getComponentsByName(target_file).autoView();
+				// hide component if PDB file is deselected
+				if (item.label == target_file) 
+					stage.getComponentsByName(target_file).setVisibility(false);
 			} else {
+				// set visibility for file component to false if not PDB file (PDB files have multiple representations)
 				stage.getComponentsByName(target_file).setVisibility(false);
 			}
 		}
