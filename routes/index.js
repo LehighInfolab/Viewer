@@ -123,10 +123,18 @@ router.get('/files', function (req, res, next) {
 *  assumes files test1.SURF and test2.SURF are in the /uploads folder
 */
 router.get('/vasp', function (req, res, next) {
+  // var input1 = (req.body.executableFile1.endsWith('.SURF')) ? req.body.executableFile1 : req.body.executableFile1 + '.SURF';
+	// var input2 = (req.body.executableFile2.endsWith('.SURF')) ? req.body.executableFile2 : req.body.executableFile2 + '.SURF';
+	// var mode = req.body.mode;
+
+  // // print file names and variables to console for checking
+	// console.log('input files: ', input1, input2);
+	// console.log('Mode: ' + mode);
+  
   /* print a message to the console so we know this route has been entered */
   console.log('\n--------RUNNING VASP WITH HARDCODED COMMANDS--------'); //message printed to the console
 
-  const child = spawn('../executables/vasp', ['-csg', 'test1.SURF', 'test2.SURF', 'I', '../outputs/output.SURF', '0.5'], defaults)
+  const child = spawn('../executables/vasp', ['-csg', '../public/uploads/test1.SURF', '../public/uploads/test2.SURF', 'I', '../public/uploads/output.SURF', '0.5'], executables_path);
   var out_msg = '', err_msg = '';
   child.stdout.on('data', (data) => {
     //copy stdout data to out_msg, will later be copied to out.log
@@ -139,18 +147,20 @@ router.get('/vasp', function (req, res, next) {
   });
 
   child.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`\n VASP child process exited with code ${code}`);
     console.log('--------HARDCODED VASP RUN COMPLETE--------\n');
     //copy data to logs
-    fs.writeFile('console/out.log', out_msg, (err) => {
-      if (err) { throw err; }
-    });
-    fs.writeFile('console/error.log', err_msg, (err) => {
-      if (err) { throw err; }
-    });
-    // render the TEST page, all output is on the backend
-    // what should I do here once the program is done running?
-    res.redirect('/test');
+    //TODO: add logs folder
+    // fs.writeFile('console/out.log', out_msg, (err) => {
+    //   if (err) { throw err; }
+    // });
+    // fs.writeFile('console/error.log', err_msg, (err) => {
+    //   if (err) { throw err; }
+    // });
+    console.log(out_msg);
+    console.log(err_msg);
+    // return to visualization page
+    res.redirect('/');
   });
 });
 
