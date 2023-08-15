@@ -1,0 +1,60 @@
+Random Seed: [1692030891]
+
+#########################################################################
+## VASP runs volumetric analyses of molecular & isopotential surfaces  ##
+## Developed by Brian Chen, Honig Lab, Columbia University, 2010.      ##
+##                                                                     ##
+## Reference: "VASP: A Volumetric Analysis of Surface Properties       ##
+## Yields Insights into Protein-Ligand Binding Specificity."           ##
+## Brian Y. Chen and Barry Honig, PLOS Computational Biology, 2010.    ##
+#########################################################################
+
+Parsing Surface Geometry File [../public/uploads/test1.SURF] ...Parsing Surface Geometry File [../public/uploads/test2.SURF] ...STATE [setBounds()          ]: Exploring Surface Bounds... 
+Progress:   0.0% /   Progress: 100.0%
+INFO  [Input Bounds         ]: xneg: 32.000002 xpos: 37.999992 yneg: -29.999577 ypos: -24.000071 zneg: 43.000003 zpos: 48.999997
+INFO  [Expanded Dimensions  ]: xneg: 31.236002 xpos: 38.736002 yneg: -30.718577 ypos: -23.218577 zneg: 42.396003 zpos: 49.896003
+INFO  [Cube Dimensions      ]: xdim: 15, ydim: 15, zdim: 15
+INFO  [Lattice Resolution   ]: 0.500000
+INFO  [Total Num. of Cubes  ]: 3375
+STATE [setBounds()          ]: Exploring Surface Bounds... 
+Progress:   0.0% /   Progress: 100.0%
+INFO  [Input Bounds         ]: xneg: 31.727174 xpos: 32.999993 yneg: -26.999993 ypos: -25.000024 zneg: 47.000007 zpos: 48.329601
+INFO  [Expanded Dimensions  ]: xneg: 30.751674 xpos: 33.751674 yneg: -27.641493 ypos: -24.141493 zneg: 46.147507 zpos: 49.147507
+INFO  [Cube Dimensions      ]: xdim: 6, ydim: 7, zdim: 6
+INFO  [Lattice Resolution   ]: 0.500000
+INFO  [Total Num. of Cubes  ]: 252
+STATE [synchronize()        ]: Synchronizing Lattice Bounds ... 
+INFO  [Lattice 1 Dimensions ]: xneg: 30.751674 xpos: 38.751674 yneg: -30.718577 ypos: -22.718577 zneg: 42.396003 zpos: 50.396003
+INFO  [Lattice 1 Cube Dimens]: xdim: 16, ydim: 16, zdim: 16
+INFO  [Lattice 1 Resolution ]: 0.500000
+INFO  [Lattice 1 Tot # Cubes]: 4096
+INFO  [Lattice 2 Dimensions ]: xneg: 30.751674 xpos: 38.751674 yneg: -30.718577 ypos: -22.718577 zneg: 42.396003 zpos: 50.396003
+INFO  [Lattice 2 Cube Dimens]: xdim: 16, ydim: 16, zdim: 16
+INFO  [Lattice 2 Resolution ]: 0.500000
+INFO  [Lattice 2 Tot # Cubes]: 4096
+########################## Generating Signed Field for Lattice 1 ##########################
+INFO  [insertTriangles()    ]: Now Inserting 1436 Triangles from input
+STATE [insertTriangles()    ]: Inserting Triangles into Lattice... Progress:   0.0% /   Progress: 100.0%
+STATE [classifyCubes()      ]: Finding connected non-empty cubes... Progress:   0.0% /   Progress: 100.0%
+INFO  [# Nonempty Groups    ]: 1
+STATE [classifyCubes()      ]: Finding connected empty cubes... Progress:   0.0% /   Progress: 100.0%
+INFO  [# Empty Cube Groups  ]: 3
+STATE [fillNeighboringSets()]: Discovering lattice topology via filled-cube adjacency... Progress:   0.0% /   Progress: 100.0%
+STATE [populateFlags()      ]: Assigning interior/exterior state via neighbor segment testing...
+########################## Generating Signed Field for Lattice 2 ##########################
+INFO  [insertTriangles()    ]: Now Inserting 48 Triangles from input
+STATE [insertTriangles()    ]: Inserting Triangles into Lattice... Progress:   0.0% /   Progress: 100.0%
+STATE [classifyCubes()      ]: Finding connected non-empty cubes... Progress:   0.0% /   Progress: 100.0%
+INFO  [# Nonempty Groups    ]: 1
+STATE [classifyCubes()      ]: Finding connected empty cubes... Progress:   0.0% /   Progress: 100.0%
+INFO  [# Empty Cube Groups  ]: 1
+STATE [fillNeighboringSets()]: Discovering lattice topology via filled-cube adjacency... Progress:   0.0% /   Progress: 100.0%
+STATE [populateFlags()      ]: Assigning interior/exterior state via neighbor segment testing...
+############################### Now Computing CSG Operation ###############################
+STATE [finalizeCSGsurface() ]: Computing CSG output Surface ...Progress:   0.0% /   Progress: 100.0%
+INFO  [# Geo. Tested Points ]: 2 
+INFO  [Total Pts processed  ]: 156 
+INFO  [finalizeSurface()    ]: Generating Surface... 
+INFO  [finalizeSurface()    ]: Done generating surface. 
+Generating SURF file [../public/uploads/output_test.SURF]: numVerts overall: 30, numVerts selected for output: 30
+Output SURF File [../public/uploads/output_test.SURF] complete.
