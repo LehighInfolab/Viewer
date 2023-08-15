@@ -24,6 +24,11 @@ COPY package*.json ./
 RUN npm install 
 # TODO: do I need to RUN a separate npm install multer in order to install multer?
 
+# install python dependencies
+RUN apt-get install -y python3 python3-pip
+
+RUN pip3 install biopython matplotlib
+
 # copy application code with appropriate permissions to the application directory on the container
 COPY --chown=node:node . .
 
