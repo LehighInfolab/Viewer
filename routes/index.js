@@ -268,10 +268,18 @@ router.get('/hbfinder', function(req, res, next){
     for (var i = files.length - 1; i >= 0; i--) {
       var file = files[i];
       if (file.split('.')[1] === 'txt') {
-        fs.rename('executables/' + file, 'public/uploads/' + file, function(err) {
-          if (err) throw err;
-          console.log('Move complete.');
-        });
+        if (file.split('.')[0].charAt(0) == 'h') {
+          fs.rename('executables/' + file, 'public/uploads/' + file, function(err) {
+            if (err) throw err;
+            console.log('Move to uploads complete.');
+          });
+        }
+        if (file.split('.')[0].charAt(0) == 'H') {
+          fs.rename('executables/' + file, 'logs/' + file, function(err) {
+            if (err) throw err;
+            console.log('Move to logs complete.');
+          });
+        }
       }
     }
     res.redirect('/');
