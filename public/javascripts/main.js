@@ -122,9 +122,10 @@ function treeSelectionEventHandler(tree, pdb_files, SURF_file, hbond_files) {
 						component.addRepresentation("cartoon");
 					component.setVisibility(true);
 				});
-				stage.getComponentsByName(target_file).autoView();
+				// stage.getComponentsByName(target_file).autoView();
 			}
 			stage.getComponentsByName(target_file).setVisibility(true);
+			stage.getComponentsByName(target_file).autoView();
 		}
 		if (!isSelected) {
 			if(isPDB) {
