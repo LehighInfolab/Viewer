@@ -25,7 +25,7 @@ RUN npm install
 # TODO: do I need to RUN a separate npm install multer in order to install multer?
 
 # install python dependencies
-RUN apt-get install -y python python-pip
+RUN sudo apt-get install python3-pip
 
 RUN pip install biopython matplotlib
 
