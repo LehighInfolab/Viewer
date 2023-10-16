@@ -26,9 +26,9 @@ RUN npm install
 
 # install python dependencies
 # RUN apt-get install python3-pip
-RUN python3 -m pip list
+RUN python3 -m pip3 list
 
-RUN pip install biopython matplotlib
+RUN pip3 install biopython matplotlib
 
 # copy application code with appropriate permissions to the application directory on the container
 COPY --chown=node:node . .
