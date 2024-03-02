@@ -1,11 +1,14 @@
-// var express = require('express')
-// var router = express.Router()
+var express = require('express')
+var router = express.Router()
 
-// /* setup for multer */
-// /* use multer for file uploads */
+/* setup for multer */
+/* use multer for file uploads */
 // const multer = require('multer');
 
 
+router.get('/', (req, res) => {
+	res.send("Hello");
+});
 
 // const storage = multer.diskStorage({
 // 	destination: function (req, file, cb) {
@@ -32,4 +35,4 @@
 
 
 
-// module.exports = router
+module.exports = router

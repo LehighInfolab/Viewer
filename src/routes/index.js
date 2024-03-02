@@ -6,12 +6,15 @@ Setup for routes
 
 /* setup for express and child_process module */
 var express = require('express');
-// var app = require("../app.js")
 var router = express.Router();
-const fs = require('fs');
+
+const indexController = require('../controllers/indexController')
+const executablesController = require('../controllers/executablesController')
 
 /* use multer for file uploads */
 const multer = require('multer');
+
+
 
 const uploadsPath = {
 	cwd: 'public/uploads/uploaded', // we'll perform our operations from within the uploads folder 
@@ -41,32 +44,17 @@ const upload = multer({
 
 
 
-/* GET home page. */
-/* renders the home page */
-router.get('/', function (req, res, next) {
-	/* Get names of files from public uploads folder and send to frontend as a div-data object */
-	var files = fs.readdirSync('public/uploads/');
-	res.render('viewer', { title: 'Front Page', data: JSON.stringify(files) });
-});
-
-router.post('/files_in_dir', function (req, res, next) {
-	console.log("Request body")
-	try {
-		var files = fs.readdirSync('public/uploads/' + req.body.id);
-	} catch (error) {
-		console.log("Not a directory, reading file instead")
-		var files = [req.body.id];
-	}
-	console.log(files)
-	res.send(files)
-})
+// renders the home page
+router.get('/', indexController.front_page)
+router.post('/files_in_dir', indexController.send_public_files)
 
 
-/* GET test page */
-/* renders test page, just to check if routes work */
-router.get('/test', function (req, res, next) {
-	res.render('test', { title: 'Test Page' });
-});
+
+// /* GET test page */
+// /* renders test page, just to check if routes work */
+// router.get('/test', function (req, res, next) {
+// 	res.render('test', { title: 'Test Page' });
+// });
 
 /* GET upload page */
 router.get('/upload', function (req, res, next) {
@@ -88,10 +76,6 @@ router.get('/drop', function (req, res, next) {
 //   res.render('index', { title: 'Front Page', data: JSON.stringify(files) });
 // })
 
-/* GET documentation page*/
-router.get('documentation', function (req, res, next) {
-	res.render('documentation', { title: 'Documentation' });
-});
 
 // /**
 //  * route to test file downloads

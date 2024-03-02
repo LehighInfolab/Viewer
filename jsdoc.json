@@ -2,6 +2,14 @@
   "source": {
     "include": ["public/javascripts"],
     "includePattern": ".js$",
+    "exclude": [
+      "public/javascripts/webgl-utils.js",
+      "public/javascripts/ngl.js",
+      "public/javascripts/3Dmol-min.js",
+      "src/controllers",
+      "src/executables",
+      "src/lib"
+    ],
     "excludePattern": "(node_modules/|docs)"
   },
   "plugins": ["plugins/markdown"],

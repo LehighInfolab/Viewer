@@ -1,4 +1,6 @@
-/* all of our required variables for basic Node app things */
+/* 
+all of our required variables for basic Node app things 
+*/
 
 var createError = require('http-errors'); // for generating HTTP errors.
 var express = require('express'); // for the Express framework functions.
@@ -18,6 +20,9 @@ var app = express();
 
 // send the app to the correct router based on the URL
 var indexRouter = require('./routes/index');
+var executablesRouter = require('./routes/executables')
+var uploadsRouter = require('./routes/uploads')
+var viewerRouter = require('./routes/viewer')
 
 
 
@@ -42,7 +47,13 @@ app.use('/tree-scripts', express.static(path.join(__dirname, 'lib/smart-webcompo
 app.use('/tree-styles', express.static(path.join(__dirname, 'lib/smart-webcomponents-community/source/styles/')))
 
 
-app.use('/', indexRouter); //all routes are in the index router, found in index.js
+
+// Use route modules
+app.use('/', indexRouter);
+app.use('/executables', executablesRouter)
+app.use('/uploads', uploadsRouter)
+app.use('/viewer', viewerRouter)
+
 
 
 // Middleware - catch 404 and forward to error handler
@@ -67,9 +78,6 @@ app.use(function (err, req, res, next) {
 
 // const uploadsRouter = require('./routes/uploads')
 // app.use('/uploads', uploadsRouter)
-
-const executablesRouter = require('./routes/executables')
-app.use('/executables', executablesRouter)
 
 
 /* set up mongodb to connect to database 

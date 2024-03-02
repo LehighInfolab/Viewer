@@ -31,32 +31,32 @@
  */
 
 
-/**
- * @fileoverview This file contains functions every webgl program will need
- * a version of one way or another.
- *
- * Instead of setting up a context manually it is recommended to
- * use. This will check for success or failure. On failure it
- * will attempt to present an approriate message to the user.
- *
- *       gl = WebGLUtils.setupWebGL(canvas);
- *
- * For animated WebGL apps use of setTimeout or setInterval are
- * discouraged. It is recommended you structure your rendering
- * loop like this.
- *
- *       function render() {
- *         window.requestAnimFrame(render, canvas);
- *
- *         // do rendering
- *         ...
- *       }
- *       render();
- *
- * This will call your rendering function up to the refresh rate
- * of your display but will stop rendering if your app is not
- * visible.
- */
+// /**
+//  * @fileoverview This file contains functions every webgl program will need
+//  * a version of one way or another.
+//  *
+//  * Instead of setting up a context manually it is recommended to
+//  * use. This will check for success or failure. On failure it
+//  * will attempt to present an approriate message to the user.
+//  *
+//  *       gl = WebGLUtils.setupWebGL(canvas);
+//  *
+//  * For animated WebGL apps use of setTimeout or setInterval are
+//  * discouraged. It is recommended you structure your rendering
+//  * loop like this.
+//  *
+//  *       function render() {
+//  *         window.requestAnimFrame(render, canvas);
+//  *
+//  *         // do rendering
+//  *         ...
+//  *       }
+//  *       render();
+//  *
+//  * This will call your rendering function up to the refresh rate
+//  * of your display but will stop rendering if your app is not
+//  * visible.
+//  */
 
 WebGLUtils = function () {
 
