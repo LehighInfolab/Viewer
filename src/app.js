@@ -1,29 +1,38 @@
 /* all of our required variables for basic Node app things */
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+
+var createError = require('http-errors'); // for generating HTTP errors.
+var express = require('express'); // for the Express framework functions.
+var path = require('path'); // for handling and transforming file paths.
+var cookieParser = require('cookie-parser'); // for parsing cookie header and populating req.cookies.
+var logger = require('morgan'); // for logging request details.
 var router = express.Router()
+var app = express();
 
-/* send the app to the correct router based on the URL */
-var indexRouter = require('./routes/index');
-
-// /* need spawn for running command line arguments on the server */
+// // need spawn for running command line arguments on the server
 // const { spawn } = require('child_process');
 
-// /* use multer for file uploads */
+// // use multer for file uploads 
 // const multer = require('multer');
 
+
+
+// send the app to the correct router based on the URL
+var indexRouter = require('./routes/index');
+
+
+
+// Use environment config file
 require('dotenv').config()
 
 
-var app = express();
 
-// view engine setup
+// view engine setup - views stored in the views directory
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+
+
+// Use various middleware for request logging, parsing JSON and URL-encoded bodies, parsing cookies, and serving static files.
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -35,28 +44,32 @@ app.use('/tree-styles', express.static(path.join(__dirname, 'lib/smart-webcompon
 
 app.use('/', indexRouter); //all routes are in the index router, found in index.js
 
+
+// Middleware - catch 404 and forward to error handler
+app.use(function (req, res, next) {
+	next(createError(404));
+});
+
+// Middleware error handler
+app.use(function (err, req, res, next) {
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
+});
+
+
+
+
+
 // const uploadsRouter = require('./routes/uploads')
 // app.use('/uploads', uploadsRouter)
 
 const executablesRouter = require('./routes/executables')
 app.use('/executables', executablesRouter)
-
-
-/* catch 404 and forward to error handler */
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-/* error handler */
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 
 /* set up mongodb to connect to database 

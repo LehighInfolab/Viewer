@@ -14,29 +14,29 @@ const fs = require('fs');
 const multer = require('multer');
 
 const uploadsPath = {
-  cwd: 'public/uploads/uploaded', // we'll perform our operations from within the uploads folder 
-  env: process.env,
+	cwd: 'public/uploads/uploaded', // we'll perform our operations from within the uploads folder 
+	env: process.env,
 };
 
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/uploaded')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
+	destination: function (req, file, cb) {
+		cb(null, 'public/uploads/uploaded')
+	},
+	filename: function (req, file, cb) {
+		cb(null, file.originalname)
+	}
 })
 
 const upload = multer({
-  storage: storage,
-  /* ensure that file uploaded is a .SURF file */
-  fileFilter(req, file, cb) {
-    // if (!file.originalname.match(/\.(SURF|pdb)$/)) { //idk if this syntax is right
-    //   return cb(new Error('Input must be a .SURF file'))
-    // }
-    cb(undefined, true)
-  }
+	storage: storage,
+	/* ensure that file uploaded is a .SURF file */
+	fileFilter(req, file, cb) {
+		// if (!file.originalname.match(/\.(SURF|pdb)$/)) { //idk if this syntax is right
+		//   return cb(new Error('Input must be a .SURF file'))
+		// }
+		cb(undefined, true)
+	}
 })
 
 
@@ -44,38 +44,38 @@ const upload = multer({
 /* GET home page. */
 /* renders the home page */
 router.get('/', function (req, res, next) {
-  /* Get names of files from public uploads folder and send to frontend as a div-data object */
-  var files = fs.readdirSync('public/uploads/');
-  res.render('viewer', { title: 'Front Page', data: JSON.stringify(files) });
+	/* Get names of files from public uploads folder and send to frontend as a div-data object */
+	var files = fs.readdirSync('public/uploads/');
+	res.render('viewer', { title: 'Front Page', data: JSON.stringify(files) });
 });
 
 router.post('/files_in_dir', function (req, res, next) {
-  console.log("Request body")
-  try {
-    var files = fs.readdirSync('public/uploads/' + req.body.id);
-  } catch (error) {
-    console.log("Not a directory, reading file instead")
-    var files = [req.body.id];
-  }
-  console.log(files)
-  res.send(files)
+	console.log("Request body")
+	try {
+		var files = fs.readdirSync('public/uploads/' + req.body.id);
+	} catch (error) {
+		console.log("Not a directory, reading file instead")
+		var files = [req.body.id];
+	}
+	console.log(files)
+	res.send(files)
 })
 
 
 /* GET test page */
 /* renders test page, just to check if routes work */
 router.get('/test', function (req, res, next) {
-  res.render('test', { title: 'Test Page' });
+	res.render('test', { title: 'Test Page' });
 });
 
 /* GET upload page */
 router.get('/upload', function (req, res, next) {
-  res.render('upload', { title: 'Upload Page' });
+	res.render('upload', { title: 'Upload Page' });
 });
 
 /* GET drop page */
 router.get('/drop', function (req, res, next) {
-  res.render('drop', { title: 'Drop Container' });
+	res.render('drop', { title: 'Drop Container' });
 });
 
 // /* GET upload page */
@@ -90,7 +90,7 @@ router.get('/drop', function (req, res, next) {
 
 /* GET documentation page*/
 router.get('documentation', function (req, res, next) {
-  res.render('documentation', { title: 'Documentation' });
+	res.render('documentation', { title: 'Documentation' });
 });
 
 // /**
@@ -112,13 +112,13 @@ router.get('documentation', function (req, res, next) {
 */
 var visualUploads = upload.array('viewerFile');
 router.post('/drop', visualUploads, function (req, res, next) {
-  try {
-    console.log('Successful file upload');
-    res.redirect('/')
-  } catch (error) {
-    console.log("File failed to upload.")
-    res.redirect('/')
-  }
+	try {
+		console.log('Successful file upload');
+		res.redirect('/')
+	} catch (error) {
+		console.log("File failed to upload.")
+		res.redirect('/')
+	}
 });
 
 /* POST files 
@@ -128,8 +128,8 @@ router.post('/drop', visualUploads, function (req, res, next) {
 */
 var fileUploads = upload.fields([{ name: 'myFile1', maxCount: 1 }, { name: 'myFile2', maxCount: 1 }])
 router.post('/files', fileUploads, function (req, res, next) {
-  console.log('Files uploaded successfully.');
-  res.redirect('/');
+	console.log('Files uploaded successfully.');
+	res.redirect('/');
 }); //end of POST files route
 
 

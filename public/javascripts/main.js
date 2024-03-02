@@ -155,6 +155,10 @@ function treeSelectionEventHandler(tree, dir_list) {
 			oldSelectedIndexes = detail.oldSelectedIndexes,
 			selectedIndexes = detail.selectedIndexes;
 
+		console.log("hello")
+		console.log(detail)
+		console.log(item.label)
+
 		let selected_diff = selectedIndexes.filter(x => !oldSelectedIndexes.includes(x));
 		let unselected_diff = oldSelectedIndexes.filter(x => !selectedIndexes.includes(x));
 
