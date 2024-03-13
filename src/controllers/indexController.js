@@ -1,12 +1,6 @@
-const fs = require('fs')
+const fs = require('fs');
 
-exports.front_page = (req, res, next) => {
-	// Get names of files from public uploads folder and send to frontend as a div-data object
-	var files = fs.readdirSync('public/uploads/');
-	res.render('viewer', { title: 'Front Page', data: JSON.stringify(files) });
-};
-
-exports.send_public_files = (req, res, next) => {
+exports.send_public_files = (req, res) => {
 	console.log("Request body")
 	try {
 		var files = fs.readdirSync('public/uploads/' + req.body.id);
