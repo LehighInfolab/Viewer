@@ -2,22 +2,6 @@ extends layout
 
 
 block content
-	link(rel="stylesheet" type="text/css" href="/tree-styles/smart.default.css")
-
-	script(src="/javascripts/3Dmol-min.js")
-	script(src="/javascripts/webgl-utils.js")
-	script(src="/javascripts/ngl.js")
-	script(src="/javascripts/fileformat-utils.js")
-	script(src="/javascripts/pdb-utils.js")
-	script(src="/javascripts/surf-utils.js")
-	script(src="/javascripts/tree-utils.js")
-	script(src='/javascripts/main.js')
-	script(src='/javascripts/hbond-utils.js')
-	script(src='/javascripts/file-tree-class.js')
-
-	script(src="/tree-scripts/smart.menu.js")
-	script(src="/tree-scripts/smart.tree.js")
-
 	div(id="viewport" class="viewport-container")
 
 	smart-tree(id="file-tree" selection-mode="checkBox" show-lines toggle-mode="click" expand-mode="multiple")

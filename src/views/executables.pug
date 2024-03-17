@@ -34,7 +34,7 @@ block content
 			document.getElementById("modeErr").style.display = "none";
 
 			//- if(mode.value != "i" && mode.value != "h" && mode.value != "g"){
-			if(mode.value != "i"){
+			if(mode.value != "i" or mode.value != "c" or mode.value != "h"){
 				document.getElementById("modeErr").innerHTML = "Input must be i. Further operations can be added.";
 				document.getElementById("modeErr").style.display = "inline-block";
 				clear = false;

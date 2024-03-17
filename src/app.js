@@ -1,25 +1,21 @@
-/* all of our required variables for basic Node app things */
+/* 
+all of our required variables for basic Node app things 
+*/
 
-var createError = require('http-errors'); // for generating HTTP errors.
-var express = require('express'); // for the Express framework functions.
-var path = require('path'); // for handling and transforming file paths.
-var cookieParser = require('cookie-parser'); // for parsing cookie header and populating req.cookies.
-var logger = require('morgan'); // for logging request details.
-var router = express.Router()
-var app = express();
+const express = require('express'); // for the Express framework functions.
+const path = require('path'); // for handling and transforming file paths.
+const createError = require('http-errors'); // for generating HTTP errors.
+const cookieParser = require('cookie-parser'); // for parsing cookie header and populating req.cookies.
+const logger = require('morgan'); // for logging request details.
+
+const router = express.Router()
+const app = express();
 
 // // need spawn for running command line arguments on the server
 // const { spawn } = require('child_process');
 
 // // use multer for file uploads 
 // const multer = require('multer');
-
-
-
-// send the app to the correct router based on the URL
-var indexRouter = require('./routes/index');
-
-
 
 // Use environment config file
 require('dotenv').config()
@@ -35,14 +31,28 @@ app.set('view engine', 'pug');
 // Use various middleware for request logging, parsing JSON and URL-encoded bodies, parsing cookies, and serving static files.
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/tree-scripts', express.static(path.join(__dirname, 'lib/smart-webcomponents-community/source/modules/')))
 app.use('/tree-styles', express.static(path.join(__dirname, 'lib/smart-webcomponents-community/source/styles/')))
 
 
-app.use('/', indexRouter); //all routes are in the index router, found in index.js
+
+// send the app to the correct router based on the URL
+const indexRouter = require('./routes/index');
+const executablesRouter = require('./routes/executables')
+const uploadsRouter = require('./routes/uploads')
+const viewerRouter = require('./routes/viewer')
+
+
+
+// Use route modules
+app.use('/', indexRouter);
+app.use('/executables', executablesRouter);
+app.use('/uploads', uploadsRouter);
+app.use('/viewer', viewerRouter);
+
 
 
 // Middleware - catch 404 and forward to error handler
@@ -61,15 +71,6 @@ app.use(function (err, req, res, next) {
 	res.render('error');
 });
 
-
-
-
-
-// const uploadsRouter = require('./routes/uploads')
-// app.use('/uploads', uploadsRouter)
-
-const executablesRouter = require('./routes/executables')
-app.use('/executables', executablesRouter)
 
 
 /* set up mongodb to connect to database 
