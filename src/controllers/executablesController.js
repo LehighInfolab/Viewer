@@ -31,6 +31,11 @@ class TaskQueue {
 
 const executableQueue = new TaskQueue(task_queue_concurrency_limit);
 
+exports.send_queue_length = (req, res) => {
+	const length = executableQueue.queue.length;
+	res.json({ length });
+}
+
 /* POST executable 
  * route to run executable on the server using files that were just uploaded using multer
  * assumes index.pug has fields executableFile1 and executableFile2 for file uploads

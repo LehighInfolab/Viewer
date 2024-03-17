@@ -15,6 +15,7 @@ router.get('/', function (req, res, next) {
 	res.render('executables', { title: 'Execute' })
 });
 
+router.get('/api/queue-length', executablesController.send_queue_length)
 
 const executables_path = {
 	cwd: 'src/executables',

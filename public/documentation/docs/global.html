@@ -138,65 +138,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="stage"><span class="type-signature"></span>stage<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line18">line 18</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -254,7 +196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line16">line 16</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -312,7 +254,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line25">line 25</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -370,7 +312,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="surf-utils.js.html">surf-utils.js</a>, <a href="surf-utils.js.html#line149">line 149</a>
+        <a href="utils_surf-utils.js.html">utils/surf-utils.js</a>, <a href="utils_surf-utils.js.html#line120">line 120</a>
     </li></ul></dd>
     
 
@@ -391,6 +333,165 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="JSON_response_parser"><span class="type-signature"></span>JSON_response_parser<span class="signature">(string)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Parses a JSON response string, sanitizing and splitting it into an array.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>string</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>JSON string to parse.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_JSON-handler.js.html">utils/JSON-handler.js</a>, <a href="utils_JSON-handler.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Parsed and sanitized file names.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 
         
             
@@ -500,7 +601,7 @@ TODO: NEED TO ADD DATA CHANGES AFTER EXPANSION</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tree-utils.js.html">tree-utils.js</a>, <a href="tree-utils.js.html#line57">line 57</a>
+        <a href="utils_tree-utils.js.html">utils/tree-utils.js</a>, <a href="utils_tree-utils.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -525,6 +626,112 @@ TODO: NEED TO ADD DATA CHANGES AFTER EXPANSION</p>
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getFiles"><span class="type-signature"></span>getFiles<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>getFiles function -  gets document element &quot;fileData&quot; sent by server which contains files from &quot;uploads&quot; folder in public. Initial packet sent by server via json for file locations.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_file-handler.js.html">utils/file-handler.js</a>, <a href="utils_file-handler.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -690,7 +897,7 @@ Finally, send() requests to server.</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="surf-utils.js.html">surf-utils.js</a>, <a href="surf-utils.js.html#line165">line 165</a>
+        <a href="utils_surf-utils.js.html">utils/surf-utils.js</a>, <a href="utils_surf-utils.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -832,7 +1039,7 @@ Finally, send() requests to server.</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="surf-utils.js.html">surf-utils.js</a>, <a href="surf-utils.js.html#line17">line 17</a>
+        <a href="utils_surf-utils.js.html">utils/surf-utils.js</a>, <a href="utils_surf-utils.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -971,7 +1178,7 @@ We then create a custom object composed of cylinders using the vertex pairs.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hbond-utils.js.html">hbond-utils.js</a>, <a href="hbond-utils.js.html#line16">line 16</a>
+        <a href="utils_hbond-utils.js.html">utils/hbond-utils.js</a>, <a href="utils_hbond-utils.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -1007,7 +1214,7 @@ We then create a custom object composed of cylinders using the vertex pairs.</p>
     
 
     
-    <h4 class="name" id="loadPDB"><span class="type-signature"></span>loadPDB<span class="signature">(id, pdb_file)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="loadPDB"><span class="type-signature"></span>loadPDB<span class="signature">(dir, pdb_file)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1015,9 +1222,7 @@ We then create a custom object composed of cylinders using the vertex pairs.</p>
 
 
 <div class="description">
-    <p>#######################################################
-Utils for PDB file loading
-#######################################################</p>
+    <p>Utils for PDB file loading</p>
 </div>
 
 
@@ -1053,7 +1258,7 @@ Utils for PDB file loading
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>dir</code></td>
             
 
             <td class="type">
@@ -1133,7 +1338,7 @@ Utils for PDB file loading
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pdb-utils.js.html">pdb-utils.js</a>, <a href="pdb-utils.js.html#line9">line 9</a>
+        <a href="utils_pdb-utils.js.html">utils/pdb-utils.js</a>, <a href="utils_pdb-utils.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -1169,327 +1374,7 @@ Utils for PDB file loading
     
 
     
-    <h4 class="name" id="makeTree"><span class="type-signature"></span>makeTree<span class="signature">(tree, id, files)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Creates tree from a list of files</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>tree</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">smart-tree</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>files</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tree-utils.js.html">tree-utils.js</a>, <a href="tree-utils.js.html#line29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="set_up_tree"><span class="type-signature">(async) </span>set_up_tree<span class="signature">(dir)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Sets up the file tree</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>dir</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Directory where files are located</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line106">line 106</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="treeSelectionEventHandler"><span class="type-signature"></span>treeSelectionEventHandler<span class="signature">(tree, dir_list)</span><span class="type-signature"> &rarr; {None}</span></h4>
+    <h4 class="name" id="treeSelectionEventHandler"><span class="type-signature"></span>treeSelectionEventHandler<span class="signature">(tree)</span><span class="type-signature"> &rarr; {None}</span></h4>
     
 
     
@@ -1553,29 +1438,6 @@ Utils for PDB file loading
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>dir_list</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -1613,7 +1475,7 @@ Utils for PDB file loading
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line151">line 151</a>
+        <a href="utils_tree-utils.js.html">utils/tree-utils.js</a>, <a href="utils_tree-utils.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -1839,7 +1701,7 @@ This function is called at the end of loadData()</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="surf-utils.js.html">surf-utils.js</a>, <a href="surf-utils.js.html#line89">line 89</a>
+        <a href="utils_surf-utils.js.html">utils/surf-utils.js</a>, <a href="utils_surf-utils.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -2024,7 +1886,7 @@ This function is called at the end of loadHBond()</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hbond-utils.js.html">hbond-utils.js</a>, <a href="hbond-utils.js.html#line76">line 76</a>
+        <a href="utils_hbond-utils.js.html">utils/hbond-utils.js</a>, <a href="utils_hbond-utils.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -2070,13 +1932,13 @@ This function is called at the end of loadHBond()</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="file_tree_dir.html">file_tree_dir</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-docker-container-tutorial.html">Installing Docker and Cloning A Containerized Web Server</a></li><li><a href="tutorial-run-code-server-tutorial.html">Adding and Running an Executable to the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#color_val">color_val</a></li><li><a href="global.html#expandPDB">expandPDB</a></li><li><a href="global.html#getXML">getXML</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadHBond">loadHBond</a></li><li><a href="global.html#loadPDB">loadPDB</a></li><li><a href="global.html#makeTree">makeTree</a></li><li><a href="global.html#set_up_tree">set_up_tree</a></li><li><a href="global.html#stage">stage</a></li><li><a href="global.html#treeSelectionEventHandler">treeSelectionEventHandler</a></li><li><a href="global.html#viewData">viewData</a></li><li><a href="global.html#viewHBond">viewHBond</a></li><li><a href="global.html#viewer">viewer</a></li><li><a href="global.html#visible_components">visible_components</a></li><li><a href="global.html#xmlhttp">xmlhttp</a></li></ul>
+    <h2><a href="index.html">Documentations</a></h2><h3>Classes</h3><ul><li><a href="FileTreeDirectory.html">FileTreeDirectory</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-docker-container-tutorial.html">Installing Docker and Cloning A Containerized Web Server</a></li><li><a href="tutorial-run-code-server-tutorial.html">Adding and Running an Executable to the Server</a></li></ul><h3>Global</h3><ul><li><a href="global.html#JSON_response_parser">JSON_response_parser</a></li><li><a href="global.html#color_val">color_val</a></li><li><a href="global.html#expandPDB">expandPDB</a></li><li><a href="global.html#getFiles">getFiles</a></li><li><a href="global.html#getXML">getXML</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadHBond">loadHBond</a></li><li><a href="global.html#loadPDB">loadPDB</a></li><li><a href="global.html#treeSelectionEventHandler">treeSelectionEventHandler</a></li><li><a href="global.html#viewData">viewData</a></li><li><a href="global.html#viewHBond">viewHBond</a></li><li><a href="global.html#viewer">viewer</a></li><li><a href="global.html#visible_components">visible_components</a></li><li><a href="global.html#xmlhttp">xmlhttp</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Mar 01 2024 20:45:03 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Mar 14 2024 01:50:52 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

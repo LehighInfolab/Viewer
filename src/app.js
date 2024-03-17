@@ -73,12 +73,6 @@ app.use(function (err, req, res, next) {
 
 
 
-
-
-// const uploadsRouter = require('./routes/uploads')
-// app.use('/uploads', uploadsRouter)
-
-
 /* set up mongodb to connect to database 
 Mongodb has not been set up yet. Commented out for now until we need to use it.
 */

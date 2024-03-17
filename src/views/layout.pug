@@ -4,25 +4,48 @@
 
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css')
-    link(rel='stylesheet', href='stylesheets/style.css')
-    link(rel='shortcut icon', href='#')
-    
+	head
+		title= title
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css')
+		link(rel='stylesheet', href='stylesheets/style.css')
+		link(rel='shortcut icon', href='#')
+		link(rel="stylesheet" type="text/css" href="/tree-styles/smart.default.css")
+		
+		//- Main script
+		script(src='/javascripts/main.js')
 
-  body
-    #header
-      p Visualization Testing
-    #navbar
-      a(href='/') Visualization
-      a(href='/documentation/docs/index.html') Documentation
-      a(href='/upload') Upload
-      a(href='/drop') Drop
-      a(href='/executables') Executables
-    
-    div(data-files=data id = "fileData" )
-    block content
+		//- 3rd party libs
+		script(src="/javascripts/lib/3Dmol-min.js")
+		script(src="/javascripts/lib/webgl-utils.js")
+		script(src="/javascripts/lib/ngl.js")
 
-      
-    
+		//- Utils
+		script(src="/javascripts/utils/file-handler.js")
+		script(src="/javascripts/utils/pdb-utils.js")
+		script(src="/javascripts/utils/surf-utils.js")
+		script(src="/javascripts/utils/tree-utils.js")
+		script(src='/javascripts/utils/hbond-utils.js')
+		script(src='/javascripts/utils/gml-utils.js')
+		script(src='/javascripts/utils/JSON-handler.js')
+		
+		//- UI components
+		script(src='/javascripts/components/file-tree-class.js')
+		script(src='/javascripts/components/file-tree-class.js')
+
+		//- Tree libs
+		script(src="/tree-scripts/smart.menu.js")
+		script(src="/tree-scripts/smart.tree.js")
+		
+
+	body
+		#header
+			a(href='/') Visualization Testing
+		#navbar
+			a(href='/') Visualization
+			a(href='/documentation/docs/index.html') Documentation
+			a(href='/upload') Upload
+			a(href='/drop') Drop
+			a(href='/executables') Executables
+		
+		div(data-files=data id = "fileData" )
+		block content
