@@ -54,16 +54,22 @@ db.once('open', () => console.log('Connected to database'))
 
 // send the app to the correct router based on the URL
 const indexRouter = require('./routes/index');
-const executablesRouter = require('./routes/executables')
 const uploadsRouter = require('./routes/uploads')
 const viewerRouter = require('./routes/viewer')
 
+// ##### MAKE CHANGES HERE TO ADD EXECUTABLES #####
+// set up executables routers
+const executablesRouter = require('./routes/executables')
+const exeNullRouter = require('./routes/exe-nullification')
 
 // Use route modules
 app.use('/', indexRouter);
-app.use('/executables', executablesRouter);
 app.use('/uploads', uploadsRouter);
 app.use('/viewer', viewerRouter);
+
+// executable routes
+app.use('/executables', executablesRouter);
+app.use('/exe-nullification', exeNullRouter);
 
 
 
