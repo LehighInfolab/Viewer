@@ -14,8 +14,9 @@ const app = express();
 // // need spawn for running command line arguments on the server
 // const { spawn } = require('child_process');
 
-// // use multer for file uploads 
-// const multer = require('multer');
+// use multer for file uploads 
+const mongoose = require('mongoose');
+const multer = require('multer');
 
 // Use environment config file
 require('dotenv').config()
@@ -39,6 +40,18 @@ app.use('/tree-styles', express.static(path.join(__dirname, 'lib/smart-webcompon
 
 
 
+/* set up mongodb to connect to database 
+Mongodb has not been set up yet. Commented out for now until we need to use it.
+*/
+const uri = process.env.MONGODB_URL
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+
+const db = mongoose.connection
+db.on('error', (error) => console.error(error))
+db.once('open', () => console.log('Connected to database'))
+
+
+
 // send the app to the correct router based on the URL
 const indexRouter = require('./routes/index');
 const executablesRouter = require('./routes/executables')
@@ -46,12 +59,28 @@ const uploadsRouter = require('./routes/uploads')
 const viewerRouter = require('./routes/viewer')
 
 
-
 // Use route modules
 app.use('/', indexRouter);
 app.use('/executables', executablesRouter);
 app.use('/uploads', uploadsRouter);
 app.use('/viewer', viewerRouter);
+
+
+
+// load models
+const User = require('./models/User');
+const File = require('./models/file');
+const Task = require('./models/Task');
+
+const userRoutes = require('./routes/userRoutes')
+const fileRoutes = require('./routes/fileRoutes')
+const taskRoutes = require('./routes/taskRoutes')
+
+
+// Use the routes
+app.use('/users', userRoutes);
+app.use('/files', fileRoutes);
+app.use('/tasks', taskRoutes);
 
 
 
@@ -72,17 +101,6 @@ app.use(function (err, req, res, next) {
 });
 
 
-
-/* set up mongodb to connect to database 
-Mongodb has not been set up yet. Commented out for now until we need to use it.
-*/
-// const mongoose = require('mongoose');
-// const uri = process.env.MONGODB_URI
-
-// mongoose.connect(uri, { useNewUrlParser: true })
-// const db = mongoose.connection
-// db.on('error', (error) => console.error(error))
-// db.once('open', () => console.log('Connected to database'))
 
 
 module.exports = app;

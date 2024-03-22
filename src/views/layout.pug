@@ -43,9 +43,23 @@ html
 		#navbar
 			a(href='/') Visualization
 			a(href='/documentation/docs/index.html') Documentation
-			a(href='/upload') Upload
-			a(href='/drop') Drop
-			a(href='/executables') Executables
-		
+			a(href='/uploads') Upload
+			//- a(href='/drop') Drop
+			div.dropdown
+				//- Dropdown trigger button
+				button.dropdown-button Executables
+				//- Dropdown content
+				div.dropdown-content
+					a(href="/executables")  Executables 1
+					a(href="/executables")  Executables 2
+					a(href="/executables")  Executables 3
+			
+
+		//- #user-registration
+		//- 	form(method="POST", action="/users")
+		//- 		input(type="text", name="username", placeholder="Enter your username")
+		//- 		button(type="submit") Submit
+
+
 		div(data-files=data id = "fileData" )
 		block content

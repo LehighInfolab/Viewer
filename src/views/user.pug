@@ -1,0 +1,11 @@
+extends layout
+
+doctype html
+html
+  head
+    title User Registration
+  body
+    h1 Register User
+    form(method="POST", action="/users")
+      input(type="text", name="username", placeholder="Enter your username")
+      button(type="submit") Submit

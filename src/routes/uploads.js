@@ -29,14 +29,14 @@ const upload = multer({
 	}
 })
 
-/* GET upload page */
-router.get('/uploads', function (req, res, next) {
-	res.render('uploads', { title: 'Upload Page' });
-});
+// /* GET upload page */
+// router.get('/', function (req, res, next) {
+// 	res.render('uploads', { title: 'Upload Page' });
+// });
 
 /* GET drop page */
-router.get('/drop', function (req, res, next) {
-	res.render('drop', { title: 'Drop Container' });
+router.get('/', function (req, res, next) {
+	res.render('Uploads', { title: 'Uploads Dropbox Container' });
 });
 
 
@@ -45,7 +45,7 @@ router.get('/drop', function (req, res, next) {
  *assumes visual.pug has viewerFile as the name tag
 */
 var visualUploads = upload.array('viewerFile');
-router.post('/drop', visualUploads, function (req, res, next) {
+router.post('/drop-container', visualUploads, function (req, res, next) {
 	try {
 		console.log('Successful file upload');
 		res.redirect('/')
@@ -61,7 +61,7 @@ router.post('/drop', visualUploads, function (req, res, next) {
  * DO WE WANT TO KEEP THIS IN THE FINAL VERSION??
 */
 var fileUploads = upload.fields([{ name: 'myFile1', maxCount: 1 }, { name: 'myFile2', maxCount: 1 }])
-router.post('/files', fileUploads, function (req, res, next) {
+router.post('/upload-files', fileUploads, function (req, res, next) {
 	console.log('Files uploaded successfully.');
 	res.redirect('/');
 }); //end of POST files route

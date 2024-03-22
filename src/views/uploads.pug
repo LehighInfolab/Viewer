@@ -2,7 +2,7 @@ extends layout
 
 block content
   //- FILES
-  form(action='/files' enctype='multipart/form-data' method='POST' onsubmit="return checkErr()")
+  form(action='/upload-files' enctype='multipart/form-data' method='POST' onsubmit="return checkErr()")
     p.inputErr#err1 Input must be a .SURF or .pdb file
     br
     input(type='file' name='myFile1' id="file1")

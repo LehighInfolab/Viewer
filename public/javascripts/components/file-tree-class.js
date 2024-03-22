@@ -71,13 +71,11 @@ class FileTreeDirectory {
 		}
 
 		this.fileHierarchy = hierarchy; // Store the hierarchy structure
-		console.log("File hierarchy", this.fileHierarchy); // Log the hierarchy structure
 	}
 
 	async initializeTree() {
 		for (let rootDirs in this.fileHierarchy.directories) {
 			this.startTree(this.tree, rootDirs)
-			console.log(this.fileHierarchy.directories[rootDirs])
 			for (let i = 0; i < this.fileHierarchy.directories[rootDirs].length; i++) {
 				this.makeTree(this.tree, rootDirs, this.fileHierarchy.directories[rootDirs][i])
 			}

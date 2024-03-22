@@ -64,3 +64,5 @@ start_container/*
 # public/uploads/*
 outputs/*
 src/executables/nullification/*
+
+backend-uploads/*

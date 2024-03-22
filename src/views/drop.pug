@@ -2,7 +2,7 @@ extends layout
 
 block content
   #main
-    form(action="/drop" method="POST" enctype="multipart/form-data" id="dropContainer" onsubmit="return checkErr()")
+    form(action="/drop-container" method="POST" enctype="multipart/form-data" id="dropContainer" onsubmit="return checkErr()")
       p.inputErr#error Input must be a .SURF or .pdb file
       br
       input(type="file" name="viewerFile" id="dropBox" multiple="true")
